@@ -1,7 +1,15 @@
-import { View } from 'react-native'
+import { Button, Text } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
+import { StackParamList } from '../Router.tsx'
 
-function AuthScreen() {
-  return <View>123</View>
+function LoginScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>()
+  return (
+    <Button onPress={() => navigation.navigate('Register')}>
+      <Text>go to Register</Text>
+    </Button>
+  )
 }
 
-export default AuthScreen
+export default LoginScreen

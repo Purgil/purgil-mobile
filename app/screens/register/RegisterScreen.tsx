@@ -1,7 +1,7 @@
-import { View } from 'react-native'
+import { Text } from 'react-native-paper'
 
-function AuthScreen() {
-  return <View>123</View>
+function RegisterScreen() {
+  return <Text>RegisterScreen</Text>
 }
 
-export default AuthScreen
+export default RegisterScreen

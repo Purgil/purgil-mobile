@@ -1,18 +1,7 @@
-import AuthScreen from '../auth/AuthScreen.tsx'
-import { createStackNavigator } from '@react-navigation/stack'
-import { StackParamList } from '../Router.tsx'
-import LoginScreen from '../login/LoginScreen.tsx'
-import RegisterScreen from '../register/RegisterScreen.tsx'
-import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation'
+import { Text } from 'react-native-paper'
 
-function MainScreen() {
-  const Tab = createMaterialBottomTabNavigator()
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name='Login' component={LoginScreen} />
-      <Tab.Screen name='Settings' component={AuthScreen} />
-    </Tab.Navigator>
-  )
+function HomeScreen() {
+  return <Text>this is home</Text>
 }
 
-export default MainScreen
+export default HomeScreen
