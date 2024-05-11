@@ -1,19 +1,15 @@
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation'
-import HomeScreen from '../home/HomeScreen.tsx'
-import RecordScreen from '../record/RecordScreen.tsx'
-import MapScreen from '../map/MapScreen.tsx'
-import SocialScreen from '../social/SocialScreen.tsx'
-import { StackParamList } from '../Router.tsx'
-import ProfileScreen from '../profile/ProfileScreen.tsx'
+import HomeScreen from '../screens/home/HomeScreen.tsx'
+import RecordScreen from '../screens/record/RecordScreen.tsx'
+import MapScreen from '../screens/map/MapScreen.tsx'
+import SocialScreen from '../screens/social/SocialScreen.tsx'
+import { ScreenParams } from './index.tsx'
+import ProfileScreen from '../screens/profile/ProfileScreen.tsx'
 
-function BottomTabsScreen() {
-  const Tab = createMaterialBottomTabNavigator<StackParamList>()
+function BottomNavRouter() {
+  const Tab = createMaterialBottomTabNavigator<ScreenParams>()
   return (
-    <Tab.Navigator
-      initialRouteName='Home'
-      activeColor='#f0edf6'
-      inactiveColor='#3e2465'
-      barStyle={{}}>
+    <Tab.Navigator initialRouteName='Home'>
       <Tab.Screen
         name='Home'
         component={HomeScreen}
@@ -43,4 +39,4 @@ function BottomTabsScreen() {
   )
 }
 
-export default BottomTabsScreen
+export default BottomNavRouter
