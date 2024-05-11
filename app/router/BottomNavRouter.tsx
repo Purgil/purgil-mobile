@@ -13,27 +13,27 @@ function BottomNavRouter() {
       <Tab.Screen
         name='Home'
         component={HomeScreen}
-        options={{ title: '홈' }}
+        options={{ title: '홈', tabBarIcon: 'home' }}
       />
       <Tab.Screen
         name='Map'
         component={MapScreen}
-        options={{ title: '지도' }}
+        options={{ title: '지도', tabBarIcon: 'map' }}
       />
       <Tab.Screen
         name='Record'
         component={RecordScreen}
-        options={{ title: '기록' }}
+        options={{ title: '기록', tabBarIcon: 'compass' }}
       />
       <Tab.Screen
         name='Social'
         component={SocialScreen}
-        options={{ title: '소셜' }}
+        options={{ title: '소셜', tabBarIcon: 'account-group' }}
       />
       <Tab.Screen
         name='Profile'
         component={ProfileScreen}
-        options={{ title: '프로필' }}
+        options={{ title: '프로필', tabBarIcon: 'account-circle' }}
       />
     </Tab.Navigator>
   )
