@@ -4,7 +4,13 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { TextInput, View } from '../../components/styled'
 import { useEffect, useMemo, useState } from 'react'
 import { useFormik } from 'formik'
-import { BackHandler, Keyboard } from 'react-native'
+import { Keyboard } from 'react-native'
+import * as yup from 'yup'
+import regex from '../../utils/regex.tsx'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../../store'
+import { login } from '../../store/slices/authUser.slice.ts'
+import { Gender } from '../../enums/common.enums.ts'
 
 type AuthForm = {
   email: string
@@ -25,33 +31,93 @@ type Props = {
 }
 
 function LoginScreen({ navigation }: Props) {
+  const dispatch = useDispatch<AppDispatch>()
   const [dialogVisible, setDialogVisible] = useState(false)
   const [step, setStep] = useState<'email' | 'login' | 'register'>('email')
 
+  const validationSchema = useMemo(() => {
+    const additions: {
+      email: yup.StringSchema
+      nickname?: yup.StringSchema
+      password?: yup.StringSchema
+      passwordChk?: yup.StringSchema
+    } = {
+      email: yup
+        .string()
+        .required('이메일을 입력해주세요')
+        .matches(regex.email, {
+          message: '이메일 형식에 맞지 않습니다',
+        }),
+    }
+
+    if (step !== 'email') {
+      additions.password = yup
+        .string()
+        .required('패스워드를 입력해주세요')
+        .min(8)
+        .matches(regex.password, {
+          message: '8자이상 영문, 숫자, 특수문자 조합',
+        })
+    }
+
+    if (step === 'register') {
+      additions.passwordChk = yup
+        .string()
+        .required(' ')
+        .oneOf([yup.ref('password')], '패스워드가 일치하지 않습니다')
+      additions.nickname = yup
+        .string()
+        .required('닉네임를 입력해주세요')
+        .min(2, '두 글자 이상 입력해주세요')
+        .max(20, '20자 이하로 입력해주세요')
+    }
+
+    return yup.object().shape(additions)
+  }, [step])
+
   const { values, errors, setFieldValue, submitForm } = useFormik<AuthForm>({
     initialValues,
+    validationSchema,
+    validateOnMount: false,
+    validateOnChange: false,
     onSubmit: () => {
-      console.log('>>', values)
       Keyboard.dismiss()
       if (step === 'email') {
-        if (values.email === 'tmdghks2515@naver.com') {
+        const existsEmails = ['qwe@qwe.com', 'tmdghks2515@naver.com']
+        if (existsEmails.includes(values.email)) {
           setStep('login')
         } else {
           setDialogVisible(true)
         }
+      } else {
+        dispatch(
+          login({
+            email: values.email,
+            nickname: values.nickname || '아난이',
+            age: 29,
+            gender: Gender.MALE,
+            phoneNum: '01042777768',
+          }),
+        )
+        navigation.navigate('Home')
       }
     },
   })
 
   /* 뒤로가기 액션을 제어합니다 */
   useEffect(() => {
-    navigation.addListener('beforeRemove', e => {
+    const onBack = (e: any) => {
       if (step === 'email') {
         return
       }
       e.preventDefault()
       setStep('email')
-    })
+    }
+    navigation.addListener('beforeRemove', onBack)
+
+    return () => {
+      navigation.removeListener('beforeRemove', onBack)
+    }
   }, [navigation, step])
 
   const onPressVerificate = () => {
