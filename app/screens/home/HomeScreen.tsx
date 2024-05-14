@@ -1,100 +1,132 @@
 import { Button, Text, View } from '../../components/styled'
-import { Searchbar } from 'react-native-paper'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { Checkbox, List, Searchbar, TouchableRipple } from 'react-native-paper'
+import { useCallback, useRef } from 'react'
 import globalStyles from '../../utils/style.utils.ts'
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet'
-import { StyleSheet } from 'react-native'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import BottomSheet from '../../components/bottomSheet/BottomSheet.tsx'
+import { activities } from './HomeScreen.consts.ts'
+import { NameValuePair } from '../../core/types/common.types'
+import { useFormik } from 'formik'
 
 const initialLocation = '경기도 파주시'
 
+type SearchForm = {
+  searchText: string
+  minDistance: number
+  maxDistance: number
+  activityTypes: string[]
+}
+
+const initialValues: SearchForm = {
+  searchText: initialLocation,
+  minDistance: 0,
+  maxDistance: 100,
+  activityTypes: [],
+}
+
 function HomeScreen() {
-  const [searchValue, setSearchValue] = useState(initialLocation)
-  // 맵을 움직이면 검색어가 초기화됩니다
+  const distanceFilterRef = useRef<BottomSheetModal>(null)
+  const activityFilterRef = useRef<BottomSheetModal>(null)
+  const difficultyFilterRef = useRef<BottomSheetModal>(null)
 
-  // ref
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const { values, setFieldValue } = useFormik<SearchForm>({
+    initialValues,
+    onSubmit: () => {
+      console.log('>>', values)
+    },
+  })
 
-  // variables
-  const snapPoints = useMemo(() => ['25%', '50%', '100%'], [])
+  const onPressActivityItem = useCallback(
+    (value: string) => {
+      setFieldValue(
+        'activityTypes',
+        values.activityTypes.includes(value)
+          ? values.activityTypes.filter(v => v !== value)
+          : [...values.activityTypes, value],
+      )
+    },
+    [values.activityTypes, setFieldValue],
+  )
 
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present()
+  const showDistanceFilter = useCallback(() => {
+    distanceFilterRef?.current?.present()
   }, [])
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index)
+  const showActivityFilter = useCallback(() => {
+    activityFilterRef?.current?.present()
+  }, [])
+  const showDifficultyFilter = useCallback(() => {
+    difficultyFilterRef?.current?.present()
   }, [])
 
-  const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={1}
-        appearsOnIndex={2}
-      />
-    ),
-    [],
+  const checkboxRenderer = (checked: boolean) => (
+    <Checkbox status={checked ? 'checked' : 'unchecked'} />
   )
 
   return (
-    <View flex={1} p={10} gap={8}>
-      <Searchbar
-        placeholder='검색'
-        onChangeText={setSearchValue}
-        value={searchValue}
-      />
+    <>
+      <View flex={1} p={10} gap={8}>
+        <Searchbar
+          placeholder='검색'
+          onChangeText={value => setFieldValue('searchText', value)}
+          value={values.searchText}
+        />
 
-      <View flexDirection='row' gap={4}>
-        <Button
-          mode='contained-tonal'
-          icon='chevron-down'
-          contentStyle={globalStyles.flexReverse}
-          onPress={handlePresentModalPress}>
-          거리
-        </Button>
-        <Button
-          mode='contained-tonal'
-          icon='chevron-down'
-          contentStyle={globalStyles.flexReverse}>
-          액티비티
-        </Button>
-        <Button
-          mode='contained-tonal'
-          icon='chevron-down'
-          contentStyle={globalStyles.flexReverse}>
-          난이도
-        </Button>
+        <View flexDirection='row' gap={4}>
+          <Button
+            mode='contained-tonal'
+            icon='chevron-down'
+            contentStyle={globalStyles.flexReverse}
+            onPress={showDistanceFilter}>
+            거리
+          </Button>
+          <Button
+            mode='contained-tonal'
+            icon='chevron-down'
+            onPress={showActivityFilter}
+            contentStyle={globalStyles.flexReverse}>
+            액티비티
+          </Button>
+          <Button
+            mode='contained-tonal'
+            icon='chevron-down'
+            onPress={showDifficultyFilter}
+            contentStyle={globalStyles.flexReverse}>
+            난이도
+          </Button>
+        </View>
       </View>
 
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        backdropComponent={renderBackdrop}>
-        <BottomSheetView style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
-        </BottomSheetView>
-      </BottomSheetModal>
-    </View>
+      {/* 거리 필터 */}
+      <BottomSheet bottomSheetRef={distanceFilterRef}>
+        <Text>distanceFilterRef</Text>
+      </BottomSheet>
+
+      {/* 액티비티 타입 필터 */}
+      <BottomSheet bottomSheetRef={activityFilterRef}>
+        <List.Section title='액티비티' titleStyle={{ fontSize: 24 }}>
+          {activities.map((activity: NameValuePair) => (
+            <TouchableRipple
+              onPress={() => onPressActivityItem(activity.value)}
+              key={activity.value}>
+              <List.Item
+                title={activity.name}
+                right={() =>
+                  checkboxRenderer(
+                    values.activityTypes.includes(activity.value),
+                  )
+                }
+              />
+            </TouchableRipple>
+          ))}
+        </List.Section>
+      </BottomSheet>
+
+      {/* 난이도 필터 */}
+      <BottomSheet bottomSheetRef={difficultyFilterRef}>
+        <Text>difficultyFilterRef</Text>
+      </BottomSheet>
+    </>
   )
 }
 
 export default HomeScreen
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    justifyContent: 'center',
-    backgroundColor: 'grey',
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-})
