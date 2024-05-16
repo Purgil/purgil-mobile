@@ -1,6 +1,6 @@
-import { Button, Text, View } from '../../components/styled'
+import { Button, ScrollView, Text, View } from '../../components/styled'
 import { Checkbox, List, Searchbar, TouchableRipple } from 'react-native-paper'
-import { useCallback, useRef } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import globalStyles from '../../utils/style.utils.ts'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import BottomSheet from '../../components/bottomSheet/BottomSheet.tsx'
@@ -10,11 +10,14 @@ import { useFormik } from 'formik'
 
 const initialLocation = '경기도 파주시'
 
+type FilterType = 'distance' | 'activity' | 'difficulty'
+
 type SearchForm = {
   searchText: string
   minDistance: number
   maxDistance: number
   activityTypes: string[]
+  difficulties: string[]
 }
 
 const initialValues: SearchForm = {
@@ -22,6 +25,7 @@ const initialValues: SearchForm = {
   minDistance: 0,
   maxDistance: 100,
   activityTypes: [],
+  difficulties: [],
 }
 
 function HomeScreen() {
@@ -29,10 +33,12 @@ function HomeScreen() {
   const activityFilterRef = useRef<BottomSheetModal>(null)
   const difficultyFilterRef = useRef<BottomSheetModal>(null)
 
+  const [searchParams, setSearchParams] = useState<SearchForm>(initialValues)
+
   const { values, setFieldValue } = useFormik<SearchForm>({
     initialValues,
     onSubmit: () => {
-      console.log('>>', values)
+      setSearchParams(values)
     },
   })
 
@@ -48,15 +54,55 @@ function HomeScreen() {
     [values.activityTypes, setFieldValue],
   )
 
-  const showDistanceFilter = useCallback(() => {
-    distanceFilterRef?.current?.present()
+  const showFilterBottomSheet = useCallback((filterType: FilterType) => {
+    if (filterType === 'distance') {
+      distanceFilterRef?.current?.present()
+    }
+    if (filterType === 'activity') {
+      activityFilterRef?.current?.present()
+    }
+    if (filterType === 'difficulty') {
+      difficultyFilterRef?.current?.present()
+    }
   }, [])
-  const showActivityFilter = useCallback(() => {
-    activityFilterRef?.current?.present()
-  }, [])
-  const showDifficultyFilter = useCallback(() => {
-    difficultyFilterRef?.current?.present()
-  }, [])
+
+  const activityButtonText = useMemo(
+    () =>
+      searchParams.activityTypes.length > 0
+        ? activities
+            .filter(a => searchParams.activityTypes.includes(a.value))
+            .map(v => v.name)
+            .join(', ')
+        : '액티비티',
+    [searchParams.activityTypes],
+  )
+
+  const getFilterButtonMode = useCallback(
+    (filterType: FilterType): 'contained' | 'contained-tonal' => {
+      if (filterType === 'distance') {
+        return searchParams.maxDistance || searchParams.minDistance
+          ? 'contained'
+          : 'contained-tonal'
+      }
+      if (filterType === 'activity') {
+        return searchParams.activityTypes.length > 0
+          ? 'contained'
+          : 'contained-tonal'
+      }
+      if (filterType === 'difficulty') {
+        return searchParams.difficulties.length > 0
+          ? 'contained'
+          : 'contained-tonal'
+      }
+      return 'contained-tonal'
+    },
+    [
+      searchParams.maxDistance,
+      searchParams.minDistance,
+      searchParams.activityTypes,
+      searchParams.difficulties,
+    ],
+  )
 
   const checkboxRenderer = (checked: boolean) => (
     <Checkbox status={checked ? 'checked' : 'unchecked'} />
@@ -70,29 +116,31 @@ function HomeScreen() {
           onChangeText={value => setFieldValue('searchText', value)}
           value={values.searchText}
         />
-
-        <View flexDirection='row' gap={4}>
-          <Button
-            mode='contained-tonal'
-            icon='chevron-down'
-            contentStyle={globalStyles.flexReverse}
-            onPress={showDistanceFilter}>
-            거리
-          </Button>
-          <Button
-            mode='contained-tonal'
-            icon='chevron-down'
-            onPress={showActivityFilter}
-            contentStyle={globalStyles.flexReverse}>
-            액티비티
-          </Button>
-          <Button
-            mode='contained-tonal'
-            icon='chevron-down'
-            onPress={showDifficultyFilter}
-            contentStyle={globalStyles.flexReverse}>
-            난이도
-          </Button>
+        <View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <Button
+              mode={getFilterButtonMode('distance')}
+              icon='chevron-down'
+              contentStyle={globalStyles.flexReverse}
+              onPress={() => showFilterBottomSheet('distance')}>
+              거리
+            </Button>
+            <Button
+              maxWidth={150}
+              mode={getFilterButtonMode('activity')}
+              icon='chevron-down'
+              onPress={() => showFilterBottomSheet('activity')}
+              contentStyle={globalStyles.flexReverse}>
+              {activityButtonText}
+            </Button>
+            <Button
+              mode={getFilterButtonMode('difficulty')}
+              icon='chevron-down'
+              onPress={() => showFilterBottomSheet('difficulty')}
+              contentStyle={globalStyles.flexReverse}>
+              난이도
+            </Button>
+          </ScrollView>
         </View>
       </View>
 
@@ -119,6 +167,8 @@ function HomeScreen() {
             </TouchableRipple>
           ))}
         </List.Section>
+        <Button>클리어</Button>
+        <Button>적용</Button>
       </BottomSheet>
 
       {/* 난이도 필터 */}

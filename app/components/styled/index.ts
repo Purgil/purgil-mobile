@@ -1,5 +1,6 @@
 export { default as Text } from './Text.ts'
 export { default as View } from './View.ts'
+export { default as ScrollView } from './ScrollView.ts'
 export { default as Button } from './Button.ts'
 export { default as IconButton } from './IconButton.ts'
 export { default as TextInput } from './TextInput.ts'
