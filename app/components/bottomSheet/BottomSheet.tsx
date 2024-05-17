@@ -15,11 +15,13 @@ type Props = {
   snapPoints?: string[]
   hideIndicator?: boolean
   scrollable?: boolean
+  enableDynamicSizing?: boolean
 } & PropsWithChildren
 
 function BottomSheet({
   bottomSheetRef,
-  snapPoints = ['50%'],
+  snapPoints,
+  enableDynamicSizing = true,
   onSnapPointChange,
   hideIndicator = false,
   scrollable = false,
@@ -60,11 +62,22 @@ function BottomSheet({
     [colors, hideIndicator],
   )
 
+  const snapPointsMemo = useMemo(
+    () => (enableDynamicSizing ? undefined : snapPoints),
+    [enableDynamicSizing, snapPoints],
+  )
+
+  const enableDynamicSizingMemo = useMemo(
+    () => (snapPoints ? false : enableDynamicSizing),
+    [enableDynamicSizing, snapPoints],
+  )
+
   return (
     <BottomSheetModal
       ref={bottomSheetRef}
       index={0}
-      snapPoints={snapPoints}
+      snapPoints={snapPointsMemo}
+      enableDynamicSizing={enableDynamicSizingMemo}
       onChange={handleSnapPointChange}
       backgroundStyle={styles.bg}
       handleIndicatorStyle={styles.indicator}

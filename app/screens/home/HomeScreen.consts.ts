@@ -23,4 +23,19 @@ const activities: NameValuePair[] = [
   },
 ]
 
-export { activities }
+const difficulties: NameValuePair[] = [
+  {
+    value: 'high',
+    name: '높음',
+  },
+  {
+    value: 'normal',
+    name: '보통',
+  },
+  {
+    value: 'easy',
+    name: '쉬움',
+  },
+]
+
+export { activities, difficulties }
