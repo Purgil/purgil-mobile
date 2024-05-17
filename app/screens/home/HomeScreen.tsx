@@ -1,11 +1,5 @@
-import { Button, ScrollView, Text, View } from '../../components/styled'
-import {
-  Checkbox,
-  List,
-  Searchbar,
-  TouchableRipple,
-  useTheme,
-} from 'react-native-paper'
+import { Button, Chip, ScrollView, View } from '../../components/styled'
+import { Checkbox, List, Searchbar, TouchableRipple } from 'react-native-paper'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import globalStyles from '../../utils/style.utils.ts'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
@@ -17,28 +11,24 @@ import MapArea from '../../components/basic/MapArea.tsx'
 
 const initialLocation = '경기도 파주시'
 
-type FilterType = 'distance' | 'activity' | 'difficulty'
+type FilterType = 'activityTypes' | 'difficulties' | 'other'
 
 type SearchForm = {
   searchText: string
-  minDistance: number
-  maxDistance: number
   activityTypes: string[]
   difficulties: string[]
 }
 
 const initialValues: SearchForm = {
   searchText: initialLocation,
-  minDistance: 0,
-  maxDistance: 0,
   activityTypes: [],
   difficulties: [],
 }
 
 function HomeScreen() {
-  const distanceFilterRef = useRef<BottomSheetModal>(null)
   const activityFilterRef = useRef<BottomSheetModal>(null)
   const difficultyFilterRef = useRef<BottomSheetModal>(null)
+  const otherFiltersRef = useRef<BottomSheetModal>(null)
   const [searchParams, setSearchParams] = useState<SearchForm>(initialValues)
 
   const { values, setFieldValue, submitForm } = useFormik<SearchForm>({
@@ -50,49 +40,33 @@ function HomeScreen() {
 
   /* 공통 ----------------------------------------------------*/
   const showFilterBottomSheet = useCallback((filterType: FilterType) => {
-    if (filterType === 'distance') {
-      distanceFilterRef?.current?.present()
-    }
-    if (filterType === 'activity') {
+    if (filterType === 'activityTypes') {
       activityFilterRef?.current?.present()
     }
-    if (filterType === 'difficulty') {
+    if (filterType === 'difficulties') {
       difficultyFilterRef?.current?.present()
+    }
+    if (filterType === 'other') {
+      otherFiltersRef?.current?.present()
     }
   }, [])
 
   const getFilterButtonMode = useCallback(
-    (filterType: FilterType): 'outlined' | 'contained-tonal' => {
-      if (filterType === 'distance') {
-        return searchParams.maxDistance || searchParams.minDistance
-          ? 'contained-tonal'
-          : 'outlined'
+    (filterType: FilterType): 'outlined' | 'flat' => {
+      if (filterType === 'activityTypes') {
+        return searchParams.activityTypes.length > 0 ? 'flat' : 'outlined'
       }
-      if (filterType === 'activity') {
-        return searchParams.activityTypes.length > 0
-          ? 'contained-tonal'
-          : 'outlined'
-      }
-      if (filterType === 'difficulty') {
-        return searchParams.difficulties.length > 0
-          ? 'contained-tonal'
-          : 'outlined'
+      if (filterType === 'difficulties') {
+        return searchParams.difficulties.length > 0 ? 'flat' : 'outlined'
       }
       return 'outlined'
     },
-    [
-      searchParams.maxDistance,
-      searchParams.minDistance,
-      searchParams.activityTypes,
-      searchParams.difficulties,
-    ],
+    [searchParams.activityTypes, searchParams.difficulties],
   )
 
   const handleClearFilter = useCallback(
     (filterType: FilterType) => {
-      if (filterType === 'activity') {
-        setFieldValue('activityTypes', [])
-      }
+      setFieldValue(filterType, [])
     },
     [setFieldValue],
   )
@@ -100,31 +74,30 @@ function HomeScreen() {
   const handleSubmitFilter = useCallback(
     (filterType: FilterType) => {
       submitForm()
-      if (filterType === 'activity') {
+      if (filterType === 'activityTypes') {
         activityFilterRef?.current?.dismiss()
       }
-      if (filterType === 'distance') {
-        distanceFilterRef?.current?.dismiss()
-      }
-      if (filterType === 'difficulty') {
+      if (filterType === 'difficulties') {
         difficultyFilterRef?.current?.dismiss()
       }
     },
     [submitForm],
   )
 
-  /* 액티비티 관련 ---------------------------------------------*/
-  const onPressActivityItem = useCallback(
-    (value: string) => {
+  const handlePressFilterItem = useCallback(
+    (filterType: 'activityTypes' | 'difficulties', value: string) => {
       setFieldValue(
-        'activityTypes',
-        values.activityTypes.includes(value)
-          ? values.activityTypes.filter(v => v !== value)
-          : [...values.activityTypes, value],
+        filterType,
+        values[filterType].includes(value)
+          ? values[filterType].filter(v => v !== value)
+          : [...values[filterType], value],
       )
     },
-    [values.activityTypes, setFieldValue],
+    [setFieldValue, values],
   )
+
+  /* 거리 관련 ------------------------------------------------*/
+  /* 액티비티 관련 ---------------------------------------------*/
 
   const activityButtonText = useMemo(
     () =>
@@ -137,8 +110,17 @@ function HomeScreen() {
     [searchParams.activityTypes],
   )
 
-  /* 거리 관련 ------------------------------------------------*/
   /* 난이도 관련  ----------------------------------------------*/
+  const difficultyButtonText = useMemo(
+    () =>
+      searchParams.difficulties.length > 0
+        ? difficulties
+            .filter(a => searchParams.difficulties.includes(a.value))
+            .map(v => v.name)
+            .join(', ')
+        : '난이도',
+    [searchParams.difficulties],
+  )
 
   const checkboxRenderer = (checked: boolean) => (
     <Checkbox status={checked ? 'checked' : 'unchecked'} />
@@ -155,45 +137,38 @@ function HomeScreen() {
           />
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View flexDirection='row' gap={5}>
-              <Button
-                mode={getFilterButtonMode('distance')}
+              <Chip
                 icon='chevron-down'
-                contentStyle={globalStyles.flexReverse}
-                onPress={() => showFilterBottomSheet('distance')}>
-                거리
-              </Button>
-              <Button
+                mode={getFilterButtonMode('activityTypes')}
+                alignItems='center'
                 maxWidth={150}
-                mode={getFilterButtonMode('activity')}
-                icon='chevron-down'
-                onPress={() => showFilterBottomSheet('activity')}
-                contentStyle={globalStyles.flexReverse}>
+                onPress={() => showFilterBottomSheet('activityTypes')}
+                justifyContent='center'>
                 {activityButtonText}
-              </Button>
-              <Button
-                mode={getFilterButtonMode('difficulty')}
+              </Chip>
+              <Chip
                 icon='chevron-down'
-                onPress={() => showFilterBottomSheet('difficulty')}
-                contentStyle={globalStyles.flexReverse}>
-                난이도
-              </Button>
-              <Button
-                mode={getFilterButtonMode('difficulty')}
+                mode={getFilterButtonMode('difficulties')}
+                alignItems='center'
+                maxWidth={150}
+                onPress={() => showFilterBottomSheet('difficulties')}
+                justifyContent='center'>
+                {difficultyButtonText}
+              </Chip>
+              <Chip
                 icon='chevron-down'
-                onPress={() => showFilterBottomSheet('difficulty')}
-                contentStyle={globalStyles.flexReverse}>
+                mode={getFilterButtonMode('other')}
+                alignItems='center'
+                maxWidth={150}
+                onPress={() => showFilterBottomSheet('other')}
+                justifyContent='center'>
                 기타
-              </Button>
+              </Chip>
             </View>
           </ScrollView>
         </View>
         <MapArea />
       </View>
-
-      {/* 거리 필터 */}
-      <BottomSheet bottomSheetRef={distanceFilterRef} hideIndicator>
-        <Text>distanceFilterRef</Text>
-      </BottomSheet>
 
       {/* 액티비티 타입 필터 */}
       <BottomSheet bottomSheetRef={activityFilterRef} hideIndicator>
@@ -202,7 +177,9 @@ function HomeScreen() {
           titleStyle={globalStyles.bottomSheetTitleStyle}>
           {activities.map((activity: NameValuePair) => (
             <TouchableRipple
-              onPress={() => onPressActivityItem(activity.value)}
+              onPress={() =>
+                handlePressFilterItem('activityTypes', activity.value)
+              }
               key={activity.value}>
               <List.Item
                 title={activity.name}
@@ -216,10 +193,13 @@ function HomeScreen() {
           ))}
         </List.Section>
         <View p={3} flexDirection='row' justifyContent='flex-end' gap={8}>
-          <Button onPress={() => handleClearFilter('activity')}>클리어</Button>
+          <Button flex={1} onPress={() => handleClearFilter('activityTypes')}>
+            클리어
+          </Button>
           <Button
+            flex={1}
             mode='contained'
-            onPress={() => handleSubmitFilter('activity')}>
+            onPress={() => handleSubmitFilter('activityTypes')}>
             적용
           </Button>
         </View>
@@ -232,7 +212,9 @@ function HomeScreen() {
           titleStyle={globalStyles.bottomSheetTitleStyle}>
           {difficulties.map((difficulty: NameValuePair) => (
             <TouchableRipple
-              onPress={() => onPressActivityItem(difficulty.value)}
+              onPress={() =>
+                handlePressFilterItem('difficulties', difficulty.value)
+              }
               key={difficulty.value}>
               <List.Item
                 title={difficulty.name}
@@ -246,13 +228,37 @@ function HomeScreen() {
           ))}
         </List.Section>
         <View p={3} flexDirection='row' justifyContent='flex-end' gap={8}>
-          <Button onPress={() => handleClearFilter('activity')}>클리어</Button>
+          <Button flex={1} onPress={() => handleClearFilter('difficulties')}>
+            클리어
+          </Button>
           <Button
+            flex={1}
             mode='contained'
-            onPress={() => handleSubmitFilter('activity')}>
+            onPress={() => handleSubmitFilter('difficulties')}>
             적용
           </Button>
         </View>
+      </BottomSheet>
+
+      {/* 기타 필터 */}
+      <BottomSheet bottomSheetRef={otherFiltersRef} hideIndicator>
+        <List.Section
+          title='기타 필터'
+          titleStyle={globalStyles.bottomSheetTitleStyle}>
+          <Button>123</Button>
+
+          <View p={3} flexDirection='row' justifyContent='flex-end' gap={8}>
+            <Button flex={1} onPress={() => handleClearFilter('difficulties')}>
+              클리어
+            </Button>
+            <Button
+              flex={1}
+              mode='contained'
+              onPress={() => handleSubmitFilter('difficulties')}>
+              적용
+            </Button>
+          </View>
+        </List.Section>
       </BottomSheet>
     </>
   )
