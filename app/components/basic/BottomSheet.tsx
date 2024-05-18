@@ -1,6 +1,7 @@
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
+  BottomSheetModalProps,
   BottomSheetScrollView,
   BottomSheetView,
 } from '@gorhom/bottom-sheet'
@@ -9,24 +10,25 @@ import { useTheme } from 'react-native-paper'
 
 type CssDisplay = 'none' | 'flex' | undefined
 
-type Props = {
+export type BottomSheetProps = {
   bottomSheetRef: RefObject<BottomSheetModal>
   onSnapPointChange?: (index: number) => void
-  snapPoints?: string[]
   hideIndicator?: boolean
   scrollable?: boolean
-  enableDynamicSizing?: boolean
-} & PropsWithChildren
+  withoutBackDrop?: boolean
+} & PropsWithChildren &
+  Partial<BottomSheetModalProps>
 
 function BottomSheet({
   bottomSheetRef,
-  snapPoints,
   enableDynamicSizing = true,
   onSnapPointChange,
   hideIndicator = false,
   scrollable = false,
+  withoutBackDrop = false,
   children,
-}: Props) {
+  ...props
+}: BottomSheetProps) {
   const { colors } = useTheme()
 
   const handleSnapPointChange = useCallback(
@@ -39,14 +41,15 @@ function BottomSheet({
   )
 
   const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-      />
-    ),
-    [],
+    (backDropProps: any) =>
+      withoutBackDrop ? null : (
+        <BottomSheetBackdrop
+          {...backDropProps}
+          disappearsOnIndex={-1}
+          appearsOnIndex={0}
+        />
+      ),
+    [withoutBackDrop],
   )
 
   const styles = useMemo(
@@ -62,22 +65,12 @@ function BottomSheet({
     [colors, hideIndicator],
   )
 
-  const snapPointsMemo = useMemo(
-    () => (enableDynamicSizing ? undefined : snapPoints),
-    [enableDynamicSizing, snapPoints],
-  )
-
-  const enableDynamicSizingMemo = useMemo(
-    () => (snapPoints ? false : enableDynamicSizing),
-    [enableDynamicSizing, snapPoints],
-  )
-
   return (
     <BottomSheetModal
+      {...props}
       ref={bottomSheetRef}
       index={0}
-      snapPoints={snapPointsMemo}
-      enableDynamicSizing={enableDynamicSizingMemo}
+      enableDynamicSizing={enableDynamicSizing}
       onChange={handleSnapPointChange}
       backgroundStyle={styles.bg}
       handleIndicatorStyle={styles.indicator}

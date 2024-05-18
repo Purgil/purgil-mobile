@@ -1,5 +1,5 @@
 type NameValuePair = {
-  value: string
+  value: any
   name: string
 }
 
