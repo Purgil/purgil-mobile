@@ -1,7 +1,7 @@
 import BottomSheet, { BottomSheetProps } from './BottomSheet.tsx'
 import { Checkbox, List, TouchableRipple } from 'react-native-paper'
 import globalStyles from '../../utils/style.utils.ts'
-import { NameValuePair } from '../../core/types/common.types'
+import { NameValuePair } from '../../core/data/basic.types'
 import { Button, View } from '../styled'
 import { useCallback, useState } from 'react'
 

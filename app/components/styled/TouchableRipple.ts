@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { TouchableRipple as RNPTouchableRipple } from 'react-native-paper'
 import {
   FlexboxProps,
   flexbox,
@@ -15,7 +16,7 @@ import {
 } from 'styled-system'
 import styled from 'styled-components/native'
 
-interface ViewStyledProps
+interface TouchableRippleStyledProps
   extends FlexboxProps,
     ColorProps,
     PaddingProps,
@@ -26,7 +27,7 @@ interface ViewStyledProps
   gap?: number
 }
 
-const View = styled.View<ViewStyledProps>`
+const TouchableRipple = styled(RNPTouchableRipple)<TouchableRippleStyledProps>`
   ${flexbox}
   ${color}
   ${padding}
@@ -34,4 +35,4 @@ const View = styled.View<ViewStyledProps>`
   ${margin}
   ${height}
 `
-export default View
+export default TouchableRipple

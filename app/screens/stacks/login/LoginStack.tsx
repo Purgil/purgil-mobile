@@ -1,16 +1,15 @@
 import { Button, Dialog, HelperText, Portal, Text } from 'react-native-paper'
-import { ScreenParams } from '../../router'
-import { StackNavigationProp } from '@react-navigation/stack'
-import { TextInput, View } from '../../components/styled'
+import { TextInput, View } from '../../../components/styled'
 import { useEffect, useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import { Keyboard } from 'react-native'
 import * as yup from 'yup'
-import regex from '../../utils/regex.tsx'
+import regex from '../../../utils/regex.tsx'
 import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../store'
-import { login } from '../../store/slices/authUser.slice.ts'
-import { Gender } from '../../enums/common.enums.ts'
+import { AppDispatch } from '../../../store'
+import { login } from '../../../store/slices/authUser.slice.ts'
+import { Gender } from '../../../enums/common.enums.ts'
+import { RootStackScreenProps } from '../../../navigation/types.tsx'
 
 type AuthForm = {
   email: string
@@ -26,11 +25,7 @@ const initialValues: AuthForm = {
   nickname: '',
 }
 
-type Props = {
-  navigation: StackNavigationProp<ScreenParams>
-}
-
-function LoginScreen({ navigation }: Props) {
+function LoginStack({ navigation }: RootStackScreenProps<'Login'>) {
   const dispatch = useDispatch<AppDispatch>()
   const [dialogVisible, setDialogVisible] = useState(false)
   const [step, setStep] = useState<'email' | 'login' | 'register'>('email')
@@ -239,4 +234,4 @@ function LoginScreen({ navigation }: Props) {
   )
 }
 
-export default LoginScreen
+export default LoginStack

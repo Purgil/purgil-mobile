@@ -5,28 +5,16 @@ import {
   DarkTheme,
 } from '@react-navigation/native'
 import { useColorScheme } from 'react-native'
-import RegisterScreen from '../screens/register/RegisterScreen.tsx'
+import SignUpStack from '../screens/stacks/register/SignUpStack.tsx'
 import { createStackNavigator } from '@react-navigation/stack'
-import BottomNavRouter from './BottomNavRouter.tsx'
-import AuthScreen from '../screens/auth/AuthScreen.tsx'
-import LoginScreen from '../screens/login/LoginScreen.tsx'
-
-export type ScreenParams = {
-  BottomNav: undefined
-  // 하단 nav 화면들 입니다
-  Home: undefined
-  Map: undefined
-  Record: undefined
-  Social: undefined
-  Profile: undefined
-  // 하단 nav 이외의 화면들 입니다
-  Auth: undefined
-  Login: undefined
-  Register: undefined
-}
+import BottomNav from './BottomNav.tsx'
+import AuthStack from '../screens/stacks/auth/AuthStack.tsx'
+import LoginStack from '../screens/stacks/login/LoginStack.tsx'
+import { RootStackParamList } from './types.tsx'
+import CourseDetailStack from '../screens/stacks/courseDetail/CourseDetailStack.tsx'
 
 function Router() {
-  const Stack = createStackNavigator<ScreenParams>()
+  const Stack = createStackNavigator<RootStackParamList>()
   const isDarkMode = useColorScheme() === 'dark'
 
   return (
@@ -34,23 +22,28 @@ function Router() {
       <Stack.Navigator>
         <Stack.Screen
           name='BottomNav'
-          component={BottomNavRouter}
+          component={BottomNav}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name='Auth'
-          component={AuthScreen}
+          component={AuthStack}
           options={{ headerTitle: '로그인/회원가입' }}
         />
         <Stack.Screen
           name='Login'
-          component={LoginScreen}
+          component={LoginStack}
           options={{ headerTitle: '이메일로 시작' }}
         />
         <Stack.Screen
-          name='Register'
-          component={RegisterScreen}
+          name='SignUp'
+          component={SignUpStack}
           options={{ headerTitle: '이메일로 시작' }}
+        />
+        <Stack.Screen
+          name='CourseDetail'
+          component={CourseDetailStack}
+          options={{ headerTitle: '코스 상세' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

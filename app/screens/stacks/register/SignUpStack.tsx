@@ -1,7 +1,7 @@
 import { Text } from 'react-native-paper'
 
-function RegisterScreen() {
+function SignUpStack() {
   return <Text>RegisterScreen</Text>
 }
 
-export default RegisterScreen
+export default SignUpStack

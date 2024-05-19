@@ -3,12 +3,12 @@ import HomeScreen from '../screens/home/HomeScreen.tsx'
 import RecordScreen from '../screens/record/RecordScreen.tsx'
 import MapScreen from '../screens/map/MapScreen.tsx'
 import SocialScreen from '../screens/social/SocialScreen.tsx'
-import { ScreenParams } from './index.tsx'
 import ProfileScreen from '../screens/profile/ProfileScreen.tsx'
 import { Icon } from 'react-native-paper'
+import { RootStackParamList } from './types.tsx'
 
-function BottomNavRouter() {
-  const Tab = createMaterialBottomTabNavigator<ScreenParams>()
+function BottomNav() {
+  const Tab = createMaterialBottomTabNavigator<RootStackParamList>()
 
   return (
     <Tab.Navigator initialRouteName='Home'>
@@ -86,4 +86,4 @@ function BottomNavRouter() {
   )
 }
 
-export default BottomNavRouter
+export default BottomNav

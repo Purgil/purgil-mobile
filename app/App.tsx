@@ -1,5 +1,5 @@
 import React from 'react'
-import Router from './router'
+import Router from './navigation'
 import { PaperProvider } from 'react-native-paper'
 import { Provider } from 'react-redux'
 import { persistor, store } from './store'
