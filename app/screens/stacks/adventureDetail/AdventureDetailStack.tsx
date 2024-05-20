@@ -1,10 +1,11 @@
-import { Text, View } from '../../../components/styled'
+import { Text, View } from '~/components/styled'
 import React, { useEffect } from 'react'
-import { RootStackScreenProps } from '../../../navigation/types.ts'
-import { ImgArea, Swiper } from '../../../components/basic'
+import { RootStackScreenProps } from '~/navigation/types.ts'
 import { Divider, Icon, useTheme } from 'react-native-paper'
-import { MToHM } from '../../../utils/datetime.utils.ts'
+import { MToHM } from '~/utils/datetime.utils.ts'
 import { adventureDetail } from './AdventureDetailStack.consts.ts'
+import { Carousel, ImgArea } from '~/components/basic'
+import { Dimensions } from 'react-native'
 
 function AdventureDetailStack({
   navigation,
@@ -18,14 +19,16 @@ function AdventureDetailStack({
     navigation.setOptions({ headerTitle: adventure.name })
   }, [navigation, adventure])
 
+  const carouselItemRenderer = () => <ImgArea />
+
   return (
     <View flex={1}>
       <View height={250}>
-        <Swiper loop={false}>
-          <ImgArea />
-          <ImgArea />
-          <ImgArea />
-        </Swiper>
+        <Carousel
+          width={Dimensions.get('screen').width}
+          data={[...new Array(6)]}
+          renderItem={() => carouselItemRenderer()}
+        />
       </View>
 
       <View px={10} py={20}>

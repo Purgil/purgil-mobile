@@ -1,21 +1,19 @@
 import { Button, Chip, ScrollView, View } from '../../components/styled'
 import { List, Searchbar } from 'react-native-paper'
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
-import globalStyles from '../../utils/style.utils.ts'
+import globalStyles from '~/utils/style.utils.ts'
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import BottomSheet from '../../components/basic/BottomSheet.tsx'
 import {
   adventureTypes,
   adventures,
   difficultyTypes,
 } from './HomeScreen.consts.ts'
 import { useFormik } from 'formik'
-import MapArea from '../../components/basic/MapArea.tsx'
-import ChkboxBottomSheet from '../../components/basic/ChkboxBottomSheet.tsx'
 import Adventures from '../../components/adventure/Adventures.tsx'
+import { ChkboxBottomSheet, MapArea, BottomSheet } from '~/components/basic'
 
 const initialLocation = '경기도 파주시'
 

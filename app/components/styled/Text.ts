@@ -4,6 +4,8 @@ import {
   color,
   FontSizeProps,
   fontSize,
+  FontWeightProps,
+  fontWeight,
   TextAlignProps,
   textAlign,
   SpaceProps,
@@ -19,6 +21,7 @@ interface TextStyledProps
     FontSizeProps,
     TextAlignProps,
     MarginProps,
+    FontWeightProps,
     SpaceProps {
   children: React.ReactNode
 }
@@ -29,5 +32,6 @@ const Text = styled(RNPText)<TextStyledProps>`
   ${textAlign}
   ${space}
   ${margin}
+  ${fontWeight}
 `
 export default Text

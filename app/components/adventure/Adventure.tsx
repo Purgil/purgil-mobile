@@ -1,18 +1,20 @@
 import { Adventure as AdventureT } from '../../core/data/adventure.data'
 import { Text, TouchableRipple, View } from '../styled'
-import ImgArea from '../basic/ImgArea.tsx'
 import React from 'react'
-import { Swiper } from '../basic'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { Icon, useTheme } from 'react-native-paper'
 import { RootStackParamList } from '../../navigation/types.ts'
+import Carousel from '../basic/Carousel.tsx'
+import { ImgArea } from '../basic'
+import { Dimensions } from 'react-native'
 
 type Props = {
   adventure: AdventureT
 }
 
 function Adventure({ adventure }: Props) {
+  const width = Dimensions.get('screen').width
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const { colors } = useTheme()
@@ -21,14 +23,17 @@ function Adventure({ adventure }: Props) {
     navigation.navigate('AdventureDetail', { adventure })
   }
 
+  const itemRenderer = () => <ImgArea />
+
   return (
     <View>
-      <Swiper showsButtons height={250} loop={false}>
-        <ImgArea />
-        <ImgArea />
-        <ImgArea />
-      </Swiper>
-      <TouchableRipple onPress={handlePress} py={10}>
+      <Carousel
+        data={[...new Array(3)]}
+        renderItem={itemRenderer}
+        width={width}
+        height={250}
+      />
+      <TouchableRipple onPress={handlePress} p={10}>
         <>
           <Text variant='titleMedium' mb={2}>
             {adventure.name}

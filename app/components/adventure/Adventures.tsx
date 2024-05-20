@@ -10,7 +10,7 @@ type Props = {
 
 function Adventures({ totalCount, adventures }: Props) {
   return (
-    <View px={12}>
+    <View>
       <Text textAlign='center' variant='titleMedium' pb={10}>
         {totalCount} 결과
       </Text>

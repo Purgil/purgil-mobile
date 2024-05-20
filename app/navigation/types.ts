@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import { Adventure } from '../core/data/adventure.data'
+import { Adventure } from '@/core/data/adventure.data'
 
 export type RootStackParamList = {
   Home: undefined
