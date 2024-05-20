@@ -2,7 +2,7 @@ import { Button, IconButton, Text, View } from '../../../components/styled'
 import KakaoIcon from '../../../assets/svgs/kakao-logo.svg'
 import NaverIcon from '../../../assets/svgs/naver-logo.svg'
 import GoogleIcon from '../../../assets/svgs/google-logo.svg'
-import { RootStackScreenProps } from '../../../navigation/types.tsx'
+import { RootStackScreenProps } from '../../../navigation/types.ts'
 
 function AuthStack({ navigation }: RootStackScreenProps<'Auth'>) {
   return (

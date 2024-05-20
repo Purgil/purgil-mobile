@@ -1,7 +1,7 @@
 import BottomSheet, { BottomSheetProps } from './BottomSheet.tsx'
 import { Checkbox, List, TouchableRipple } from 'react-native-paper'
 import globalStyles from '../../utils/style.utils.ts'
-import { NameValuePair } from '../../core/data/basic.types'
+import { ValueLabelPair } from '../../core/data/basic.types'
 import { Button, View } from '../styled'
 import { useCallback, useState } from 'react'
 
@@ -9,7 +9,7 @@ type Props = {
   title: string
   value: any[]
   setValue: (v: any) => void
-  options: NameValuePair[]
+  options: ValueLabelPair[]
 } & Pick<BottomSheetProps, 'bottomSheetRef'>
 
 function ChkboxBottomSheet({
@@ -50,12 +50,12 @@ function ChkboxBottomSheet({
       <List.Section
         title={title}
         titleStyle={globalStyles.bottomSheetTitleStyle}>
-        {options.map((option: NameValuePair) => (
+        {options.map((option: ValueLabelPair) => (
           <TouchableRipple
             onPress={() => handlePressItem(option.value)}
             key={option.value}>
             <List.Item
-              title={option.name}
+              title={option.label}
               right={() =>
                 checkboxRenderer(checkedItems.includes(option.value))
               }

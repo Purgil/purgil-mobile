@@ -1,6 +1,6 @@
-type NameValuePair = {
+type ValueLabelPair = {
   value: any
-  name: string
+  label: string
 }
 
-export const { NameValuePair }
+export const { ValueLabelPair }

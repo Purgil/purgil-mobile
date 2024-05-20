@@ -7,30 +7,34 @@ import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import BottomSheet from '../../components/basic/BottomSheet.tsx'
-import { courseTypes, courses, difficultyTypes } from './HomeScreen.consts.ts'
+import {
+  adventureTypes,
+  adventures,
+  difficultyTypes,
+} from './HomeScreen.consts.ts'
 import { useFormik } from 'formik'
 import MapArea from '../../components/basic/MapArea.tsx'
 import ChkboxBottomSheet from '../../components/basic/ChkboxBottomSheet.tsx'
-import Courses from '../../components/cource/Courses.tsx'
+import Adventures from '../../components/adventure/Adventures.tsx'
 
 const initialLocation = '경기도 파주시'
 
-type FilterType = 'courseTypes' | 'difficulties' | 'other'
+type FilterType = 'adventureTypes' | 'difficulties' | 'other'
 
 type SearchForm = {
   searchText: string
-  courseTypes: string[]
+  adventureTypes: string[]
   difficulties: string[]
 }
 
 const initialValues: SearchForm = {
   searchText: initialLocation,
-  courseTypes: [],
+  adventureTypes: [],
   difficulties: [],
 }
 
 function HomeScreen() {
-  const courseTypeFilterRef = useRef<BottomSheetModal>(null)
+  const adventureTypeFilterRef = useRef<BottomSheetModal>(null)
   const difficultyFilterRef = useRef<BottomSheetModal>(null)
   const otherFiltersRef = useRef<BottomSheetModal>(null)
   const routesRef = useRef<BottomSheetModal>(null)
@@ -45,8 +49,8 @@ function HomeScreen() {
   }, [])
 
   const showFilterBottomSheet = useCallback((filterType: FilterType) => {
-    if (filterType === 'courseTypes') {
-      courseTypeFilterRef?.current?.present()
+    if (filterType === 'adventureTypes') {
+      adventureTypeFilterRef?.current?.present()
     }
     if (filterType === 'difficulties') {
       difficultyFilterRef?.current?.present()
@@ -58,15 +62,15 @@ function HomeScreen() {
 
   const getFilterButtonMode = useCallback(
     (filterType: FilterType): 'outlined' | 'flat' => {
-      if (filterType === 'courseTypes') {
-        return values.courseTypes.length > 0 ? 'flat' : 'outlined'
+      if (filterType === 'adventureTypes') {
+        return values.adventureTypes.length > 0 ? 'flat' : 'outlined'
       }
       if (filterType === 'difficulties') {
         return values.difficulties.length > 0 ? 'flat' : 'outlined'
       }
       return 'outlined'
     },
-    [values.courseTypes, values.difficulties],
+    [values.adventureTypes, values.difficulties],
   )
 
   const handleClearFilter = useCallback(
@@ -79,8 +83,8 @@ function HomeScreen() {
   const handleSubmitFilter = useCallback(
     (filterType: FilterType) => {
       submitForm()
-      if (filterType === 'courseTypes') {
-        courseTypeFilterRef?.current?.dismiss()
+      if (filterType === 'adventureTypes') {
+        adventureTypeFilterRef?.current?.dismiss()
       }
       if (filterType === 'difficulties') {
         difficultyFilterRef?.current?.dismiss()
@@ -91,13 +95,13 @@ function HomeScreen() {
 
   const activityButtonText = useMemo(
     () =>
-      values.courseTypes.length > 0
-        ? courseTypes
-            .filter(a => values.courseTypes.includes(a.value))
-            .map(v => v.name)
+      values.adventureTypes.length > 0
+        ? adventureTypes
+            .filter(a => values.adventureTypes.includes(a.value))
+            .map(v => v.label)
             .join(', ')
         : '유형',
-    [values.courseTypes],
+    [values.adventureTypes],
   )
 
   const difficultyButtonText = useMemo(
@@ -105,7 +109,7 @@ function HomeScreen() {
       values.difficulties.length > 0
         ? difficultyTypes
             .filter(a => values.difficulties.includes(a.value))
-            .map(v => v.name)
+            .map(v => v.label)
             .join(', ')
         : '난이도',
     [values.difficulties],
@@ -124,10 +128,10 @@ function HomeScreen() {
             <View flexDirection='row' gap={5}>
               <Chip
                 icon='chevron-down'
-                mode={getFilterButtonMode('courseTypes')}
+                mode={getFilterButtonMode('adventureTypes')}
                 alignItems='center'
                 maxWidth={150}
-                onPress={() => showFilterBottomSheet('courseTypes')}
+                onPress={() => showFilterBottomSheet('adventureTypes')}
                 justifyContent='center'>
                 {activityButtonText}
               </Chip>
@@ -162,16 +166,16 @@ function HomeScreen() {
         scrollable
         enableDynamicSizing={false}
         enablePanDownToClose={false}>
-        <Courses totalCount={226} courses={courses} />
+        <Adventures totalCount={226} adventures={adventures} />
       </BottomSheet>
 
       {/* 액티비티 타입 필터 */}
       <ChkboxBottomSheet
-        title='액티비티'
-        value={values.courseTypes}
-        setValue={value => setFieldValue('activityTypes', value)}
-        options={courseTypes}
-        bottomSheetRef={courseTypeFilterRef}
+        title='모험 유형'
+        value={values.adventureTypes}
+        setValue={value => setFieldValue('adventureTypes', value)}
+        options={adventureTypes}
+        bottomSheetRef={adventureTypeFilterRef}
       />
 
       {/* 난이도 필터 */}

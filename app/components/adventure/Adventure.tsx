@@ -1,4 +1,4 @@
-import { Course as CourseT } from '../../core/data/course.data'
+import { Adventure as AdventureT } from '../../core/data/adventure.data'
 import { Text, TouchableRipple, View } from '../styled'
 import ImgArea from '../basic/ImgArea.tsx'
 import React from 'react'
@@ -6,19 +6,19 @@ import { Swiper } from '../basic'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { Icon, useTheme } from 'react-native-paper'
-import { RootStackParamList } from '../../navigation/types.tsx'
+import { RootStackParamList } from '../../navigation/types.ts'
 
 type Props = {
-  course: CourseT
+  adventure: AdventureT
 }
 
-function Course({ course }: Props) {
+function Adventure({ adventure }: Props) {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const { colors } = useTheme()
 
   const handlePress = () => {
-    navigation.navigate('CourseDetail', { course })
+    navigation.navigate('AdventureDetail', { adventure })
   }
 
   return (
@@ -31,14 +31,14 @@ function Course({ course }: Props) {
       <TouchableRipple onPress={handlePress} py={10}>
         <>
           <Text variant='titleMedium' mb={2}>
-            {course.name}
+            {adventure.name}
           </Text>
           <Text variant='labelMedium' mb={1}>
-            {course.address}
+            {adventure.address}
           </Text>
           <Text variant='labelSmall'>
             <Icon size={12} source='star' color={colors.primary} />
-            {course.rating} · {course.distance}km · {course.difficulty}
+            {adventure.rating} · {adventure.distance}km · {adventure.difficulty}
           </Text>
         </>
       </TouchableRipple>
@@ -46,4 +46,4 @@ function Course({ course }: Props) {
   )
 }
 
-export default React.memo(Course)
+export default React.memo(Adventure)

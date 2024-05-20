@@ -1,41 +1,45 @@
-import { NameValuePair } from '../../core/data/basic.types'
-import { Course } from '../../core/data/course.data'
+import { ValueLabelPair } from '../../core/data/basic.types'
+import { Adventure } from '../../core/data/adventure.data'
 
-const courseTypes: NameValuePair[] = [
+const adventureTypes: ValueLabelPair[] = [
   {
     value: 'hiking',
-    name: '등산',
+    label: '등산',
+  },
+  {
+    value: 'running',
+    label: '러닝',
+  },
+  {
+    value: 'walking',
+    label: '산책',
   },
   {
     value: 'cycling',
-    name: '자전거',
+    label: '로드 사이클',
   },
-  // {
-  //   value: 'mountain-cycling',
-  //   name: '산악 자전거',
-  // },
   {
-    value: 'running',
-    name: '도보',
+    value: 'mountain-cycling',
+    label: '마운틴 사이클',
   },
 ]
 
-const difficultyTypes: NameValuePair[] = [
+const difficultyTypes: ValueLabelPair[] = [
   {
     value: 'high',
-    name: '높음',
+    label: '높음',
   },
   {
     value: 'normal',
-    name: '보통',
+    label: '보통',
   },
   {
     value: 'easy',
-    name: '쉬움',
+    label: '쉬움',
   },
 ]
 
-const courses: Course[] = [
+const adventures: Adventure[] = [
   {
     id: 1,
     name: '북한산 메인 루트',
@@ -218,4 +222,4 @@ const courses: Course[] = [
   },
 ]
 
-export { courseTypes, difficultyTypes, courses }
+export { adventureTypes, difficultyTypes, adventures }

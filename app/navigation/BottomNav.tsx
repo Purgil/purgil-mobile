@@ -5,10 +5,52 @@ import MapScreen from '../screens/map/MapScreen.tsx'
 import SocialScreen from '../screens/social/SocialScreen.tsx'
 import ProfileScreen from '../screens/profile/ProfileScreen.tsx'
 import { Icon } from 'react-native-paper'
-import { RootStackParamList } from './types.tsx'
+import { RootStackParamList } from './types.ts'
+import { ReactNode, useCallback } from 'react'
+
+const iconMap: { [screenName: string]: { icon: string; focusedIcon: string } } =
+  {
+    Home: {
+      icon: 'map-search-outline',
+      focusedIcon: 'map-search',
+    },
+    Social: {
+      icon: 'account-group-outline',
+      focusedIcon: 'account-group',
+    },
+    Record: {
+      icon: 'compass-outline',
+      focusedIcon: 'compass',
+    },
+    Chat: {
+      icon: 'chat-outline',
+      focusedIcon: 'chat',
+    },
+    Profile: {
+      icon: 'account-circle-outline',
+      focusedIcon: 'account-circle',
+    },
+  }
 
 function BottomNav() {
   const Tab = createMaterialBottomTabNavigator<RootStackParamList>()
+
+  const iconRenderer = useCallback(
+    (screenName: string, focused: boolean, color: string): ReactNode => {
+      return (
+        <Icon
+          source={
+            focused
+              ? iconMap[screenName]?.focusedIcon
+              : iconMap[screenName]?.icon
+          }
+          color={color}
+          size={25}
+        />
+      )
+    },
+    [],
+  )
 
   return (
     <Tab.Navigator initialRouteName='Home'>
@@ -17,41 +59,8 @@ function BottomNav() {
         component={HomeScreen}
         options={{
           title: '홈',
-          tabBarIcon: ({ focused, color }) => (
-            <Icon
-              source={focused ? 'map-search' : 'map-search-outline'}
-              color={color}
-              size={25}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Map'
-        component={MapScreen}
-        options={{
-          title: '북마크',
-          tabBarIcon: ({ focused, color }) => (
-            <Icon
-              source={focused ? 'bookmark' : 'bookmark-outline'}
-              color={color}
-              size={25}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Record'
-        component={RecordScreen}
-        options={{
-          title: '기록',
-          tabBarIcon: ({ focused, color }) => (
-            <Icon
-              source={focused ? 'compass' : 'compass-outline'}
-              color={color}
-              size={25}
-            />
-          ),
+          tabBarIcon: ({ focused, color }) =>
+            iconRenderer('Home', focused, color),
         }}
       />
       <Tab.Screen
@@ -59,13 +68,26 @@ function BottomNav() {
         component={SocialScreen}
         options={{
           title: '소셜',
-          tabBarIcon: ({ focused, color }) => (
-            <Icon
-              source={focused ? 'account-group' : 'account-group-outline'}
-              color={color}
-              size={25}
-            />
-          ),
+          tabBarIcon: ({ focused, color }) =>
+            iconRenderer('Social', focused, color),
+        }}
+      />
+      <Tab.Screen
+        name='Record'
+        component={RecordScreen}
+        options={{
+          title: '기록',
+          tabBarIcon: ({ focused, color }) =>
+            iconRenderer('Record', focused, color),
+        }}
+      />
+      <Tab.Screen
+        name='Map'
+        component={MapScreen}
+        options={{
+          title: '채팅',
+          tabBarIcon: ({ focused, color }) =>
+            iconRenderer('Chat', focused, color),
         }}
       />
       <Tab.Screen
@@ -73,13 +95,8 @@ function BottomNav() {
         component={ProfileScreen}
         options={{
           title: '프로필',
-          tabBarIcon: ({ focused, color }) => (
-            <Icon
-              source={focused ? 'account-circle' : 'account-circle-outline'}
-              color={color}
-              size={25}
-            />
-          ),
+          tabBarIcon: ({ focused, color }) =>
+            iconRenderer('Profile', focused, color),
         }}
       />
     </Tab.Navigator>

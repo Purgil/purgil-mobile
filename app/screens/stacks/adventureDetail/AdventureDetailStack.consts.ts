@@ -1,6 +1,6 @@
-import { CourseDetail } from '../../../core/data/course.data'
+import { AdventureDetail } from '../../../core/data/adventure.data'
 
-const courseDetail: CourseDetail = {
+const adventureDetail: AdventureDetail = {
   id: 1,
   name: '북한산 메인 루트',
   address: '서울시 은평구',
@@ -12,4 +12,4 @@ const courseDetail: CourseDetail = {
   avgCompleteTime: 130,
 }
 
-export { courseDetail }
+export { adventureDetail }

@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import { Course } from '../core/data/course.data'
+import { Adventure } from '../core/data/adventure.data'
 
 export type RootStackParamList = {
   Home: undefined
@@ -11,8 +11,8 @@ export type RootStackParamList = {
   Auth: undefined
   Login: undefined
   SignUp: undefined
-  CourseDetail: {
-    course: Course
+  AdventureDetail: {
+    adventure: Adventure
   }
 }
 

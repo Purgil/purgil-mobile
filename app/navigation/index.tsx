@@ -10,8 +10,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import BottomNav from './BottomNav.tsx'
 import AuthStack from '../screens/stacks/auth/AuthStack.tsx'
 import LoginStack from '../screens/stacks/login/LoginStack.tsx'
-import { RootStackParamList } from './types.tsx'
-import CourseDetailStack from '../screens/stacks/courseDetail/CourseDetailStack.tsx'
+import { RootStackParamList } from './types.ts'
+import AdventureDetailStack from '../screens/stacks/adventureDetail/AdventureDetailStack.tsx'
 
 function Router() {
   const Stack = createStackNavigator<RootStackParamList>()
@@ -41,9 +41,9 @@ function Router() {
           options={{ headerTitle: '이메일로 시작' }}
         />
         <Stack.Screen
-          name='CourseDetail'
-          component={CourseDetailStack}
-          options={{ headerTitle: '코스 상세' }}
+          name='AdventureDetail'
+          component={AdventureDetailStack}
+          options={{ headerTitle: '모험 상세' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

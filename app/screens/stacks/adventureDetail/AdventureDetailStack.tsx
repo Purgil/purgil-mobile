@@ -1,22 +1,22 @@
 import { Text, View } from '../../../components/styled'
 import React, { useEffect } from 'react'
-import { RootStackScreenProps } from '../../../navigation/types.tsx'
+import { RootStackScreenProps } from '../../../navigation/types.ts'
 import { ImgArea, Swiper } from '../../../components/basic'
 import { Divider, Icon, useTheme } from 'react-native-paper'
 import { MToHM } from '../../../utils/datetime.utils.ts'
-import { courseDetail } from './CourseDetailStack.consts.ts'
+import { adventureDetail } from './AdventureDetailStack.consts.ts'
 
-function CourseDetailStack({
+function AdventureDetailStack({
   navigation,
   route: {
-    params: { course },
+    params: { adventure },
   },
-}: RootStackScreenProps<'CourseDetail'>) {
+}: RootStackScreenProps<'AdventureDetail'>) {
   const { colors } = useTheme()
 
   useEffect(() => {
-    navigation.setOptions({ headerTitle: course.name })
-  }, [navigation, course])
+    navigation.setOptions({ headerTitle: adventure.name })
+  }, [navigation, adventure])
 
   return (
     <View flex={1}>
@@ -30,12 +30,12 @@ function CourseDetailStack({
 
       <View px={10} py={20}>
         <Text variant='bodyMedium' mb={1}>
-          {course.difficulty} ·{' '}
+          {adventure.difficulty} ·{' '}
           <Icon size={16} source='star' color={colors.primary} />
-          {`${course.rating}(455)`}
+          {`${adventure.rating}(455)`}
         </Text>
         <Text variant='bodyMedium' mb={3}>
-          {course.address}
+          {adventure.address}
         </Text>
 
         <Divider />
@@ -46,7 +46,7 @@ function CourseDetailStack({
               거리
             </Text>
             <Text variant='titleMedium' textAlign='center'>
-              {courseDetail.distance}km
+              {adventureDetail.distance}km
             </Text>
           </View>
           <View>
@@ -54,16 +54,16 @@ function CourseDetailStack({
               누적 오르막
             </Text>
             <Text variant='titleMedium' textAlign='center'>
-              {courseDetail.elevationGain}m
+              {adventureDetail.elevationGain}m
             </Text>
           </View>
-          {courseDetail.avgCompleteTime && (
+          {adventureDetail.avgCompleteTime && (
             <View>
               <Text variant='titleSmall' textAlign='center'>
                 평균 소요시간
               </Text>
               <Text variant='titleMedium' textAlign='center'>
-                {MToHM(courseDetail.avgCompleteTime)}
+                {MToHM(adventureDetail.avgCompleteTime)}
               </Text>
             </View>
           )}
@@ -73,4 +73,4 @@ function CourseDetailStack({
   )
 }
 
-export default CourseDetailStack
+export default AdventureDetailStack

@@ -2,7 +2,7 @@ import { Button } from 'react-native-paper'
 import { View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
-import { RootStackParamList } from '../../navigation/types.tsx'
+import { RootStackParamList } from '../../navigation/types.ts'
 
 function ProfileScreen() {
   const navigation =
