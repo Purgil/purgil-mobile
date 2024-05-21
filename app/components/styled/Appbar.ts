@@ -18,8 +18,9 @@ import {
   position,
 } from 'styled-system'
 import styled from 'styled-components/native'
+import { Appbar as RNAppbar } from 'react-native-paper'
 
-interface ViewStyledProps
+interface AppbarStyledProps
   extends FlexboxProps,
     ColorProps,
     PaddingProps,
@@ -32,7 +33,7 @@ interface ViewStyledProps
   gap?: number
 }
 
-const View = styled.View<ViewStyledProps>`
+const Appbar = styled(RNAppbar)<AppbarStyledProps>`
   ${flexbox}
   ${color}
   ${padding}
@@ -42,4 +43,4 @@ const View = styled.View<ViewStyledProps>`
   ${width}
   ${position}
 `
-export default View
+export default Appbar

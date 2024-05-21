@@ -43,7 +43,7 @@ function Router() {
         <Stack.Screen
           name='AdventureDetail'
           component={AdventureDetailStack}
-          options={{ headerTitle: '모험 상세' }}
+          options={{ headerTitle: '모험 상세', headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -31,7 +31,7 @@ function Adventure({ adventure }: Props) {
         data={[...new Array(3)]}
         renderItem={itemRenderer}
         width={width}
-        height={250}
+        height={300}
       />
       <TouchableRipple onPress={handlePress} p={10}>
         <>

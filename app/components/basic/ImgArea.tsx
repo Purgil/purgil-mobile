@@ -6,7 +6,7 @@ type Props = {
   height?: number
 }
 
-function ImgArea({ height = 250 }: Props) {
+function ImgArea({ height = 300 }: Props) {
   const { colors } = useTheme()
   return (
     <View

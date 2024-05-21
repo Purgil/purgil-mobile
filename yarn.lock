@@ -7901,6 +7901,7 @@ __metadata:
     react: 18.2.0
     react-native: 0.74.1
     react-native-gesture-handler: ^2.16.1
+    react-native-pager-view: ^6.3.1
     react-native-paper: ^5.12.3
     react-native-reanimated: ^3.11.0
     react-native-reanimated-carousel: ^3.5.1
@@ -7908,6 +7909,7 @@ __metadata:
     react-native-screens: ^3.31.1
     react-native-svg: ^15.2.0
     react-native-svg-transformer: ^1.3.0
+    react-native-tab-view: ^3.5.2
     react-native-vector-icons: ^10.1.0
     react-redux: ^9.1.0
     redux-persist: ^6.0.0
@@ -8023,6 +8025,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-pager-view@npm:^6.3.1":
+  version: 6.3.1
+  resolution: "react-native-pager-view@npm:6.3.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: ef83fb53350d7b4c262a8c4d4bf6fbee8f8941e56469135463a47d496ff8fd43f7efe52d02c3a583427800fc88c96a9bf8e601a45a6e671834d5fffe9541e3e4
+  languageName: node
+  linkType: hard
+
 "react-native-paper@npm:^5.12.3":
   version: 5.12.3
   resolution: "react-native-paper@npm:5.12.3"
@@ -8119,6 +8131,19 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 0075d3c5bcf6bbbebe064364ec72c02eeff3fc0f2b1ba127bde26a8ecedc190a7890a910a6a051687318fa80504a3bc335eee2bfd6846b90193ca1608bae821e
+  languageName: node
+  linkType: hard
+
+"react-native-tab-view@npm:^3.5.2":
+  version: 3.5.2
+  resolution: "react-native-tab-view@npm:3.5.2"
+  dependencies:
+    use-latest-callback: ^0.1.5
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-pager-view: "*"
+  checksum: bd287e5543881aa662ee55418a3bd5dacb25033425a9fcb0fff21c3a3b96f956af1a77cd9bab4e7a8e94590080a5d8e3cb99cfa8613b19bf6da24bfc9b4942d4
   languageName: node
   linkType: hard
 
