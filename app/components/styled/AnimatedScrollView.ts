@@ -17,10 +17,10 @@ import {
   PositionProps,
   position,
 } from 'styled-system'
+import Animated from 'react-native-reanimated'
 import styled from 'styled-components/native'
-import { MutableRefObject } from 'react'
 
-interface ViewStyledProps
+interface AnimatedViewStyledProps
   extends FlexboxProps,
     ColorProps,
     PaddingProps,
@@ -29,12 +29,11 @@ interface ViewStyledProps
     WidthProps,
     BorderProps,
     PositionProps {
-  children?: React.ReactNode
+  children: React.ReactNode
   gap?: number
-  ref?: MutableRefObject<any>
 }
 
-const View = styled.View<ViewStyledProps>`
+const AnimatedScrollView = styled(Animated.ScrollView)<AnimatedViewStyledProps>`
   ${flexbox}
   ${color}
   ${padding}
@@ -44,4 +43,4 @@ const View = styled.View<ViewStyledProps>`
   ${width}
   ${position}
 `
-export default View
+export default AnimatedScrollView

@@ -157,15 +157,15 @@ function HomeScreen() {
         <MapArea />
       </View>
 
-      <BottomSheet
-        bottomSheetRef={routesRef}
-        withoutBackDrop
-        snapPoints={['7.5%', '50%', '85%']}
-        scrollable
-        enableDynamicSizing={false}
-        enablePanDownToClose={false}>
-        <Adventures totalCount={226} adventures={adventures} />
-      </BottomSheet>
+      {/*<BottomSheet*/}
+      {/*  bottomSheetRef={routesRef}*/}
+      {/*  withoutBackDrop*/}
+      {/*  snapPoints={['7.5%', '50%', '85%']}*/}
+      {/*  scrollable*/}
+      {/*  enableDynamicSizing={false}*/}
+      {/*  enablePanDownToClose={false}>*/}
+      {/*  <Adventures totalCount={226} adventures={adventures} />*/}
+      {/*</BottomSheet>*/}
 
       {/* 액티비티 타입 필터 */}
       <ChkboxBottomSheet

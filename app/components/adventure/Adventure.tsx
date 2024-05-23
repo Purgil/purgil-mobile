@@ -7,7 +7,7 @@ import { Icon, useTheme } from 'react-native-paper'
 import { RootStackParamList } from '~/navigation/types.ts'
 import Carousel from '../basic/Carousel.tsx'
 import { ImgArea } from '../basic'
-import { Dimensions } from 'react-native'
+import { Dimensions, FlatList } from 'react-native'
 
 type Props = {
   adventure: AdventureT
@@ -27,12 +27,14 @@ function Adventure({ adventure }: Props) {
 
   return (
     <View>
-      <Carousel
-        data={[...new Array(3)]}
-        renderItem={itemRenderer}
-        width={width}
-        height={300}
-      />
+      {/*<FlatList data={[...new Array(3)]} renderItem={itemRenderer} />*/}
+
+      {/*<Carousel*/}
+      {/*  data={[...new Array(3)]}*/}
+      {/*  renderItem={itemRenderer}*/}
+      {/*  width={width}*/}
+      {/*  height={300}*/}
+      {/*/>*/}
       <TouchableRipple onPress={handlePress} p={10}>
         <>
           <Text variant='titleMedium' mb={2}>

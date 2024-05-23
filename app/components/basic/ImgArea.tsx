@@ -1,6 +1,6 @@
-import { Text, View } from '../styled'
 import { useTheme } from 'react-native-paper'
 import React from 'react'
+import { Text, View } from '~/components/styled'
 
 type Props = {
   height?: number
@@ -12,10 +12,12 @@ function ImgArea({ height = 300 }: Props) {
     <View
       height={height}
       justifyContent='center'
-      bg={colors.secondaryContainer}
+      bg={colors.inverseSurface}
       borderRadius={7}
       mb={10}>
-      <Text textAlign='center'>이미지 영역</Text>
+      <Text textAlign='center' color={colors.inverseOnSurface}>
+        이미지 영역
+      </Text>
     </View>
   )
 }
