@@ -1,9 +1,5 @@
-import { AnimatedView } from '~/components/styled'
-import {
-  LayoutChangeEvent,
-  TouchableWithoutFeedback,
-  View as RNView,
-} from 'react-native'
+import { AnimatedView, Text, View } from '~/components/styled'
+import { LayoutChangeEvent, TouchableWithoutFeedback } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import {
   Easing,
@@ -11,21 +7,18 @@ import {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-  // withSpring
 } from 'react-native-reanimated'
 import React, {
   PropsWithChildren,
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react'
-// import { SpringConfig } from 'react-native-reanimated/lib/typescript/reanimated2/animation/springUtils'
 import { Portal, useTheme } from 'react-native-paper'
 import { WithTimingConfig } from 'react-native-reanimated/src/reanimated2/animation/timing.ts'
 
-const snapPoints = [0.5, 0.8, 1]
+const snapPoints = [0.5]
 // const springConfig: SpringConfig = { damping: 28, stiffness: 300 }
 const timingConfig: WithTimingConfig = {
   duration: 100,
@@ -34,12 +27,21 @@ const timingConfig: WithTimingConfig = {
 
 type Props = {
   visible: boolean
-  setVisible: any
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>
+  rounded?: boolean
+  showIndicator?: boolean
+  title?: string
 } & Partial<PropsWithChildren>
 
-function ActionSheet({ visible, setVisible, children }: Props) {
+function ActionSheet({
+  visible,
+  setVisible,
+  rounded = true,
+  showIndicator = true,
+  title,
+  children,
+}: Props) {
   const { colors } = useTheme()
-  const ref = useRef<RNView>(null)
 
   const height = useSharedValue(0)
   const pinnedHeight = useSharedValue(0)
@@ -59,14 +61,13 @@ function ActionSheet({ visible, setVisible, children }: Props) {
     [componentHeight],
   )
 
+  const maxHeight = useMemo(() => Math.max(...snapHeights), [snapHeights])
+
   useEffect(() => {
     if (localVisible) {
       height.value = withTiming(snapHeights[1], timingConfig)
       pinnedHeight.value = withTiming(snapHeights[1], timingConfig)
-      opacity.value = withTiming(0.5, {
-        duration: 100,
-        easing: Easing.out(Easing.ease),
-      })
+      opacity.value = withTiming(0.5, timingConfig)
     } else {
       height.value = withTiming(snapHeights[0], timingConfig)
       pinnedHeight.value = withTiming(snapHeights[0], timingConfig)
@@ -77,9 +78,10 @@ function ActionSheet({ visible, setVisible, children }: Props) {
   }, [localVisible, opacity, snapHeights, height, pinnedHeight, setVisible])
 
   const PanGesture = Gesture.Pan()
-    .onStart(() => {})
     .onChange(event => {
-      height.value = pinnedHeight.value - event.translationY
+      if (pinnedHeight.value - event.translationY < maxHeight) {
+        height.value = pinnedHeight.value - event.translationY
+      }
     })
     .onEnd(() => {
       const snapTarget = snapHeights.reduce(
@@ -114,7 +116,6 @@ function ActionSheet({ visible, setVisible, children }: Props) {
         <AnimatedView
           bg={colors.backdrop}
           flex={1}
-          ref={ref}
           style={dimStyle}
           onLayout={handleLayout}
         />
@@ -124,19 +125,30 @@ function ActionSheet({ visible, setVisible, children }: Props) {
         <AnimatedView
           px={20}
           // py={10}
-          bg={colors.elevation.level4}
+          bg={colors.elevation.level1}
           position='absolute'
           bottom={0}
           width='100%'
+          borderTopRightRadius={rounded ? 20 : 0}
+          borderTopLeftRadius={rounded ? 20 : 0}
           style={animatedStyle}>
-          {/*<View alignItems='center'>
+          {/* 인디테이터 */}
+          {showIndicator && (
+            <View alignItems='center' p={15}>
               <View
-                bg={colors.elevation.level5}
+                bg={colors.onSurface}
+                opacity={0.5}
                 height={5}
                 width={30}
-                borderRadius={200}
+                borderRadius={30}
               />
-            </View>*/}
+            </View>
+          )}
+          {title && (
+            <Text variant='headlineMedium' py={10}>
+              {title}
+            </Text>
+          )}
           {children}
         </AnimatedView>
       </GestureDetector>

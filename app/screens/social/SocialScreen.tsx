@@ -1,7 +1,7 @@
 import { Text } from 'react-native-paper'
 import { Button, View } from '~/components/styled'
-import ActionSheet from '~/components/basic/ActionSheet.tsx'
 import React, { useState } from 'react'
+import { ActionSheet } from '~/components/basic'
 
 function SocialScreen() {
   const [visible, setVisible] = useState(true)
