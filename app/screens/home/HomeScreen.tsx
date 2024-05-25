@@ -1,6 +1,6 @@
 import { Button, Chip, ScrollView, View } from '../../components/styled'
 import { List, Searchbar } from 'react-native-paper'
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import globalStyles from '~/utils/style.utils.ts'
 import {
   BottomSheetModal,
@@ -14,10 +14,13 @@ import {
 import { useFormik } from 'formik'
 import Adventures from '../../components/adventure/Adventures.tsx'
 import { ChkboxBottomSheet, MapArea, BottomSheet } from '~/components/basic'
+import ChkboxActionSheet from '~/components/basic/ChkboxActionSheet.tsx'
 
 const initialLocation = '경기도 파주시'
 
 type FilterType = 'adventureTypes' | 'difficulties' | 'other'
+
+type ActionSheetState = { [key in FilterType]: boolean }
 
 type SearchForm = {
   searchText: string
@@ -37,6 +40,19 @@ function HomeScreen() {
   const otherFiltersRef = useRef<BottomSheetModal>(null)
   const routesRef = useRef<BottomSheetModal>(null)
 
+  const [actionSheets, setActionSheets] = useState<ActionSheetState>({
+    adventureTypes: false,
+    difficulties: false,
+    other: false,
+  })
+
+  const handleCloseActionSheet = useCallback(
+    (actionSheetType: FilterType) => {
+      setActionSheets({ ...actionSheets, [actionSheetType]: false })
+    },
+    [actionSheets],
+  )
+
   const { values, setFieldValue, submitForm } = useFormik<SearchForm>({
     initialValues,
     onSubmit: () => {},
@@ -46,17 +62,12 @@ function HomeScreen() {
     routesRef?.current?.present()
   }, [])
 
-  const showFilterBottomSheet = useCallback((filterType: FilterType) => {
-    if (filterType === 'adventureTypes') {
-      adventureTypeFilterRef?.current?.present()
-    }
-    if (filterType === 'difficulties') {
-      difficultyFilterRef?.current?.present()
-    }
-    if (filterType === 'other') {
-      otherFiltersRef?.current?.present()
-    }
-  }, [])
+  const showFilterBottomSheet = useCallback(
+    (filterType: FilterType) => {
+      setActionSheets({ ...actionSheets, [filterType]: true })
+    },
+    [actionSheets],
+  )
 
   const getFilterButtonMode = useCallback(
     (filterType: FilterType): 'outlined' | 'flat' => {
@@ -168,22 +179,33 @@ function HomeScreen() {
       {/*</BottomSheet>*/}
 
       {/* 액티비티 타입 필터 */}
-      <ChkboxBottomSheet
-        title='모험 유형'
-        value={values.adventureTypes}
-        setValue={value => setFieldValue('adventureTypes', value)}
-        options={adventureTypes}
-        bottomSheetRef={adventureTypeFilterRef}
-      />
+      {actionSheets.adventureTypes && (
+        <ChkboxActionSheet
+          visible={true}
+          onClose={() => {
+            handleCloseActionSheet('adventureTypes')
+          }}
+          title='모험 유형'
+          value={values.adventureTypes}
+          onChange={value => setFieldValue('adventureTypes', value)}
+          options={adventureTypes}
+        />
+      )}
 
       {/* 난이도 필터 */}
-      <ChkboxBottomSheet
-        title='난이도'
-        value={values.difficulties}
-        setValue={value => setFieldValue('difficulties', value)}
-        options={difficultyTypes}
-        bottomSheetRef={difficultyFilterRef}
-      />
+      {actionSheets.difficulties && (
+        <ChkboxActionSheet
+          visible={true}
+          snapPoints={[0.5, 0.8]}
+          onClose={() => {
+            handleCloseActionSheet('difficulties')
+          }}
+          title='난이도'
+          value={values.difficulties}
+          onChange={value => setFieldValue('difficulties', value)}
+          options={difficultyTypes}
+        />
+      )}
 
       {/* 기타 필터 */}
       <BottomSheet bottomSheetRef={otherFiltersRef} hideIndicator>
