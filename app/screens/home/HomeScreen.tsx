@@ -1,5 +1,5 @@
 import { Button, Chip, ScrollView, View } from '../../components/styled'
-import { List, Searchbar } from 'react-native-paper'
+import { List, Portal, Searchbar } from 'react-native-paper'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import globalStyles from '~/utils/style.utils.ts'
 import {
@@ -13,8 +13,10 @@ import {
 } from './HomeScreen.consts.ts'
 import { useFormik } from 'formik'
 import Adventures from '../../components/adventure/Adventures.tsx'
-import { ChkboxBottomSheet, MapArea, BottomSheet } from '~/components/basic'
+import { MapArea } from '~/components/basic'
 import ChkboxActionSheet from '~/components/basic/ChkboxActionSheet.tsx'
+import ActionSheet from '~/components/basic/ActionSheet.tsx'
+import { Text } from '~/components/styled'
 
 const initialLocation = '경기도 파주시'
 
@@ -125,7 +127,7 @@ function HomeScreen() {
   )
 
   return (
-    <BottomSheetModalProvider>
+    <>
       <View flex={1}>
         <View p={10} gap={8}>
           <Searchbar
@@ -165,7 +167,31 @@ function HomeScreen() {
             </View>
           </ScrollView>
         </View>
-        <MapArea />
+        <View flex={1}>
+          <Portal.Host>
+            <MapArea />
+            {/* 액티비티 타입 필터 */}
+            {/*{actionSheets.adventureTypes && (*/}
+            {/*  // <ChkboxActionSheet*/}
+            {/*  //   visible={actionSheets.adventureTypes}*/}
+            {/*  //   onClose={() => {*/}
+            {/*  //     handleCloseActionSheet('adventureTypes')*/}
+            {/*  //   }}*/}
+            {/*  //   title='모험 유형'*/}
+            {/*  //   value={values.adventureTypes}*/}
+            {/*  //   onChange={value => setFieldValue('adventureTypes', value)}*/}
+            {/*  //   options={adventureTypes}*/}
+            {/*  // />*/}
+            {/*  <ActionSheet*/}
+            {/*    // dim={false}*/}
+            {/*    snapPoints={[0.5, 1]}*/}
+            {/*    visible={actionSheets.adventureTypes}*/}
+            {/*    onClose={() => handleCloseActionSheet('adventureTypes')}>*/}
+            {/*    <Adventures totalCount={226} adventures={adventures} />*/}
+            {/*  </ActionSheet>*/}
+            {/*)}*/}
+          </Portal.Host>
+        </View>
       </View>
 
       {/*<BottomSheet*/}
@@ -181,7 +207,7 @@ function HomeScreen() {
       {/* 액티비티 타입 필터 */}
       {actionSheets.adventureTypes && (
         <ChkboxActionSheet
-          visible={true}
+          visible={actionSheets.adventureTypes}
           onClose={() => {
             handleCloseActionSheet('adventureTypes')
           }}
@@ -190,13 +216,19 @@ function HomeScreen() {
           onChange={value => setFieldValue('adventureTypes', value)}
           options={adventureTypes}
         />
+        // <ActionSheet
+        //   // dim={false}
+        //   snapPoints={[0.5, 1]}
+        //   visible={actionSheets.adventureTypes}
+        //   onClose={() => handleCloseActionSheet('adventureTypes')}>
+        //   <Adventures totalCount={226} adventures={adventures} />
+        // </ActionSheet>
       )}
 
       {/* 난이도 필터 */}
       {actionSheets.difficulties && (
         <ChkboxActionSheet
-          visible={true}
-          snapPoints={[0.5, 0.8]}
+          visible={actionSheets.difficulties}
           onClose={() => {
             handleCloseActionSheet('difficulties')
           }}
@@ -208,26 +240,26 @@ function HomeScreen() {
       )}
 
       {/* 기타 필터 */}
-      <BottomSheet bottomSheetRef={otherFiltersRef} hideIndicator>
-        <List.Section
-          title='기타 필터'
-          titleStyle={globalStyles.bottomSheetTitleStyle}>
-          <Button>123</Button>
+      {/*<BottomSheet bottomSheetRef={otherFiltersRef} hideIndicator>*/}
+      {/*  <List.Section*/}
+      {/*    title='기타 필터'*/}
+      {/*    titleStyle={globalStyles.bottomSheetTitleStyle}>*/}
+      {/*    <Button>123</Button>*/}
 
-          <View p={3} flexDirection='row' justifyContent='flex-end' gap={8}>
-            <Button flex={1} onPress={() => handleClearFilter('difficulties')}>
-              클리어
-            </Button>
-            <Button
-              flex={1}
-              mode='contained'
-              onPress={() => handleSubmitFilter('difficulties')}>
-              적용
-            </Button>
-          </View>
-        </List.Section>
-      </BottomSheet>
-    </BottomSheetModalProvider>
+      {/*    <View p={3} flexDirection='row' justifyContent='flex-end' gap={8}>*/}
+      {/*      <Button flex={1} onPress={() => handleClearFilter('difficulties')}>*/}
+      {/*        클리어*/}
+      {/*      </Button>*/}
+      {/*      <Button*/}
+      {/*        flex={1}*/}
+      {/*        mode='contained'*/}
+      {/*        onPress={() => handleSubmitFilter('difficulties')}>*/}
+      {/*        적용*/}
+      {/*      </Button>*/}
+      {/*    </View>*/}
+      {/*  </List.Section>*/}
+      {/*</BottomSheet>*/}
+    </>
   )
 }
 

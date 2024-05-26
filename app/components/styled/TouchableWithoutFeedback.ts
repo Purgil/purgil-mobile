@@ -12,17 +12,16 @@ import {
   border,
   HeightProps,
   height,
-  MaxHeightProps,
-  maxHeight,
   WidthProps,
   width,
   PositionProps,
   position,
 } from 'styled-system'
-import Animated from 'react-native-reanimated'
 import styled from 'styled-components/native'
+import { MutableRefObject } from 'react'
+import { TouchableWithoutFeedback as RNTouchableWithoutFeedback } from 'react-native'
 
-interface AnimatedViewStyledProps
+interface TouchableWithoutFeedbackStyledProps
   extends FlexboxProps,
     ColorProps,
     PaddingProps,
@@ -30,13 +29,15 @@ interface AnimatedViewStyledProps
     HeightProps,
     WidthProps,
     BorderProps,
-    MaxHeightProps,
     PositionProps {
-  children: React.ReactNode
+  children?: React.ReactNode
   gap?: number
+  ref?: MutableRefObject<any>
 }
 
-const AnimatedScrollView = styled(Animated.ScrollView)<AnimatedViewStyledProps>`
+const TouchableWithoutFeedback = styled(
+  RNTouchableWithoutFeedback,
+)<TouchableWithoutFeedbackStyledProps>`
   ${flexbox}
   ${color}
   ${padding}
@@ -45,6 +46,5 @@ const AnimatedScrollView = styled(Animated.ScrollView)<AnimatedViewStyledProps>`
   ${height}
   ${width}
   ${position}
-  ${maxHeight}
 `
-export default AnimatedScrollView
+export default TouchableWithoutFeedback

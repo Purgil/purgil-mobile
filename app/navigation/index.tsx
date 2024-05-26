@@ -12,6 +12,7 @@ import AuthStack from '../screens/stacks/auth/AuthStack.tsx'
 import LoginStack from '../screens/stacks/login/LoginStack.tsx'
 import { RootStackParamList } from './types.ts'
 import AdventureDetailStack from '../screens/stacks/adventureDetail/AdventureDetailStack.tsx'
+import { Portal } from 'react-native-paper'
 
 function Router() {
   const Stack = createStackNavigator<RootStackParamList>()
@@ -19,33 +20,35 @@ function Router() {
 
   return (
     <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
-      <Stack.Navigator>
-        <Stack.Screen
-          name='BottomNav'
-          component={BottomNav}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name='Auth'
-          component={AuthStack}
-          options={{ headerTitle: '로그인/회원가입' }}
-        />
-        <Stack.Screen
-          name='Login'
-          component={LoginStack}
-          options={{ headerTitle: '이메일로 시작' }}
-        />
-        <Stack.Screen
-          name='SignUp'
-          component={SignUpStack}
-          options={{ headerTitle: '이메일로 시작' }}
-        />
-        <Stack.Screen
-          name='AdventureDetail'
-          component={AdventureDetailStack}
-          options={{ headerTitle: '모험 상세', headerShown: false }}
-        />
-      </Stack.Navigator>
+      <Portal.Host>
+        <Stack.Navigator>
+          <Stack.Screen
+            name='BottomNav'
+            component={BottomNav}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='Auth'
+            component={AuthStack}
+            options={{ headerTitle: '로그인/회원가입' }}
+          />
+          <Stack.Screen
+            name='Login'
+            component={LoginStack}
+            options={{ headerTitle: '이메일로 시작' }}
+          />
+          <Stack.Screen
+            name='SignUp'
+            component={SignUpStack}
+            options={{ headerTitle: '이메일로 시작' }}
+          />
+          <Stack.Screen
+            name='AdventureDetail'
+            component={AdventureDetailStack}
+            options={{ headerTitle: '모험 상세', headerShown: false }}
+          />
+        </Stack.Navigator>
+      </Portal.Host>
     </NavigationContainer>
   )
 }

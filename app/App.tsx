@@ -9,8 +9,7 @@ import { Provider } from 'react-redux'
 import { persistor, store } from './store'
 import { PersistGate } from 'redux-persist/integration/react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import { SafeAreaView, useColorScheme } from 'react-native'
+import { useColorScheme } from 'react-native'
 import { darkColors, lightColors } from '~/theme.ts'
 
 function App(): React.JSX.Element {
@@ -34,9 +33,7 @@ function App(): React.JSX.Element {
       <PersistGate persistor={persistor}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <PaperProvider theme={theme}>
-            {/*<BottomSheetModalProvider>*/}
             <Router />
-            {/*</BottomSheetModalProvider>*/}
           </PaperProvider>
         </GestureHandlerRootView>
       </PersistGate>

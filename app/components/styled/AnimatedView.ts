@@ -12,6 +12,8 @@ import {
   border,
   HeightProps,
   height,
+  MaxHeightProps,
+  maxHeight,
   WidthProps,
   width,
   PositionProps,
@@ -28,6 +30,7 @@ interface AnimatedViewStyledProps
     HeightProps,
     WidthProps,
     BorderProps,
+    MaxHeightProps,
     PositionProps {
   children?: React.ReactNode
   gap?: number
@@ -40,6 +43,7 @@ const AnimatedView = styled(Animated.View)<AnimatedViewStyledProps>`
   ${border}
   ${margin}
   ${height}
+  ${maxHeight}
   ${width}
   ${position}
 `
