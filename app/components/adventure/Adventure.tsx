@@ -5,16 +5,14 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { Icon, useTheme } from 'react-native-paper'
 import { RootStackParamList } from '~/navigation/types.ts'
-import Carousel from '../basic/Carousel.tsx'
 import { ImgArea } from '../basic'
-import { Dimensions, FlatList } from 'react-native'
+import { Swiper } from '~/components/basic'
 
 type Props = {
   adventure: AdventureT
 }
 
 function Adventure({ adventure }: Props) {
-  const width = Dimensions.get('screen').width
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const { colors } = useTheme()
@@ -27,26 +25,22 @@ function Adventure({ adventure }: Props) {
 
   return (
     <View>
-      {/*<FlatList data={[...new Array(3)]} renderItem={itemRenderer} />*/}
-
-      {/*<Carousel*/}
-      {/*  data={[...new Array(3)]}*/}
-      {/*  renderItem={itemRenderer}*/}
-      {/*  width={width}*/}
-      {/*  height={300}*/}
-      {/*/>*/}
-      <TouchableRipple onPress={handlePress} p={10}>
+      <TouchableRipple onPress={handlePress}>
         <>
-          <Text variant='titleMedium' mb={2}>
-            {adventure.name}
-          </Text>
-          <Text variant='labelMedium' mb={1}>
-            {adventure.address}
-          </Text>
-          <Text variant='labelSmall'>
-            <Icon size={12} source='star' color={colors.primary} />
-            {adventure.rating} · {adventure.distance}km · {adventure.difficulty}
-          </Text>
+          <Swiper data={[...new Array(3)]} renderItem={itemRenderer} />
+          <View px={10} py={1}>
+            <Text variant='titleMedium' mb={2}>
+              {adventure.name}
+            </Text>
+            <Text variant='labelMedium' mb={1}>
+              {adventure.address}
+            </Text>
+            <Text variant='labelSmall'>
+              <Icon size={12} source='star' color={colors.primary} />
+              {adventure.rating} · {adventure.distance}km ·{' '}
+              {adventure.difficulty}
+            </Text>
+          </View>
         </>
       </TouchableRipple>
     </View>

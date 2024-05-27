@@ -5,6 +5,7 @@ module.exports = {
     semi: 'off',
     'jsx-quotes': 'off',
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    curly: 'off',
     'react/react-in-jsx-scope': 'off',
     'no-bitwise': 'off',
     'react-hooks/exhaustive-deps': 'off',

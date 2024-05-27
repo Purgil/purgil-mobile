@@ -1,5 +1,5 @@
 import { Text, View } from '../styled'
-import { Adventure as AdventureT } from '../../core/data/adventure.data'
+import { Adventure as AdventureT } from '~/core/data/adventure.data'
 import Adventure from './Adventure.tsx'
 import React from 'react'
 

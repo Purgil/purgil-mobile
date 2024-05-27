@@ -11,9 +11,9 @@ function ImgArea({ height = 300 }: Props) {
   return (
     <View
       height={height}
+      width='100%'
       justifyContent='center'
       bg={colors.inverseSurface}
-      borderRadius={7}
       mb={10}>
       <Text textAlign='center' color={colors.inverseOnSurface}>
         이미지 영역

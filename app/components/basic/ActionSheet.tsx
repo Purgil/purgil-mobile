@@ -38,11 +38,12 @@ const windowH = Dimensions.get('window').height
 
 export type ActionSheetProps = {
   visible: boolean
-  onClose: () => void
+  onClose?: () => void
   snapPoints?: number[]
   dim?: boolean
   rounded?: boolean
   title?: string
+  scroll?: boolean
 } & PropsWithChildren
 
 function ActionSheet({
@@ -52,6 +53,7 @@ function ActionSheet({
   snapPoints = [],
   dim = true,
   rounded = true,
+  scroll = false,
 }: ActionSheetProps) {
   /** hook */
   const { colors } = useTheme()
@@ -85,9 +87,7 @@ function ActionSheet({
 
   /** effect */
   useEffect(() => {
-    if (!contentH) {
-      return
-    }
+    if (!contentH) return
     if (localVisible) {
       if (snapHeights?.[0]) {
         const target = contentH - (snapHeights?.[0] || 0)
@@ -101,7 +101,7 @@ function ActionSheet({
     } else {
       translateY.value = withTiming(windowH, timingConfig)
       opacity.value = withTiming(0, timingConfig, () => {
-        runOnJS(onClose)()
+        if (onClose) runOnJS(onClose)()
       })
     }
   }, [localVisible, contentH, snapHeights])
@@ -112,12 +112,14 @@ function ActionSheet({
   /** other */
   const panGesture = Gesture.Pan()
     .onChange(event => {
-      translateY.value = Math.max(accTranslateY.value + event.translationY, 0)
+      if (accTranslateY.value + event.translationY > 0) {
+        translateY.value = accTranslateY.value + event.translationY
+      } else {
+        translateY.value = accTranslateY.value + event.translationY / 20
+      }
     })
     .onEnd(event => {
-      // accTranslateY.value = accTranslateY.value + event.translationY
-
-      let snapTarget = [0, ...snapHeights].reduce(
+      let snapTarget = (onClose ? [0, ...snapHeights] : snapHeights).reduce(
         (closest, snapHeight) =>
           Math.abs(contentH - translateY.value - snapHeight) <
           Math.abs(contentH - translateY.value - closest)
@@ -132,7 +134,8 @@ function ActionSheet({
       ) {
         const index = snapHeights.indexOf(snapTarget)
         if (event.translationY > 0) {
-          snapTarget = index > 0 ? snapHeights[index - 1] : 0
+          if (index > 0) snapTarget = snapHeights[index - 1]
+          else if (onClose) snapTarget = 0
         } else if (event.translationY < 0 && index < snapHeights.length - 1) {
           snapTarget = snapHeights[index + 1]
         }
@@ -156,17 +159,19 @@ function ActionSheet({
 
   return (
     <Portal>
-      <TouchableWithoutFeedback
-        onPress={() => setLocalVisible(false)}
-        onLayout={handleLayout}>
-        <AnimatedView flex={1} bg={colors.backdrop} style={dimStyle} />
-      </TouchableWithoutFeedback>
+      <View flex={1} onLayout={handleLayout}>
+        {dim && (
+          <TouchableWithoutFeedback onPress={() => setLocalVisible(false)}>
+            <AnimatedView flex={1} bg={colors.backdrop} style={dimStyle} />
+          </TouchableWithoutFeedback>
+        )}
+      </View>
 
       <GestureDetector gesture={panGesture}>
         <AnimatedView
-          bg='black'
+          bg={colors.elevation.level1}
           style={contentStyle}
-          maxHeight='100%'
+          height={snapPoints[0] ? '100%' : undefined}
           width='100%'
           bottom={0}
           position='absolute'
@@ -182,7 +187,11 @@ function ActionSheet({
               borderRadius={30}
             />
           </View>
-          <ScrollView scrollEnabled={scrollEnabled}>{children}</ScrollView>
+          {scroll ? (
+            <ScrollView scrollEnabled={scrollEnabled}>{children}</ScrollView>
+          ) : (
+            <View>{children}</View>
+          )}
         </AnimatedView>
       </GestureDetector>
     </Portal>

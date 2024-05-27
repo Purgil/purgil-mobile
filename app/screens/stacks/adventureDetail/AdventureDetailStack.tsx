@@ -1,12 +1,17 @@
-import { Button, IconButton, Text, View } from '~/components/styled'
+import {
+  ActionSheet,
+  Button,
+  IconButton,
+  ScrollView,
+  Text,
+  View,
+} from '~/components/styled'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { RootStackScreenProps } from '~/navigation/types.ts'
 import { Divider, Icon, useTheme } from 'react-native-paper'
 import { MToHM } from '~/utils/datetime.utils.ts'
 import { adventureDetail } from './AdventureDetailStack.consts.ts'
-import { BottomSheet, Carousel, ImgArea, TabView } from '~/components/basic'
-import { Dimensions } from 'react-native'
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { ImgArea, Swiper, TabView } from '~/components/basic'
 import ReviewScene from '~/screens/stacks/adventureDetail/components/ReviewScene'
 import ActivityScene from '~/screens/stacks/adventureDetail/components/ActivityScene'
 import PhotoScene from '~/screens/stacks/adventureDetail/components/PhotoScene'
@@ -24,22 +29,23 @@ function AdventureDetailStack({
     params: { adventure },
   },
 }: RootStackScreenProps<'AdventureDetail'>) {
-  const { colors } = useTheme()
-  const adventureReportBottomSheetRef = useRef<BottomSheetModal>(null)
-  /* state */
+  /** state */
   const [marked, setMarked] = useState(false)
-  const [tabIndex, setTabIndex] = useState(0)
   const [routes] = useState([
     { key: 'review', title: '리뷰' },
     { key: 'activity', title: '활동' },
     { key: 'photo', title: '사진' },
   ])
+  const [actionSheets, setActionSheets] = useState({ report: false })
+
+  /** hooks */
+  const { colors } = useTheme()
 
   useEffect(() => {
     navigation.setOptions({ headerTitle: adventure.name })
   }, [navigation, adventure])
 
-  /* handle */
+  /** handle */
   const handleGoBack = useCallback(() => {
     navigation.goBack()
   }, [navigation])
@@ -49,12 +55,9 @@ function AdventureDetailStack({
   const handlePressReportAdventure = useCallback(() => {
     console.log('>>')
   }, [])
-  const handlePressAdventureMenu = useCallback(() => {
-    adventureReportBottomSheetRef?.current?.present()
-  }, [])
   const handlePressNavigate = useCallback(() => {}, [])
 
-  /* memo */
+  /** memo */
   const bookmarkIcon = useMemo(
     () => (marked ? 'bookmark' : 'bookmark-outline'),
     [marked],
@@ -63,9 +66,8 @@ function AdventureDetailStack({
 
   return (
     <>
-      <View flex={1}>
+      <ScrollView flex={1} bg={colors.background}>
         <View
-          bg='transparent'
           position='absolute'
           zIndex={1}
           width='100%'
@@ -80,6 +82,11 @@ function AdventureDetailStack({
           />
           <View flexDirection='row'>
             <IconButton
+              icon='download'
+              mode='contained-tonal'
+              bg={colors.background}
+            />
+            <IconButton
               icon={bookmarkIcon}
               onPress={handlePressBookmark}
               mode='contained-tonal'
@@ -87,7 +94,7 @@ function AdventureDetailStack({
             />
             <IconButton
               icon='dots-vertical'
-              onPress={handlePressAdventureMenu}
+              onPress={() => setActionSheets({ ...actionSheets, report: true })}
               mode='contained-tonal'
               bg={colors.background}
             />
@@ -95,14 +102,16 @@ function AdventureDetailStack({
         </View>
 
         <View height={300}>
-          <Carousel
-            width={Dimensions.get('screen').width}
-            data={[...new Array(6)]}
-            renderItem={() => carouselItem}
-          />
+          <Swiper data={[...new Array(6)]} renderItem={() => carouselItem} />
         </View>
 
-        <View px={10} py={20}>
+        <View
+          px={10}
+          py={20}
+          bg={colors.background}
+          borderTopRightRadius={10}
+          borderTopLeftRadius={10}
+          top={-20}>
           <Text variant='titleLarge'>{adventure.name}</Text>
           <View flexDirection='row' justifyContent='space-between' pr={1}>
             <View justifyContent='flex-end'>
@@ -130,7 +139,7 @@ function AdventureDetailStack({
             flexDirection='row'
             justifyContent='space-around'
             mt={55}
-            mb={15}>
+            mb={10}>
             <View gap={10}>
               <Text variant='bodySmall' textAlign='center'>
                 거리
@@ -159,19 +168,22 @@ function AdventureDetailStack({
             </View>
           </View>
         </View>
-
-        {/* 탭 */}
         <TabView routes={routes} renderScene={renderScene} />
-      </View>
+        {/* 탭 */}
+      </ScrollView>
 
-      {/* bottomSheet */}
-      <BottomSheet bottomSheetRef={adventureReportBottomSheetRef} hideIndicator>
-        <View pb={3}>
-          <Button onPress={handlePressReportAdventure}>
-            부적정한 루트 신고하기
-          </Button>
-        </View>
-      </BottomSheet>
+      {/* 신고하기 */}
+      {actionSheets.report && (
+        <ActionSheet
+          visible={actionSheets.report}
+          onClose={() => setActionSheets({ ...actionSheets, report: false })}>
+          <View pb={3}>
+            <Button onPress={handlePressReportAdventure}>
+              부적정한 루트 신고하기
+            </Button>
+          </View>
+        </ActionSheet>
+      )}
     </>
   )
 }
