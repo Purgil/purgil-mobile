@@ -1,6 +1,7 @@
 import {
   ActionSheet,
   Button,
+  ScrollView,
   Text,
   TextInput,
   TouchableRipple,
@@ -11,9 +12,10 @@ import { useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import { Pressable } from 'react-native'
 import AdventureReviews from '~/screens/stacks/adventureDetail/components/AdventureReviews.tsx'
+import { RatingStars } from '~/components/basic'
 
-const scoreData = {
-  score: 4.1,
+const ratingData = {
+  rating: 4.1,
   count: 30,
   distribution: {
     1: 1,
@@ -26,11 +28,11 @@ const scoreData = {
 
 type WriteReviewForm = {
   content: string
-  score: number
+  rating: number
 }
 const initialWriteReviewValues = {
   content: '',
-  score: 0,
+  rating: 0,
 }
 
 export default function ReviewScene() {
@@ -51,8 +53,8 @@ export default function ReviewScene() {
   })
 
   /** memo */
-  const mostDistributedScore = useMemo(() => {
-    const entries = Object.entries(scoreData.distribution)
+  const mostDistributedRating = useMemo(() => {
+    const entries = Object.entries(ratingData.distribution)
 
     let maxKey = entries[0][0]
     let maxValue = entries[0][1]
@@ -69,44 +71,33 @@ export default function ReviewScene() {
   }, [])
 
   /** render */
-  const renderStars = () => {
-    const flooredScore = Math.floor(scoreData.score)
-    const stars = [...new Array(flooredScore)].map((_, index) => (
-      <Icon key={index} size={20} source='star' color={colors.primary} />
-    ))
-    if (flooredScore !== scoreData.score)
-      stars.push(<Icon size={20} source='star-half' color={colors.primary} />)
-    return stars
-  }
-  const renderScoreBar = (score: 1 | 2 | 3 | 4 | 5) => (
+  const renderRatingBar = (rating: 1 | 2 | 3 | 4 | 5) => (
     <View gap={5} alignItems='center'>
       <View
         borderRadius={3}
-        height={120 * (scoreData.distribution[score] / scoreData.count)}
+        height={120 * (ratingData.distribution[rating] / ratingData.count)}
         width={30}
         bg={
-          score === mostDistributedScore
+          rating === mostDistributedRating
             ? colors.primary
             : colors.surfaceVariant
         }
       />
       <Text textAlign='center'>
         <Icon size={15} source='star' color={colors.primary} />
-        {score}
+        {rating}
       </Text>
     </View>
   )
 
   return (
-    <>
+    <ScrollView collapsable>
       <View flexDirection='row' height={150} justifyContent='space-evenly'>
         <View justifyContent='flex-end'>
           <Text variant='titleLarge' textAlign='center'>
-            {scoreData.score}
+            {ratingData.rating}
           </Text>
-          <View flexDirection='row' alignItems='center' justifyContent='center'>
-            {renderStars()}
-          </View>
+          <RatingStars rating={ratingData.rating} size={20} />
           <Text variant='bodySmall' textAlign='center'>
             125개의 리뷰
           </Text>
@@ -118,11 +109,12 @@ export default function ReviewScene() {
           flexDirection='row'
           gap={10}>
           {[1, 2, 3, 4, 5].map(value =>
-            renderScoreBar(value as 1 | 2 | 3 | 4 | 5),
+            renderRatingBar(value as 1 | 2 | 3 | 4 | 5),
           )}
         </View>
       </View>
 
+      {/* 리뷰 작성 버튼 */}
       <TouchableRipple
         mt={20}
         px={10}
@@ -136,11 +128,7 @@ export default function ReviewScene() {
         onPress={() => setActionSheet({ ...actionSheet, writeReview: true })}>
         <>
           <View>
-            <View flexDirection='row'>
-              {[...new Array(5)].map(() => (
-                <Icon source='star' size={16} color={colors.surfaceVariant} />
-              ))}
-            </View>
+            <RatingStars rating={5} color={colors.surfaceVariant} />
             <Text color={colors.surfaceVariant}>
               이 코스에 대해 리뷰를 남겨보세요!
             </Text>
@@ -166,15 +154,15 @@ export default function ReviewScene() {
           }>
           <View gap={15} px={10} py={15}>
             <View flexDirection='row' justifyContent='center'>
-              {[1, 2, 3, 4, 5].map(score => (
+              {[1, 2, 3, 4, 5].map(rating => (
                 <Pressable
-                  key={score}
-                  onPress={() => setFieldValue('score', score)}>
+                  key={rating}
+                  onPress={() => setFieldValue('rating', rating)}>
                   <Icon
                     source='star'
                     size={40}
                     color={
-                      writeReviewValues.score >= score
+                      writeReviewValues.rating >= rating
                         ? colors.primary
                         : colors.surfaceVariant
                     }
@@ -205,6 +193,6 @@ export default function ReviewScene() {
           </View>
         </ActionSheet>
       )}
-    </>
+    </ScrollView>
   )
 }

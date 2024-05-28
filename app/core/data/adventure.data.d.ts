@@ -36,7 +36,8 @@ type Review = {
   contentId: number
   writer: User
   content: string
-  score: number
+  rating: number
+  createdAt: string
 }
 
 type AdventureReview = {} & Review

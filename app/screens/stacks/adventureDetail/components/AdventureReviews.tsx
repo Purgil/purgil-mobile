@@ -3,6 +3,7 @@ import { FlatList } from 'react-native'
 import { reviews } from '~/screens/stacks/adventureDetail/components/ReviewScene.consts.ts'
 import { AdventureReview as AdventureReviewT } from '~/core/data/adventure.data'
 import AdventureReview from '~/screens/stacks/adventureDetail/components/AdventureReview.tsx'
+import { View } from '~/components/styled'
 
 type Props = {
   adventureId: number
@@ -10,7 +11,9 @@ type Props = {
 function AdventureReviews({ adventureId }: Props) {
   /** render */
   const renderReview = (review: AdventureReviewT) => (
-    <AdventureReview key={review.id} review={review} />
+    <View key={review.id}>
+      <AdventureReview review={review} />
+    </View>
   )
 
   return (

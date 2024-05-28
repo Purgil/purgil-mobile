@@ -7,6 +7,7 @@ import {
 } from 'react-native-tab-view'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Divider, useTheme } from 'react-native-paper'
+import { View } from '~/components/styled'
 
 type Props = {
   routes: { key: string; title: string }[]
@@ -24,7 +25,7 @@ export default function TabView({ routes, ...props }: Props) {
   const labelStyle = useMemo(() => ({ color: colors.onBackground }), [colors])
   const renderTabBar = useCallback(
     (tabbarProps: TabBarProps<any>) => (
-      <>
+      <View>
         <TabBar
           {...tabbarProps}
           indicatorStyle={indicatorStyle}
@@ -32,7 +33,7 @@ export default function TabView({ routes, ...props }: Props) {
           labelStyle={labelStyle}
         />
         <Divider />
-      </>
+      </View>
     ),
     [indicatorStyle, labelStyle, tabBarStyle],
   )
@@ -40,6 +41,7 @@ export default function TabView({ routes, ...props }: Props) {
   return (
     <RNTabView
       {...props}
+      collapsable
       renderTabBar={renderTabBar}
       navigationState={{ index: tabIndex, routes } as NavigationState<any>}
       onIndexChange={setTabIndex}

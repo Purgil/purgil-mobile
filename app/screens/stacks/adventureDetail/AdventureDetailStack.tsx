@@ -66,7 +66,11 @@ function AdventureDetailStack({
 
   return (
     <>
-      <ScrollView flex={1} bg={colors.background}>
+      <ScrollView
+        flex={1}
+        bg={colors.background}
+        stickyHeaderIndices={[3]}
+        collapsable>
         <View
           position='absolute'
           zIndex={1}
@@ -168,8 +172,8 @@ function AdventureDetailStack({
             </View>
           </View>
         </View>
-        <TabView routes={routes} renderScene={renderScene} />
         {/* 탭 */}
+        <TabView routes={routes} renderScene={renderScene} />
       </ScrollView>
 
       {/* 신고하기 */}
