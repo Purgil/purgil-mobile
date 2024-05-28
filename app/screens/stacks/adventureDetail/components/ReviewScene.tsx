@@ -11,7 +11,6 @@ import { useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import { Pressable } from 'react-native'
 import AdventureReviews from '~/screens/stacks/adventureDetail/components/AdventureReviews.tsx'
-import { reviews } from '~/screens/stacks/adventureDetail/components/ReviewScene.consts.ts'
 
 const scoreData = {
   score: 4.1,

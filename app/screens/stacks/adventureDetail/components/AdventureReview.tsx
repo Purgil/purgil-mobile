@@ -1,6 +1,6 @@
 import React from 'react'
 import { AdventureReview as AdventureReviewT } from '~/core/data/adventure.data'
-import { Text, View } from '~/components/styled'
+import { View } from '~/components/styled'
 import { Icon } from 'react-native-paper'
 
 type Props = {

@@ -1,9 +1,8 @@
 import React from 'react'
-import { FlatList, SafeAreaView } from 'react-native'
+import { FlatList } from 'react-native'
 import { reviews } from '~/screens/stacks/adventureDetail/components/ReviewScene.consts.ts'
 import { AdventureReview as AdventureReviewT } from '~/core/data/adventure.data'
 import AdventureReview from '~/screens/stacks/adventureDetail/components/AdventureReview.tsx'
-import { View } from '~/components/styled'
 
 type Props = {
   adventureId: number
