@@ -1,3 +1,5 @@
+import { User } from '~/core/data/user.data'
+
 type AdventureBasic = {
   id: number
   imgs: string[]
@@ -29,6 +31,16 @@ type Adventure = Hiking | Cycling | Running
 
 type AdventureDetail = HikingDetail | CyclingDetail | RunningDetail
 
+type Review = {
+  id: number
+  contentId: number
+  writer: User
+  content: string
+  score: number
+}
+
+type AdventureReview = {} & Review
+
 export {
   AdventureBasic,
   Hiking,
@@ -40,4 +52,6 @@ export {
   HikingDetail,
   CyclingDetail,
   AdventureDetail,
+  Review,
+  AdventureReview,
 }

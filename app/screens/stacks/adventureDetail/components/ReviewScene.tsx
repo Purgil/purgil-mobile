@@ -10,6 +10,8 @@ import { Avatar, Icon, useTheme } from 'react-native-paper'
 import { useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import { Pressable } from 'react-native'
+import AdventureReviews from '~/screens/stacks/adventureDetail/components/AdventureReviews.tsx'
+import { reviews } from '~/screens/stacks/adventureDetail/components/ReviewScene.consts.ts'
 
 const scoreData = {
   score: 4.1,
@@ -22,7 +24,6 @@ const scoreData = {
     5: 20,
   },
 }
-const reviews = []
 
 type WriteReviewForm = {
   content: string
@@ -52,10 +53,8 @@ export default function ReviewScene() {
 
   /** memo */
   const mostDistributedScore = useMemo(() => {
-    // 객체의 키-값 쌍을 배열로 변환
     const entries = Object.entries(scoreData.distribution)
 
-    // 최대 값을 찾기 위해 초기값 설정
     let maxKey = entries[0][0]
     let maxValue = entries[0][1]
 
@@ -158,6 +157,8 @@ export default function ReviewScene() {
         </>
       </TouchableRipple>
 
+      <AdventureReviews adventureId={1} />
+
       {actionSheet.writeReview && (
         <ActionSheet
           visible={actionSheet.writeReview}
@@ -167,7 +168,9 @@ export default function ReviewScene() {
           <View gap={15} px={10} py={15}>
             <View flexDirection='row' justifyContent='center'>
               {[1, 2, 3, 4, 5].map(score => (
-                <Pressable onPress={() => setFieldValue('score', score)}>
+                <Pressable
+                  key={score}
+                  onPress={() => setFieldValue('score', score)}>
                   <Icon
                     source='star'
                     size={40}
