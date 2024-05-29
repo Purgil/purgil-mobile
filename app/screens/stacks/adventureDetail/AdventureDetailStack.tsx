@@ -96,18 +96,25 @@ function AdventureDetailStack({
           <Appbar.BackAction
             onPress={() => navigation.goBack()}
             containerColor={colors.background}
+            size={20}
           />
           <Appbar.Content title='' />
-          <Appbar.Action icon='download' containerColor={colors.background} />
+          <Appbar.Action
+            icon='download'
+            containerColor={colors.background}
+            size={20}
+          />
           <Appbar.Action
             icon={bookmarkIcon}
             onPress={handlePressBookmark}
             containerColor={colors.background}
+            size={20}
           />
           <Appbar.Action
             icon='dots-vertical'
             onPress={() => setActionSheets({ ...actionSheets, report: true })}
             containerColor={colors.background}
+            size={20}
           />
         </Appbar.Header>
       </AnimatedView>
@@ -179,6 +186,8 @@ function AdventureDetailStack({
                 <Text variant='titleLarge' textAlign='center'>
                   {MToHM(adventureDetail.avgCompleteTime)}
                 </Text>
+                {/* 칼로리 */}
+                {/* 루트 유형 */}
               </View>
             )}
             <View gap={10}>

@@ -1,6 +1,6 @@
 import { User } from '~/core/data/user.data'
 
-type AdventureType = 'HIKING' | 'CYCLING'
+type AdventureType = 'HIKING' | 'CYCLING' | 'MOUNTINE_CYCLING'
 
 type AdventureBasic = {
   adventureType: AdventureType
@@ -63,6 +63,12 @@ type Activity = {
   movingTime: number
   calories: number
   splits: Split[]
+  rating: number
+  description: string
+  country: string
+  city: string
+  district: string
+  imgs: string[]
   createdAt: string
 }
 
