@@ -1,6 +1,9 @@
 import { User } from '~/core/data/user.data'
 
+type AdventureType = 'HIKING' | 'CYCLING'
+
 type AdventureBasic = {
+  adventureType: AdventureType
   id: number
   imgs: string[]
   name: string
@@ -42,6 +45,27 @@ type Review = {
 
 type AdventureReview = {} & Review
 
+type Split = {
+  splitDistance: number
+  elevationGain: number
+  time: number
+}
+
+type Activity = {
+  id: number
+  adventureType: AdventureType
+  user: User
+  title: string
+  adventure: Adventure
+  distance: number
+  elevationGain: number
+  totalTime: number
+  movingTime: number
+  calories: number
+  splits: Split[]
+  createdAt: string
+}
+
 export {
   AdventureBasic,
   Hiking,
@@ -55,4 +79,6 @@ export {
   AdventureDetail,
   Review,
   AdventureReview,
+  Activity,
+  Split,
 }
