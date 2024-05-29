@@ -12,9 +12,10 @@ function RatingStars({ rating, size = 16, color }: Props) {
 
   const renderStars = () => {
     const floored = Math.floor(rating)
-    const stars = [...new Array(floored)].map((_, index) => (
+    let index = 0
+    const stars = [...new Array(floored)].map(() => (
       <Icon
-        key={index}
+        key={index++}
         size={size}
         source='star'
         color={color ? color : colors.primary}
@@ -23,6 +24,7 @@ function RatingStars({ rating, size = 16, color }: Props) {
     if (floored !== rating)
       stars.push(
         <Icon
+          key={index}
           size={size}
           source='star-half'
           color={color ? color : colors.primary}

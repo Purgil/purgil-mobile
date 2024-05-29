@@ -1,14 +1,15 @@
 import {
   ActionSheet,
+  AnimatedScrollView,
+  AnimatedView,
   Button,
   IconButton,
-  ScrollView,
   Text,
   View,
 } from '~/components/styled'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { RootStackScreenProps } from '~/navigation/types.ts'
-import { Divider, Icon, useTheme } from 'react-native-paper'
+import { Appbar, Divider, Icon, useTheme } from 'react-native-paper'
 import { MToHM } from '~/utils/datetime.utils.ts'
 import { adventureDetail } from './AdventureDetailStack.consts.ts'
 import { ImgArea, Swiper, TabView } from '~/components/basic'
@@ -16,6 +17,13 @@ import ReviewScene from '~/screens/stacks/adventureDetail/components/ReviewScene
 import ActivityScene from '~/screens/stacks/adventureDetail/components/ActivityScene'
 import PhotoScene from '~/screens/stacks/adventureDetail/components/PhotoScene'
 import { SceneMap } from 'react-native-tab-view'
+import {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
+import { basicTimingConfig } from '~/utils/animation.utils.ts'
 
 const renderScene = SceneMap({
   review: ReviewScene,
@@ -41,14 +49,15 @@ function AdventureDetailStack({
   /** hooks */
   const { colors } = useTheme()
 
+  /** shared */
+  const headerBg = useSharedValue(0)
+
+  /** effect */
   useEffect(() => {
     navigation.setOptions({ headerTitle: adventure.name })
   }, [navigation, adventure])
 
   /** handle */
-  const handleGoBack = useCallback(() => {
-    navigation.goBack()
-  }, [navigation])
   const handlePressBookmark = useCallback(() => {
     setMarked(!marked)
   }, [marked])
@@ -62,49 +71,59 @@ function AdventureDetailStack({
     () => (marked ? 'bookmark' : 'bookmark-outline'),
     [marked],
   )
+
+  /** style */
+  const headerStyle = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      headerBg.value,
+      [0, 1],
+      ['transparent', colors.background],
+    ),
+  }))
+
+  /** render */
   const carouselItem = <ImgArea />
 
   return (
     <>
-      <ScrollView
+      <AnimatedView
+        position='absolute'
+        top={0}
+        zIndex={1}
+        width='100%'
+        style={headerStyle}>
+        <Appbar.Header style={{ backgroundColor: 'transparent' }}>
+          <Appbar.BackAction
+            onPress={() => navigation.goBack()}
+            containerColor={colors.background}
+          />
+          <Appbar.Content title='' />
+          <Appbar.Action icon='download' containerColor={colors.background} />
+          <Appbar.Action
+            icon={bookmarkIcon}
+            onPress={handlePressBookmark}
+            containerColor={colors.background}
+          />
+          <Appbar.Action
+            icon='dots-vertical'
+            onPress={() => setActionSheets({ ...actionSheets, report: true })}
+            containerColor={colors.background}
+          />
+        </Appbar.Header>
+      </AnimatedView>
+
+      <AnimatedScrollView
         flex={1}
         bg={colors.background}
-        stickyHeaderIndices={[3]}
-        collapsable>
-        <View
-          position='absolute'
-          zIndex={1}
-          width='100%'
-          py={1}
-          justifyContent='space-between'
-          flexDirection='row'>
-          <IconButton
-            icon='chevron-left'
-            mode='contained-tonal'
-            bg={colors.background}
-            onPress={handleGoBack}
-          />
-          <View flexDirection='row'>
-            <IconButton
-              icon='download'
-              mode='contained-tonal'
-              bg={colors.background}
-            />
-            <IconButton
-              icon={bookmarkIcon}
-              onPress={handlePressBookmark}
-              mode='contained-tonal'
-              bg={colors.background}
-            />
-            <IconButton
-              icon='dots-vertical'
-              onPress={() => setActionSheets({ ...actionSheets, report: true })}
-              mode='contained-tonal'
-              bg={colors.background}
-            />
-          </View>
-        </View>
-
+        scrollEventThrottle={10}
+        onScroll={e => {
+          // scrollY.value = e.nativeEvent.contentOffset.y
+          if (e.nativeEvent.contentOffset.y > 100 && headerBg.value === 0)
+            headerBg.value = withTiming(1, basicTimingConfig)
+          else if (e.nativeEvent.contentOffset.y <= 100 && headerBg.value === 1)
+            headerBg.value = withTiming(0, basicTimingConfig)
+        }}>
+        {/*<ScrollView flex={1} bg={colors.background} stickyHeaderIndices={[0]}>*/}
         <View height={300}>
           <Swiper data={[...new Array(6)]} renderItem={() => carouselItem} />
         </View>
@@ -174,7 +193,7 @@ function AdventureDetailStack({
         </View>
         {/* 탭 */}
         <TabView routes={routes} renderScene={renderScene} />
-      </ScrollView>
+      </AnimatedScrollView>
 
       {/* 신고하기 */}
       {actionSheets.report && (

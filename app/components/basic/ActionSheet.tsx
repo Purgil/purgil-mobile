@@ -12,27 +12,17 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react'
 import {
   Easing,
   runOnJS,
-  useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
-import { WithTimingConfig } from 'react-native-reanimated/src/reanimated2/animation/timing.ts'
-import { PanGestureHandlerEventPayload } from 'react-native-gesture-handler/src/handlers/PanGestureHandler.ts'
-import { PanGestureChangeEventPayload } from 'react-native-gesture-handler/src/handlers/gestures/panGesture.ts'
-import { bool } from 'yup'
-
-const timingConfig: WithTimingConfig = {
-  duration: 100,
-  easing: Easing.out(Easing.ease),
-}
+import { basicTimingConfig } from '~/utils/animation.utils.ts'
 
 const windowH = Dimensions.get('window').height
 
@@ -91,16 +81,16 @@ function ActionSheet({
     if (localVisible) {
       if (snapHeights?.[0]) {
         const target = contentH - (snapHeights?.[0] || 0)
-        translateY.value = withTiming(target, timingConfig)
+        translateY.value = withTiming(target, basicTimingConfig)
         accTranslateY.value = target
       } else {
-        translateY.value = withTiming(0, timingConfig)
+        translateY.value = withTiming(0, basicTimingConfig)
         accTranslateY.value = 0
       }
-      opacity.value = withTiming(dim ? 0.7 : 0, timingConfig)
+      opacity.value = withTiming(dim ? 0.7 : 0, basicTimingConfig)
     } else {
-      translateY.value = withTiming(windowH, timingConfig)
-      opacity.value = withTiming(0, timingConfig, () => {
+      translateY.value = withTiming(windowH, basicTimingConfig)
+      opacity.value = withTiming(0, basicTimingConfig, () => {
         if (onClose) runOnJS(onClose)()
       })
     }
@@ -141,7 +131,7 @@ function ActionSheet({
         }
       }
 
-      translateY.value = withTiming(contentH - snapTarget, timingConfig)
+      translateY.value = withTiming(contentH - snapTarget, basicTimingConfig)
       accTranslateY.value = contentH - snapTarget
 
       if (snapTarget === 0) {

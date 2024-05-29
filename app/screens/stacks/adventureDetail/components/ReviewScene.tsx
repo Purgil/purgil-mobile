@@ -72,7 +72,7 @@ export default function ReviewScene() {
 
   /** render */
   const renderRatingBar = (rating: 1 | 2 | 3 | 4 | 5) => (
-    <View gap={5} alignItems='center'>
+    <View gap={5} alignItems='center' key={rating}>
       <View
         borderRadius={3}
         height={120 * (ratingData.distribution[rating] / ratingData.count)}
