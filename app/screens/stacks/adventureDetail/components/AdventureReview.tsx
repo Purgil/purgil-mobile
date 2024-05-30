@@ -33,11 +33,8 @@ function AdventureReview({ review }: Props) {
             <RatingStars rating={review.rating} />
             <Text>{review.rating}</Text>
           </View>
-          <Avatar user={review.writer} />
+          <Avatar user={review.writer} underNickname='2개월 전' />
         </View>
-        <Text mb={10} color={colors.surfaceVariant} fontSize={12}>
-          2개월 전
-        </Text>
         <View
           flexDirection='row'
           justifyContent='space-between'

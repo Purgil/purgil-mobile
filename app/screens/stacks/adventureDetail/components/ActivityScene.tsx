@@ -13,9 +13,10 @@ export default function ActivityScene() {
 
   return (
     <View p={10}>
-      <Text my={10}>
-        최신순 <Icon size={16} source='sort' />
-      </Text>
+      <View flexDirection='row' alignItems='center' gap={3}>
+        <Text my={10}>최신순</Text>
+        <Icon size={18} source='sort' />
+      </View>
 
       <FlatList
         scrollEnabled={false}
