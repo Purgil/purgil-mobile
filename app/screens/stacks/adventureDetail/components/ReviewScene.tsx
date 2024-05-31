@@ -94,10 +94,12 @@ export default function ReviewScene() {
     <ScrollView collapsable>
       <View flexDirection='row' height={150} justifyContent='space-evenly'>
         <View justifyContent='flex-end'>
-          <Text variant='titleLarge' textAlign='center'>
-            {ratingData.rating}
-          </Text>
-          <RatingStars rating={ratingData.rating} size={20} />
+          <RatingStars
+            rating={ratingData.rating}
+            size={20}
+            ratingPosition='top'
+            textVariant='titleLarge'
+          />
           <Text variant='bodySmall' textAlign='center'>
             125개의 리뷰
           </Text>
@@ -128,7 +130,11 @@ export default function ReviewScene() {
         onPress={() => setActionSheet({ ...actionSheet, writeReview: true })}>
         <>
           <View>
-            <RatingStars rating={5} color={colors.surfaceVariant} />
+            <RatingStars
+              rating={5}
+              color={colors.surfaceVariant}
+              ratingPosition='hide'
+            />
             <Text color={colors.surfaceVariant}>
               이 코스에 대해 리뷰를 남겨보세요!
             </Text>

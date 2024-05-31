@@ -4,19 +4,26 @@ import {
   Button,
   Chip,
   IconButton,
+  Pressable,
   Text,
   TouchableRipple,
   View,
 } from '~/components/styled'
 import { Avatar, ImgArea, RatingStars, Swiper } from '~/components/basic'
 import { Icon, useTheme } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
+import { RootStackParamList } from '~/navigation/types.ts'
 
 type Props = {
   activity: ActivityT
 }
 
 function Activity({ activity }: Props) {
+  /** hook */
   const { colors } = useTheme()
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
   return (
     <TouchableRipple
@@ -32,11 +39,11 @@ function Activity({ activity }: Props) {
             underNickname='1시간 전'
           />
 
-          <View flexDirection='row'>
+          <View flexDirection='row' alignItems='center'>
             <Button mode='outlined' padding={0} compact>
               팔로우
             </Button>
-            <IconButton icon='dots-vertical' m={0} />
+            <IconButton icon='dots-vertical' m={0} size={20} />
           </View>
         </View>
 
@@ -45,15 +52,35 @@ function Activity({ activity }: Props) {
         </View>
 
         <View>
-          <Text variant='titleMedium'>{activity.title}</Text>
-          <RatingStars rating={activity.rating} size={22} />
-          <Text variant='bodyMedium' mt={2}>
+          <Text variant='titleMedium' mb={2}>
+            {activity.title}
+          </Text>
+          <View flexDirection='row' gap={3} alignItems='center'>
+            <Text fontSize={12}>하이킹</Text>
+            <Text>·</Text>
+            <RatingStars
+              rating={activity.rating}
+              // size={20}
+              // textVariant='labelLarge2'
+              single
+            />
+          </View>
+          <Text variant='bodyMedium' mt={1}>
             {activity.description}
           </Text>
           <View flexDirection='row' justifyContent='space-between' mt={2}>
-            <View flexDirection='row'>
-              <Text>{activity.adventure.name}</Text>
-            </View>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('AdventureDetail', {
+                  adventure: activity.adventure,
+                })
+              }
+              borderBottomWidth={0.6}
+              borderColor={colors.onSurfaceDisabled}>
+              <Text color={colors.onSurfaceDisabled}>
+                {activity.adventure.name}
+              </Text>
+            </Pressable>
             <View flexDirection='row' gap={10}>
               <View flexDirection='row' alignItems='center' gap={2}>
                 <Icon size={18} source='thumb-up-outline' />
