@@ -39,11 +39,14 @@ type Review = {
   contentId: number
   writer: User
   content: string
-  rating: number
   createdAt: string
 }
 
-type AdventureReview = {} & Review
+type AdventureReview = {
+  rating: number
+} & Review
+
+type ActivityReview = {} & Review
 
 type Split = {
   splitDistance: number
@@ -85,6 +88,7 @@ export {
   AdventureDetail,
   Review,
   AdventureReview,
+  ActivityReview,
   Activity,
   Split,
 }
