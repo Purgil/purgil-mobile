@@ -1,14 +1,8 @@
 import React, { useState } from 'react'
 import { AdventureReview as AdventureReviewT } from '~/core/data/adventure.data'
-import {
-  ActionSheet,
-  Button,
-  IconButton,
-  Text,
-  View,
-} from '~/components/styled'
+import { Button, IconButton, Text, View } from '~/components/styled'
 import { Icon, useTheme } from 'react-native-paper'
-import { Avatar, RatingStars } from '~/components/basic'
+import { ActionSheet, Avatar, RatingStars } from '~/components/basic'
 
 type Props = {
   review: AdventureReviewT
@@ -30,7 +24,12 @@ function AdventureReview({ review }: Props) {
         p={10}>
         <View flexDirection='row' justifyContent='space-between'>
           <RatingStars rating={review.rating} />
-          <Avatar user={review.writer} underNickname='2개월 전' />
+          <Avatar
+            user={review.writer}
+            underNickname='2개월 전'
+            size={25}
+            nicknameSize={12}
+          />
         </View>
         <View
           flexDirection='row'
@@ -52,9 +51,9 @@ function AdventureReview({ review }: Props) {
         <ActionSheet
           visible={reportActionSheetVisible}
           onClose={() => setReportActionSheetVisible(false)}>
-          <View py={20}>
+          <ActionSheet.Body>
             <Button>부적절한 리뷰 신고 및 차단하기</Button>
-          </View>
+          </ActionSheet.Body>
         </ActionSheet>
       )}
     </>

@@ -1,12 +1,3 @@
-import { Portal, useTheme } from 'react-native-paper'
-import { Dimensions, LayoutChangeEvent } from 'react-native'
-import {
-  AnimatedView,
-  ScrollView,
-  TouchableWithoutFeedback,
-  View,
-} from '~/components/styled'
-import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import React, {
   PropsWithChildren,
   useCallback,
@@ -15,14 +6,24 @@ import React, {
   useState,
 } from 'react'
 import {
-  Easing,
+  AnimatedView,
+  Divider,
+  TouchableWithoutFeedback,
+  View,
+} from '~/components/styled'
+import { Portal, useTheme } from 'react-native-paper'
+import {
   runOnJS,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
+import { Dimensions, LayoutChangeEvent } from 'react-native'
 import { basicTimingConfig } from '~/utils/animation.utils.ts'
+import { Gesture, GestureDetector } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
+import { RootStackParamList } from '~/navigation/types.ts'
 
 const windowH = Dimensions.get('window').height
 
@@ -43,15 +44,15 @@ function ActionSheet({
   snapPoints = [],
   dim = true,
   rounded = true,
-  scroll = false,
 }: ActionSheetProps) {
   /** hook */
   const { colors } = useTheme()
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
   /** state */
   const [layoutH, setLayoutH] = useState(0)
   const [contentH, setContentH] = useState(0)
-  const [scrollEnabled, setScrollEnabled] = useState(false)
   const [localVisible, setLocalVisible] = useState(visible)
 
   /** sharedValue */
@@ -95,17 +96,24 @@ function ActionSheet({
       })
     }
   }, [localVisible, contentH, snapHeights])
-  useDerivedValue(() => {
-    runOnJS(setScrollEnabled)(translateY.value === 0)
-  }, [])
+  // 뒤로가기 제어
+  useEffect(() => {
+    const onBack = (e: any) => {
+      e.preventDefault()
+      if (onClose) onClose()
+    }
+    navigation.addListener('beforeRemove', onBack)
+
+    return () => {
+      navigation.removeListener('beforeRemove', onBack)
+    }
+  }, [navigation])
 
   /** other */
   const panGesture = Gesture.Pan()
     .onChange(event => {
       if (accTranslateY.value + event.translationY > 0) {
         translateY.value = accTranslateY.value + event.translationY
-      } else {
-        translateY.value = accTranslateY.value + event.translationY / 20
       }
     })
     .onEnd(event => {
@@ -147,8 +155,56 @@ function ActionSheet({
     transform: [{ translateY: translateY.value }],
   }))
 
+  /** render */
+  const renderChildren = () => {
+    const childrenEl: any = {
+      header: undefined,
+      body: undefined,
+      footter: undefined,
+    }
+
+    React.Children.forEach(children, child => {
+      if (React.isValidElement(child)) {
+        if (child.type === ActionSheet.Header) {
+          childrenEl.header = child
+        }
+        if (child.type === ActionSheet.Body) {
+          // return React.cloneElement(child, { stateVariable, setStateVariable })
+          childrenEl.body = child
+        }
+        if (child.type === ActionSheet.Footer) {
+          childrenEl.footer = child
+        }
+      }
+    })
+
+    return (
+      <>
+        <GestureDetector gesture={panGesture}>
+          <View>
+            <View alignItems='center' p={15}>
+              <View
+                bg={colors.onSurface}
+                opacity={0.5}
+                height={4}
+                width={30}
+                borderRadius={30}
+              />
+            </View>
+            {childrenEl.header}
+          </View>
+        </GestureDetector>
+
+        {childrenEl.body}
+
+        {childrenEl.footer}
+      </>
+    )
+  }
+
   return (
     <Portal>
+      {/* dim 영역 */}
       <View flex={1} onLayout={handleLayout}>
         {dim && (
           <TouchableWithoutFeedback onPress={() => setLocalVisible(false)}>
@@ -157,35 +213,39 @@ function ActionSheet({
         )}
       </View>
 
-      <GestureDetector gesture={panGesture}>
-        <AnimatedView
-          bg={colors.elevation.level1}
-          style={contentStyle}
-          height={snapPoints[0] ? '100%' : undefined}
-          width='100%'
-          bottom={0}
-          position='absolute'
-          borderTopRightRadius={rounded ? 8 : 0}
-          borderTopLeftRadius={rounded ? 8 : 0}
-          onLayout={handleContentLayout}>
-          <View alignItems='center' p={15}>
-            <View
-              bg={colors.onSurface}
-              opacity={0.5}
-              height={4}
-              width={30}
-              borderRadius={30}
-            />
-          </View>
-          {scroll ? (
-            <ScrollView scrollEnabled={scrollEnabled}>{children}</ScrollView>
-          ) : (
-            <View>{children}</View>
-          )}
-        </AnimatedView>
-      </GestureDetector>
+      <AnimatedView
+        bg={colors.elevation.level1}
+        style={contentStyle}
+        height={snapPoints[0] ? '100%' : undefined}
+        width='100%'
+        bottom={0}
+        position='absolute'
+        borderTopRightRadius={rounded ? 8 : 0}
+        borderTopLeftRadius={rounded ? 8 : 0}
+        onLayout={handleContentLayout}>
+        {renderChildren()}
+      </AnimatedView>
     </Portal>
   )
 }
 
-export default React.memo(ActionSheet)
+ActionSheet.Header = ({ children }: PropsWithChildren) => {
+  return (
+    <View px={10}>
+      {children}
+      <Divider mt={10} />
+    </View>
+  )
+}
+
+type ActionSheetBodyProps = {} & PropsWithChildren
+
+ActionSheet.Body = ({ children }: ActionSheetBodyProps) => {
+  return <View p={10}>{children}</View>
+}
+
+ActionSheet.Footer = ({ children }: PropsWithChildren) => {
+  return <View bottom={0}>{children}</View>
+}
+
+export default ActionSheet

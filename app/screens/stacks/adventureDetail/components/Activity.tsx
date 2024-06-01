@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Activity as ActivityT } from '~/core/data/adventure.data'
 import {
-  ActionSheet,
   Button,
   Chip,
   IconButton,
@@ -10,7 +9,13 @@ import {
   TouchableRipple,
   View,
 } from '~/components/styled'
-import { Avatar, ImgArea, RatingStars, Swiper } from '~/components/basic'
+import {
+  ActionSheet,
+  Avatar,
+  ImgArea,
+  RatingStars,
+  Swiper,
+} from '~/components/basic'
 import { Icon, useTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
@@ -25,6 +30,8 @@ function Activity({ activity }: Props) {
   /** state */
   const [commentsActionSheetVisible, setCommentsActionSheetVisible] =
     useState(false)
+  const [reportActionSheetVisible, setReportActionSheetVisible] =
+    useState(false)
 
   /** hook */
   const { colors } = useTheme()
@@ -34,7 +41,8 @@ function Activity({ activity }: Props) {
   return (
     <>
       <TouchableRipple
-        py={20}
+        pt={20}
+        pb={10}
         borderBottomWidth={2}
         borderColor={colors.elevation.level3}>
         <>
@@ -42,15 +50,25 @@ function Activity({ activity }: Props) {
             <Avatar
               user={activity.user}
               nicknameDisplayType='right'
-              size={40}
+              size={30}
               underNickname='1시간 전'
             />
 
             <View flexDirection='row' alignItems='center'>
-              <Button mode='outlined' padding={0} compact>
+              <Chip
+                borderRadius={100}
+                fontSize={10}
+                compact
+                bg={colors.surfaceVariant}
+                textStyle={{ fontSize: 12 }}>
                 팔로우
-              </Button>
-              <IconButton icon='dots-vertical' m={0} size={20} />
+              </Chip>
+              <IconButton
+                icon='dots-vertical'
+                m={0}
+                size={20}
+                onPress={() => setReportActionSheetVisible(true)}
+              />
             </View>
           </View>
 
@@ -70,40 +88,54 @@ function Activity({ activity }: Props) {
             <Text variant='bodyMedium' mt={1}>
               {activity.description}
             </Text>
-            <View flexDirection='row' justifyContent='space-between' mt={2}>
+            <View
+              flexDirection='row'
+              justifyContent='space-between'
+              alignItems='center'
+              mt={2}>
               <Pressable
                 onPress={() =>
                   navigation.navigate('AdventureDetail', {
                     adventure: activity.adventure,
                   })
-                }
-                borderBottomWidth={0.6}
-                borderColor={colors.onSurfaceDisabled}>
+                }>
                 <Text color={colors.onSurfaceDisabled}>
                   {activity.adventure.name}
                 </Text>
               </Pressable>
-              <View flexDirection='row' gap={10}>
-                <View flexDirection='row' alignItems='center' gap={2}>
-                  <Icon size={18} source='thumb-up-outline' />
+              <View flexDirection='row' gap={15}>
+                <View flexDirection='row' alignItems='center'>
+                  <IconButton size={18} icon='thumb-up-outline' m={0} />
                   <Text fontSize={12}>242</Text>
                 </View>
-                <Pressable
-                  flexDirection='row'
-                  alignItems='center'
-                  gap={2}
-                  onPress={() => setCommentsActionSheetVisible(true)}>
-                  <Icon size={18} source='comment-text-outline' />
+                <View flexDirection='row' alignItems='center'>
+                  <IconButton
+                    size={18}
+                    icon='comment-text-outline'
+                    onPress={() => setCommentsActionSheetVisible(true)}
+                    m={0}
+                  />
                   <Text fontSize={12}>14</Text>
-                </Pressable>
+                </View>
               </View>
             </View>
           </View>
         </>
       </TouchableRipple>
 
+      {reportActionSheetVisible && (
+        <ActionSheet
+          visible={reportActionSheetVisible}
+          onClose={() => setReportActionSheetVisible(false)}>
+          <ActionSheet.Body>
+            <Button>부적절한 활동 신고 및 차단하기</Button>
+          </ActionSheet.Body>
+        </ActionSheet>
+      )}
+
       {commentsActionSheetVisible && (
         <CommentsActionSheet
+          activityId={activity.id}
           visible={commentsActionSheetVisible}
           onClose={() => setCommentsActionSheetVisible(false)}
         />

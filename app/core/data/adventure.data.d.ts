@@ -40,13 +40,19 @@ type Review = {
   writer: User
   content: string
   createdAt: string
+  rating: number
 }
 
-type AdventureReview = {
-  rating: number
-} & Review
+type AdventureReview = {} & Review
 
-type ActivityReview = {} & Review
+type Comment = {
+  id: number
+  contentType: 'activity'
+  contentId: number
+  writer: User
+  content: string
+  createdAt: string
+}
 
 type Split = {
   splitDistance: number
@@ -91,4 +97,5 @@ export {
   ActivityReview,
   Activity,
   Split,
+  Comment,
 }

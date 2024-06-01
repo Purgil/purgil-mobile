@@ -24,9 +24,9 @@ function Adventure({ adventure }: Props) {
   const itemRenderer = () => <ImgArea />
 
   return (
-    <View>
-      <TouchableRipple onPress={handlePress}>
-        <>
+    <View flex={1}>
+      <TouchableRipple onPress={handlePress} flex={1}>
+        <View flex={1}>
           <Swiper data={[...new Array(3)]} renderItem={itemRenderer} />
           <View px={10} py={1}>
             <Text variant='titleMedium' mb={2}>
@@ -41,7 +41,7 @@ function Adventure({ adventure }: Props) {
               {adventure.difficulty}
             </Text>
           </View>
-        </>
+        </View>
       </TouchableRipple>
     </View>
   )

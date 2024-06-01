@@ -1,5 +1,4 @@
 import {
-  ActionSheet,
   AnimatedScrollView,
   AnimatedView,
   Button,
@@ -12,7 +11,7 @@ import { RootStackScreenProps } from '~/navigation/types.ts'
 import { Appbar, Divider, Icon, useTheme } from 'react-native-paper'
 import { MToHM } from '~/utils/datetime.utils.ts'
 import { adventureDetail } from './AdventureDetailStack.consts.ts'
-import { ImgArea, Swiper, TabView } from '~/components/basic'
+import { ActionSheet, ImgArea, Swiper, TabView } from '~/components/basic'
 import ReviewScene from '~/screens/stacks/adventureDetail/components/ReviewScene'
 import ActivityScene from '~/screens/stacks/adventureDetail/components/ActivityScene'
 import PhotoScene from '~/screens/stacks/adventureDetail/components/PhotoScene'
@@ -209,11 +208,11 @@ function AdventureDetailStack({
         <ActionSheet
           visible={actionSheets.report}
           onClose={() => setActionSheets({ ...actionSheets, report: false })}>
-          <View pb={3}>
+          <ActionSheet.Body>
             <Button onPress={handlePressReportAdventure}>
               부적정한 루트 신고하기
             </Button>
-          </View>
+          </ActionSheet.Body>
         </ActionSheet>
       )}
     </>

@@ -1,5 +1,4 @@
 import {
-  ActionSheet,
   Button,
   ScrollView,
   Text,
@@ -7,12 +6,19 @@ import {
   TouchableRipple,
   View,
 } from '~/components/styled'
-import { Avatar, Icon, useTheme } from 'react-native-paper'
+import { Icon, useTheme } from 'react-native-paper'
 import { useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import { Pressable } from 'react-native'
 import AdventureReviews from '~/screens/stacks/adventureDetail/components/AdventureReviews.tsx'
-import { RatingStars } from '~/components/basic'
+import { ActionSheet, Avatar, RatingStars } from '~/components/basic'
+import { User } from '~/core/data/user.data'
+
+const me: User = {
+  id: 151,
+  username: 'qwrtqw',
+  nickname: '아난',
+}
 
 const ratingData = {
   rating: 4.1,
@@ -139,14 +145,7 @@ export default function ReviewScene() {
               이 코스에 대해 리뷰를 남겨보세요!
             </Text>
           </View>
-          <View flexDirection='row' alignItems='center' gap={3}>
-            <Text>아난</Text>
-            <Avatar.Text
-              label='XD'
-              size={30}
-              style={{ backgroundColor: colors.tertiary }}
-            />
-          </View>
+          <Avatar user={me} size={25} />
         </>
       </TouchableRipple>
 
@@ -158,45 +157,47 @@ export default function ReviewScene() {
           onClose={() =>
             setActionSheet({ ...actionSheet, writeReview: false })
           }>
-          <View gap={15} px={10} py={15}>
-            <View flexDirection='row' justifyContent='center'>
-              {[1, 2, 3, 4, 5].map(rating => (
-                <Pressable
-                  key={rating}
-                  onPress={() => setFieldValue('rating', rating)}>
-                  <Icon
-                    source='star'
-                    size={40}
-                    color={
-                      writeReviewValues.rating >= rating
-                        ? colors.primary
-                        : colors.surfaceVariant
-                    }
-                  />
-                </Pressable>
-              ))}
+          <ActionSheet.Body>
+            <View gap={15} px={10} py={15}>
+              <View flexDirection='row' justifyContent='center'>
+                {[1, 2, 3, 4, 5].map(rating => (
+                  <Pressable
+                    key={rating}
+                    onPress={() => setFieldValue('rating', rating)}>
+                    <Icon
+                      source='star'
+                      size={40}
+                      color={
+                        writeReviewValues.rating >= rating
+                          ? colors.primary
+                          : colors.surfaceVariant
+                      }
+                    />
+                  </Pressable>
+                ))}
+              </View>
+              <TextInput
+                mode='outlined'
+                multiline
+                placeholder='이 루트에 대한 내 평가를 남겨보세요!'
+                height={150}
+                value={writeReviewValues.content}
+                onChangeText={value => setFieldValue('content', value)}
+              />
+              <View flexDirection='row'>
+                <Button
+                  flex={1}
+                  onPress={() =>
+                    setActionSheet({ ...actionSheet, writeReview: false })
+                  }>
+                  취소
+                </Button>
+                <Button flex={1} mode='contained' onPress={submitWriteReview}>
+                  등록
+                </Button>
+              </View>
             </View>
-            <TextInput
-              mode='outlined'
-              multiline
-              placeholder='이 루트에 대한 내 평가를 남겨보세요!'
-              height={150}
-              value={writeReviewValues.content}
-              onChangeText={value => setFieldValue('content', value)}
-            />
-            <View flexDirection='row'>
-              <Button
-                flex={1}
-                onPress={() =>
-                  setActionSheet({ ...actionSheet, writeReview: false })
-                }>
-                취소
-              </Button>
-              <Button flex={1} mode='contained' onPress={submitWriteReview}>
-                등록
-              </Button>
-            </View>
-          </View>
+          </ActionSheet.Body>
         </ActionSheet>
       )}
     </ScrollView>

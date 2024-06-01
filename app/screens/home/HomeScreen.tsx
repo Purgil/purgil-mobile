@@ -1,4 +1,4 @@
-import { Chip, ScrollView, View } from '../../components/styled'
+import { Chip, ScrollView, Text, View } from '../../components/styled'
 import { Portal, Searchbar } from 'react-native-paper'
 import React, { useCallback, useMemo, useState } from 'react'
 import {
@@ -7,10 +7,11 @@ import {
   difficultyTypes,
 } from './HomeScreen.consts.ts'
 import { useFormik } from 'formik'
-import Adventures from '../../components/adventure/Adventures.tsx'
 import { MapArea } from '~/components/basic'
 import ChkboxActionSheet from '~/components/basic/ChkboxActionSheet.tsx'
 import ActionSheet from '~/components/basic/ActionSheet.tsx'
+import { FlatList } from 'react-native'
+import Adventure from '~/components/adventure/Adventure.tsx'
 
 const initialLocation = '경기도 파주시'
 
@@ -136,8 +137,21 @@ function HomeScreen() {
           <Portal.Host>
             <MapArea />
             {/* 루트 목록 */}
-            <ActionSheet scroll dim={false} snapPoints={[0.1, 1]} visible>
-              <Adventures totalCount={227} adventures={adventures} />
+            <ActionSheet visible scroll dim={false} snapPoints={[0.1, 1]}>
+              <ActionSheet.Header>
+                <Text textAlign='center' variant='titleMedium' pb={10}>
+                  125 결과
+                </Text>
+              </ActionSheet.Header>
+              <ActionSheet.Body>
+                <FlatList
+                  scrollEnabled
+                  data={adventures}
+                  renderItem={({ item }) => (
+                    <Adventure key={item.id} adventure={item} />
+                  )}
+                />
+              </ActionSheet.Body>
             </ActionSheet>
           </Portal.Host>
         </View>

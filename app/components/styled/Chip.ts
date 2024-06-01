@@ -12,6 +12,8 @@ import {
   width,
   MaxWidthProps,
   maxWidth,
+  BorderProps,
+  border,
 } from 'styled-system'
 import styled from 'styled-components/native'
 import { Chip as RNPChip } from 'react-native-paper'
@@ -22,6 +24,7 @@ interface ChipStyledProps
     SpaceProps,
     FlexboxProps,
     WidthProps,
+    BorderProps,
     MaxWidthProps {
   children: React.ReactNode
 }
@@ -33,5 +36,6 @@ const Chip = styled(RNPChip)<ChipStyledProps>`
   ${flexbox}
   ${width}
   ${maxWidth}
+  ${border}
 `
 export default Chip

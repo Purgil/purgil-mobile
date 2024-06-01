@@ -6,10 +6,10 @@ import { Keyboard } from 'react-native'
 import * as yup from 'yup'
 import regex from '../../../utils/regex.tsx'
 import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../../store'
-import { login } from '../../../store/slices/authUser.slice.ts'
-import { Gender } from '../../../enums/common.enums.ts'
-import { RootStackScreenProps } from '../../../navigation/types.ts'
+import { AppDispatch } from '~/store'
+import { login } from '~/store/slices/authUser.slice.ts'
+import { Gender } from '~/enums/common.enums.ts'
+import { RootStackScreenProps } from '~/navigation/types.ts'
 
 type AuthForm = {
   email: string
