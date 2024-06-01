@@ -1,5 +1,5 @@
-import { ValueLabelPair } from '../../core/data/basic.types'
-import { Adventure } from '../../core/data/adventure.data'
+import { ValueLabelPair } from '~/core/data/basic.types'
+import { Adventure } from '~/core/data/adventure.data'
 
 const adventureTypes: ValueLabelPair[] = [
   {

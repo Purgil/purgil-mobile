@@ -2,7 +2,7 @@ import { Button, IconButton, Text, View } from '~/components/styled'
 import React, { useState } from 'react'
 import { Comment as CommentT } from '~/core/data/adventure.data'
 import { ActionSheet, Avatar } from '~/components/basic'
-import { Divider, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 
 type Props = {
   comment: CommentT

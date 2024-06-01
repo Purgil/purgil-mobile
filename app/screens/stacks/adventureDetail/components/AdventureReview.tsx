@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AdventureReview as AdventureReviewT } from '~/core/data/adventure.data'
 import { Button, IconButton, Text, View } from '~/components/styled'
-import { Icon, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 import { ActionSheet, Avatar, RatingStars } from '~/components/basic'
 
 type Props = {

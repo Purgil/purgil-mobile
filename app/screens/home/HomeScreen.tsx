@@ -45,7 +45,7 @@ function HomeScreen() {
     [actionSheets],
   )
 
-  const { values, setFieldValue, submitForm } = useFormik<SearchForm>({
+  const { values, setFieldValue } = useFormik<SearchForm>({
     initialValues,
     onSubmit: () => {},
   })

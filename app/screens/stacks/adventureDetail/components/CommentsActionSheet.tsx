@@ -1,4 +1,4 @@
-import { Text, TextInput, View } from '~/components/styled'
+import { Text, TextInput } from '~/components/styled'
 import { ActionSheetProps } from '~/components/basic/ActionSheet.tsx'
 import React from 'react'
 import { ActionSheet, Comment } from '~/components/basic'

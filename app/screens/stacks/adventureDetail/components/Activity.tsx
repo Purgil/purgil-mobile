@@ -16,7 +16,7 @@ import {
   RatingStars,
   Swiper,
 } from '~/components/basic'
-import { Icon, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { RootStackParamList } from '~/navigation/types.ts'
