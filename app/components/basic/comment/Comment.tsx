@@ -3,13 +3,19 @@ import React, { useState } from 'react'
 import { Comment as CommentT } from '~/core/data/adventure.data'
 import { ActionSheet, Avatar } from '~/components/basic'
 import { useTheme } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
+import { RootStackParamList } from '~/navigation/types.ts'
 
 type Props = {
   comment: CommentT
 }
 
 function Comment({ comment }: Props) {
+  /** hook */
   const { colors } = useTheme()
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
   const [reportActionSheetVisible, setReportActionSheetVisible] =
     useState(false)
@@ -24,7 +30,12 @@ function Comment({ comment }: Props) {
           </Text>
           <Text>{comment.content}</Text>
           <View flexDirection='row' mt={2} alignItems='center'>
-            <IconButton size={16} icon='comment-text-outline' m={0} />
+            <IconButton
+              size={16}
+              icon='comment-text-outline'
+              m={0}
+              onPress={() => navigation.navigate('CommentDetail', { comment })}
+            />
             <Text variant='labelSmall' ml={-1}>
               47
             </Text>
