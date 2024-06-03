@@ -22,10 +22,10 @@ function CommentsActionSheet({ activityId, ...props }: Props) {
           renderItem={({ item }) => <Comment key={item.id} comment={item} />}
         />
       </ActionSheet.Body>
-
+      {/*
       <ActionSheet.Footer>
         <TextInput />
-      </ActionSheet.Footer>
+      </ActionSheet.Footer>*/}
     </ActionSheet>
   )
 }

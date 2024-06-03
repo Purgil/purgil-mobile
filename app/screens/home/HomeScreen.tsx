@@ -137,9 +137,9 @@ function HomeScreen() {
           <Portal.Host>
             <MapArea />
             {/* 루트 목록 */}
-            <ActionSheet visible scroll dim={false} snapPoints={[0.1, 1]}>
+            <ActionSheet visible dim={false} snapPoints={[0.1, 1]}>
               <ActionSheet.Header>
-                <Text textAlign='center' variant='titleMedium' pb={10}>
+                <Text textAlign='center' variant='titleMedium'>
                   125 결과
                 </Text>
               </ActionSheet.Header>
@@ -160,6 +160,7 @@ function HomeScreen() {
       {/* 액티비티 타입 필터 */}
       {actionSheets.adventureTypes && (
         <ChkboxActionSheet
+          snapPoints={[0.5, 1]}
           visible={actionSheets.adventureTypes}
           onClose={() => {
             handleCloseActionSheet('adventureTypes')
