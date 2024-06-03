@@ -16,6 +16,8 @@ import {
   width,
   PositionProps,
   position,
+  DisplayProps,
+  display,
 } from 'styled-system'
 import styled from 'styled-components/native'
 import { MutableRefObject } from 'react'
@@ -28,6 +30,7 @@ interface ViewStyledProps
     HeightProps,
     WidthProps,
     BorderProps,
+    DisplayProps,
     PositionProps {
   children?: React.ReactNode
   gap?: number
@@ -43,5 +46,6 @@ const View = styled.View<ViewStyledProps>`
   ${height}
   ${width}
   ${position}
+  ${display}
 `
 export default View

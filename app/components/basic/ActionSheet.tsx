@@ -34,6 +34,7 @@ export type ActionSheetProps = {
   rounded?: boolean
   title?: string
   redeemHeight?: number
+  keyboardAvoiding?: boolean
 } & PropsWithChildren
 
 function ActionSheet({
@@ -44,6 +45,7 @@ function ActionSheet({
   snapPoints = [],
   dim = true,
   rounded = true,
+  keyboardAvoiding = false,
 }: ActionSheetProps) {
   /** hook */
   const { colors } = useTheme()
@@ -124,15 +126,13 @@ function ActionSheet({
     })
     .onEnd(event => {
       // 가장 가까운 snapPoint 의 height
-      let snapTarget = (onClose ? [0, ...snapHeights] : snapHeights)
-        .sort((a, b) => a - b)
-        .reduce(
-          (closest, snapH) =>
-            Math.abs(height.value - snapH) < Math.abs(height.value - closest)
-              ? snapH
-              : closest,
-          snapHeight.value,
-        )
+      let snapTarget = (onClose ? [0, ...snapHeights] : snapHeights).reduce(
+        (closest, snapH) =>
+          Math.abs(height.value - snapH) < Math.abs(height.value - closest)
+            ? snapH
+            : closest,
+        snapHeight.value,
+      )
 
       // 가장 까깝지 않더라도 pan 의 범위가 50 이상이면 다음 혹은 이전 snapPoint 로 이동 시키기
       if (
@@ -222,25 +222,27 @@ function ActionSheet({
   return (
     <Portal>
       {/* dim 영역 */}
-      <View onLayout={handleLayout} height='100%'>
+      <View
+        onLayout={handleLayout}
+        height={keyboardAvoiding ? windowH : '100%'}>
         {dim && (
           <TouchableWithoutFeedback onPress={() => setLocalVisible(false)}>
             <AnimatedView flex={1} bg={colors.backdrop} style={dimStyle} />
           </TouchableWithoutFeedback>
         )}
-      </View>
 
-      <AnimatedView
-        bg={colors.elevation.level1}
-        style={contentStyle}
-        bottom={0}
-        width='100%'
-        position='absolute'
-        borderTopRightRadius={rounded ? 8 : 0}
-        borderTopLeftRadius={rounded ? 8 : 0}
-        onLayout={handleContentLayout}>
-        {renderChildren()}
-      </AnimatedView>
+        <AnimatedView
+          bg={colors.elevation.level1}
+          style={contentStyle}
+          bottom={0}
+          width='100%'
+          position='absolute'
+          borderTopRightRadius={rounded ? 8 : 0}
+          borderTopLeftRadius={rounded ? 8 : 0}
+          onLayout={handleContentLayout}>
+          {renderChildren()}
+        </AnimatedView>
+      </View>
     </Portal>
   )
 }
