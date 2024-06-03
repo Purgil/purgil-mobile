@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import {
   Easing,
@@ -8,8 +8,8 @@ import {
   withTiming,
 } from 'react-native-reanimated'
 import { LayoutChangeEvent } from 'react-native'
-import { AnimatedView, View } from '~/components/styled'
-import { Icon, useTheme } from 'react-native-paper'
+import { AnimatedView, Icon, View } from '~/components/styled'
+import { useTheme } from 'react-native-paper'
 
 type Props = {
   data: any[]
@@ -86,9 +86,9 @@ function Swiper({ data = [], renderItem }: Props) {
     (i: number) => (
       <Icon
         key={i}
-        size={6}
+        size={8}
         source='checkbox-blank-circle'
-        color={i === currIndex ? colors.primary : colors.onSurfaceDisabled}
+        color={i === currIndex ? colors.primary : colors.primary + '44'}
       />
     ),
     [colors, currIndex],
@@ -110,16 +110,16 @@ function Swiper({ data = [], renderItem }: Props) {
             ))}
           </AnimatedView>
         </GestureDetector>
-      </View>
 
-      <View
-        justifyContent='flex-end'
-        flexDirection='row'
-        mr={20}
-        mt={-20}
-        mb={14}
-        gap={5}>
-        {data.map((_, i) => dotRenderer(i))}
+        <View
+          position='absolute'
+          width='100%'
+          bottom={30}
+          justifyContent='center'
+          flexDirection='row'
+          gap={5}>
+          {data.map((_, i) => dotRenderer(i))}
+        </View>
       </View>
     </>
   )

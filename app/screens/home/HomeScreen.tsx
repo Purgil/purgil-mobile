@@ -160,7 +160,6 @@ function HomeScreen() {
       {/* 액티비티 타입 필터 */}
       {actionSheets.adventureTypes && (
         <ChkboxActionSheet
-          snapPoints={[0.5, 1]}
           visible={actionSheets.adventureTypes}
           onClose={() => {
             handleCloseActionSheet('adventureTypes')

@@ -260,7 +260,7 @@ ActionSheet.Body = ({ children }: ActionSheetBodyProps) => {
 }
 
 ActionSheet.Footer = ({ children }: PropsWithChildren) => {
-  return <View bottom={0}>{children}</View>
+  return <View>{children}</View>
 }
 
 export default ActionSheet
