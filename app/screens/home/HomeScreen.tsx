@@ -32,23 +32,26 @@ const initialValues: SearchForm = {
 }
 
 function HomeScreen() {
+  /** state */
   const [actionSheets, setActionSheets] = useState<ActionSheetState>({
     adventureTypes: false,
     difficulties: false,
     other: false,
   })
 
+  /** hook */
+  const { values, setFieldValue } = useFormik<SearchForm>({
+    initialValues,
+    onSubmit: () => {},
+  })
+
+  /** function */
   const handleCloseActionSheet = useCallback(
     (actionSheetType: FilterType) => {
       setActionSheets({ ...actionSheets, [actionSheetType]: false })
     },
     [actionSheets],
   )
-
-  const { values, setFieldValue } = useFormik<SearchForm>({
-    initialValues,
-    onSubmit: () => {},
-  })
 
   const showFilterBottomSheet = useCallback(
     (filterType: FilterType) => {
@@ -70,6 +73,7 @@ function HomeScreen() {
     [values.adventureTypes, values.difficulties],
   )
 
+  /** memo */
   const activityButtonText = useMemo(
     () =>
       values.adventureTypes.length > 0
@@ -137,7 +141,11 @@ function HomeScreen() {
           <Portal.Host>
             <MapArea />
             {/* 루트 목록 */}
-            <ActionSheet visible dim={false} snapPoints={[0.1, 1]}>
+            <ActionSheet
+              visible
+              dim={false}
+              snapPoints={[0.1, 1]}
+              redeemHeight={15}>
               <ActionSheet.Header>
                 <Text textAlign='center' variant='titleMedium'>
                   125 결과

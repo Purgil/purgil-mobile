@@ -33,12 +33,14 @@ export type ActionSheetProps = {
   dim?: boolean
   rounded?: boolean
   title?: string
+  redeemHeight?: number
 } & PropsWithChildren
 
 function ActionSheet({
   visible,
   onClose,
   children,
+  redeemHeight = 0,
   snapPoints = [],
   dim = true,
   rounded = true,
@@ -68,18 +70,21 @@ function ActionSheet({
   }, [])
 
   const handleLayout = useCallback((event: LayoutChangeEvent) => {
-    const { height: layoutHeight } = event.nativeEvent.layout
-    layoutH.value = layoutHeight
-    if (snapPoints[0]) {
-      setSnapHeights(
-        snapPoints.sort((a, b) => a - b).map(point => layoutHeight * point),
-      )
-      onMount(layoutHeight * snapPoints[0])
+    if (!layoutH.value) {
+      let { height: layoutHeight } = event.nativeEvent.layout
+      layoutHeight += redeemHeight
+      layoutH.value = layoutHeight
+      if (snapPoints[0]) {
+        setSnapHeights(
+          snapPoints.sort((a, b) => a - b).map(point => layoutHeight * point),
+        )
+        onMount(layoutHeight * snapPoints[0])
+      }
     }
   }, [])
 
   const handleContentLayout = useCallback((event: LayoutChangeEvent) => {
-    if (!snapHeight.value && !snapPoints?.[0]) {
+    if (!snapHeight.value && !snapPoints[0]) {
       const { height: contentHeight } = event.nativeEvent.layout
       onMount(contentHeight)
     }
@@ -156,16 +161,16 @@ function ActionSheet({
   const dimStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
   }))
-  const contentStyle = useAnimatedStyle(() => {
-    return snapPoints?.[0] || height.value
+  const contentStyle = useAnimatedStyle(() =>
+    snapPoints[0] || height.value
       ? {
           height: height.value,
           transform: [{ translateY: translateY.value }],
         }
       : {
           transform: [{ translateY: translateY.value }],
-        }
-  })
+        },
+  )
 
   /** render */
   const renderChildren = () => {
@@ -217,7 +222,7 @@ function ActionSheet({
   return (
     <Portal>
       {/* dim 영역 */}
-      <View flex={1} onLayout={handleLayout}>
+      <View onLayout={handleLayout} height='100%'>
         {dim && (
           <TouchableWithoutFeedback onPress={() => setLocalVisible(false)}>
             <AnimatedView flex={1} bg={colors.backdrop} style={dimStyle} />

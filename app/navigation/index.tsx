@@ -23,11 +23,7 @@ function Router() {
     <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
       <Portal.Host>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen
-            name='BottomNav'
-            component={BottomNav}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name='BottomNav' component={BottomNav} />
           <Stack.Screen
             name='Auth'
             component={AuthStack}

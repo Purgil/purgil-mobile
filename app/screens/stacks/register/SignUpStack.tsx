@@ -1,4 +1,3 @@
-import { Text } from 'react-native-paper'
 import { View } from '~/components/styled'
 
 function SignUpStack() {

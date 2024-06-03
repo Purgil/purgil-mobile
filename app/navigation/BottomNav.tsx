@@ -7,6 +7,8 @@ import ProfileScreen from '../screens/profile/ProfileScreen.tsx'
 import { Icon } from 'react-native-paper'
 import { RootStackParamList } from './types.ts'
 import { ReactNode, useCallback } from 'react'
+import { View } from '~/components/styled'
+import { Dimensions } from 'react-native'
 
 const iconMap: { [screenName: string]: { icon: string; focusedIcon: string } } =
   {
@@ -32,6 +34,8 @@ const iconMap: { [screenName: string]: { icon: string; focusedIcon: string } } =
     },
   }
 
+const { height } = Dimensions.get('window')
+
 function BottomNav() {
   const Tab = createMaterialBottomTabNavigator<RootStackParamList>()
 
@@ -53,53 +57,55 @@ function BottomNav() {
   )
 
   return (
-    <Tab.Navigator initialRouteName='Home'>
-      <Tab.Screen
-        name='Home'
-        component={HomeScreen}
-        options={{
-          title: '홈',
-          tabBarIcon: ({ focused, color }) =>
-            iconRenderer('Home', focused, color),
-        }}
-      />
-      <Tab.Screen
-        name='Social'
-        component={SocialScreen}
-        options={{
-          title: '소셜',
-          tabBarIcon: ({ focused, color }) =>
-            iconRenderer('Social', focused, color),
-        }}
-      />
-      <Tab.Screen
-        name='Record'
-        component={RecordScreen}
-        options={{
-          title: '기록',
-          tabBarIcon: ({ focused, color }) =>
-            iconRenderer('Record', focused, color),
-        }}
-      />
-      <Tab.Screen
-        name='Map'
-        component={MapScreen}
-        options={{
-          title: '채팅',
-          tabBarIcon: ({ focused, color }) =>
-            iconRenderer('Chat', focused, color),
-        }}
-      />
-      <Tab.Screen
-        name='Profile'
-        component={ProfileScreen}
-        options={{
-          title: '프로필',
-          tabBarIcon: ({ focused, color }) =>
-            iconRenderer('Profile', focused, color),
-        }}
-      />
-    </Tab.Navigator>
+    <View height={height}>
+      <Tab.Navigator initialRouteName='Home'>
+        <Tab.Screen
+          name='Home'
+          component={HomeScreen}
+          options={{
+            title: '홈',
+            tabBarIcon: ({ focused, color }) =>
+              iconRenderer('Home', focused, color),
+          }}
+        />
+        <Tab.Screen
+          name='Social'
+          component={SocialScreen}
+          options={{
+            title: '소셜',
+            tabBarIcon: ({ focused, color }) =>
+              iconRenderer('Social', focused, color),
+          }}
+        />
+        <Tab.Screen
+          name='Record'
+          component={RecordScreen}
+          options={{
+            title: '기록',
+            tabBarIcon: ({ focused, color }) =>
+              iconRenderer('Record', focused, color),
+          }}
+        />
+        <Tab.Screen
+          name='Map'
+          component={MapScreen}
+          options={{
+            title: '채팅',
+            tabBarIcon: ({ focused, color }) =>
+              iconRenderer('Chat', focused, color),
+          }}
+        />
+        <Tab.Screen
+          name='Profile'
+          component={ProfileScreen}
+          options={{
+            title: '프로필',
+            tabBarIcon: ({ focused, color }) =>
+              iconRenderer('Profile', focused, color),
+          }}
+        />
+      </Tab.Navigator>
+    </View>
   )
 }
 

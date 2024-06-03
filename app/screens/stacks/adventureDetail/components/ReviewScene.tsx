@@ -14,7 +14,7 @@ import AdventureReviews from '~/screens/stacks/adventureDetail/components/Advent
 import { ActionSheet, Avatar, RatingStars } from '~/components/basic'
 import { User } from '~/core/data/user.data'
 
-const me: User = {
+export const me: User = {
   id: 151,
   username: 'qwrtqw',
   nickname: '아난',
