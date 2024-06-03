@@ -12,6 +12,21 @@ import { FlatList, Keyboard } from 'react-native'
 import { comments } from './CommentsActionSheet.consts.ts'
 import { Portal, useTheme } from 'react-native-paper'
 import { me } from '~/screens/stacks/adventureDetail/components/ReviewScene.tsx'
+import { useFormik } from 'formik'
+
+type WriteReviewCommend = {
+  contentType: string
+  contentId: number
+  text: string
+  writerId: number
+}
+
+const initialValues: WriteReviewCommend = {
+  contentType: 'HIKING',
+  contentId: 1,
+  writerId: me.id,
+  text: '',
+}
 
 type Props = {
   activityId: number
@@ -25,6 +40,12 @@ function CommentsActionSheet({ activityId, ...props }: Props) {
   /** hooks */
   const { colors } = useTheme()
   const textInputRef = useRef<any>(null)
+  const { values, setFieldValue } = useFormik<WriteReviewCommend>({
+    initialValues,
+    onSubmit: () => {
+      console.log('values>', values)
+    },
+  })
 
   /** functions */
   const handlePressInput = () => {
@@ -89,7 +110,7 @@ function CommentsActionSheet({ activityId, ...props }: Props) {
             <Avatar user={me} nicknameDisplayType='hidden' />
             <View flex={1}>
               <TextInput
-                value={comment}
+                // value={values.text}
                 mode='outlined'
                 dense
                 placeholder='댓글 작성'
@@ -114,8 +135,8 @@ function CommentsActionSheet({ activityId, ...props }: Props) {
             <View flex={1}>
               <TextInput
                 ref={textInputRef}
-                value={comment}
-                onChangeText={setComment}
+                value={values.text}
+                onChangeText={value => setFieldValue('text', value)}
                 mode='outlined'
                 dense
                 placeholder='댓글 작성'
