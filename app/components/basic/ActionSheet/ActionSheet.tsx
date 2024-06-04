@@ -29,7 +29,7 @@ import { RootStackParamList } from '~/navigation/types.ts'
 const windowH = Dimensions.get('window').height
 
 export type ActionSheetProps = {
-  visible: boolean
+  visible?: boolean
   onClose?: () => void
   snapPoints?: number[]
   dim?: boolean
@@ -210,8 +210,6 @@ function ActionSheet({
         },
   )
   const bottomStyle = useAnimatedStyle(() => ({
-    position: 'absolute',
-    width: '100%',
     bottom: 0,
     transform: [{ translateY: keyboardHeight.value }],
   }))
@@ -257,7 +255,6 @@ function ActionSheet({
         </GestureDetector>
 
         {childrenEl.body}
-
         <AnimatedView style={bottomStyle}>{childrenEl.footer}</AnimatedView>
       </>
     )
@@ -281,6 +278,7 @@ function ActionSheet({
           bottom={0}
           width='100%'
           position='absolute'
+          justifyContent='space-between'
           borderTopRightRadius={rounded ? 8 : 0}
           borderTopLeftRadius={rounded ? 8 : 0}
           onLayout={contentLayoutFunction}>
@@ -291,28 +289,22 @@ function ActionSheet({
   )
 }
 
-ActionSheet.Header = ({ children }: PropsWithChildren) => {
-  return (
-    <View px={10}>
-      {children}
-      <Divider mt={10} />
-    </View>
-  )
-}
+ActionSheet.Header = ({ children }: PropsWithChildren) => (
+  <View>
+    {children}
+    <Divider mt={10} />
+  </View>
+)
 
 type ActionSheetBodyProps = {} & PropsWithChildren
 
-ActionSheet.Body = ({ children }: ActionSheetBodyProps) => {
-  return (
-    <View p={10} flex={1}>
-      {children}
-    </View>
-  )
-}
+ActionSheet.Body = ({ children }: ActionSheetBodyProps) => (
+  <View flex={1}>{children}</View>
+)
 
-ActionSheet.Footer = ({ children }: PropsWithChildren) => {
-  return <View>{children}</View>
-}
+ActionSheet.Footer = ({ children }: PropsWithChildren) => (
+  <View>{children}</View>
+)
 
 export default ActionSheet
 // export default React.memo(ActionSheet) as unknown as typeof ActionSheet

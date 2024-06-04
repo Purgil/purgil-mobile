@@ -21,6 +21,7 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { RootStackParamList } from '~/navigation/types.ts'
 import CommentsActionSheet from '~/components/comment/CommentsActionSheet/CommentsActionSheet.tsx'
+import globalStyles from '~/utils/style.utils.ts'
 
 type Props = {
   activity: ActivityT
@@ -104,19 +105,19 @@ function Activity({ activity }: Props) {
                 </Text>
               </Pressable>
               <View flexDirection='row' gap={15}>
-                <View flexDirection='row' alignItems='center'>
-                  <IconButton size={18} icon='thumb-up-outline' m={0} />
-                  <Text fontSize={12}>242</Text>
-                </View>
-                <View flexDirection='row' alignItems='center'>
-                  <IconButton
-                    size={18}
-                    icon='comment-text-outline'
-                    onPress={() => setCommentsActionSheetVisible(true)}
-                    m={0}
-                  />
-                  <Text fontSize={12}>14</Text>
-                </View>
+                <Button
+                  labelStyle={globalStyles.btnLabelS}
+                  icon='thumb-up-outline'
+                  compact>
+                  242
+                </Button>
+                <Button
+                  labelStyle={globalStyles.btnLabelS}
+                  icon='comment-text-outline'
+                  compact
+                  onPress={() => setCommentsActionSheetVisible(true)}>
+                  14
+                </Button>
               </View>
             </View>
           </View>

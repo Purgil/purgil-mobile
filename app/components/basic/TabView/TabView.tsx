@@ -5,37 +5,39 @@ import {
   TabBarProps,
   NavigationState,
 } from 'react-native-tab-view'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Divider, useTheme } from 'react-native-paper'
 import { View } from '~/components/styled'
+import { StyleSheet } from 'react-native'
 
 type Props = {
   routes: { key: string; title: string }[]
 } & Omit<TabViewProps<any>, 'onIndexChange' | 'navigationState'>
 
-export default function TabView({ routes, ...props }: Props) {
+function TabView({ routes, ...props }: Props) {
   const { colors } = useTheme()
   const [tabIndex, setTabIndex] = useState(0)
 
-  const indicatorStyle = useMemo(
-    () => ({ backgroundColor: colors.onBackground }),
-    [colors],
-  )
-  const tabBarStyle = useMemo(() => ({ backgroundColor: '' }), [])
-  const labelStyle = useMemo(() => ({ color: colors.onBackground }), [colors])
+  const styles = StyleSheet.create({
+    indicator: { backgroundColor: colors.onBackground },
+    tabBar: { backgroundColor: '' },
+    label: { color: colors.onBackground },
+  })
+
   const renderTabBar = useCallback(
     (tabbarProps: TabBarProps<any>) => (
       <View>
         <TabBar
           {...tabbarProps}
-          indicatorStyle={indicatorStyle}
-          style={tabBarStyle}
-          labelStyle={labelStyle}
+          pressColor={colors.surfaceVariant}
+          indicatorStyle={styles.indicator}
+          style={styles.tabBar}
+          labelStyle={styles.label}
         />
         <Divider />
       </View>
     ),
-    [indicatorStyle, labelStyle, tabBarStyle],
+    [],
   )
 
   return (
@@ -48,3 +50,5 @@ export default function TabView({ routes, ...props }: Props) {
     />
   )
 }
+
+export default React.memo(TabView)

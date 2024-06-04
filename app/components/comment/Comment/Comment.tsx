@@ -3,42 +3,48 @@ import React, { useState } from 'react'
 import { Comment as CommentT } from '~/core/data/adventure.data'
 import { ActionSheet, Avatar } from '~/components/basic'
 import { useTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
-import { RootStackParamList } from '~/navigation/types.ts'
+import RepliesActionSheet from '~/components/comment/RepliesActionSheet/RepliesActionSheet.tsx'
+import globalStyles from '~/utils/style.utils.ts'
 
 type Props = {
   comment: CommentT
 }
 
 function Comment({ comment }: Props) {
-  /** hook */
+  /** hooks */
   const { colors } = useTheme()
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
+  /** states */
   const [reportActionSheetVisible, setReportActionSheetVisible] =
+    useState(false)
+  const [repliesActionSheetVisible, setRepliesActionSheetVisible] =
     useState(false)
 
   return (
     <>
-      <View flexDirection='row' pt={10} pb={1} gap={8} alignItems='flex-start'>
+      <View
+        flexDirection='row'
+        pt={10}
+        pb={1}
+        px={10}
+        gap={8}
+        alignItems='flex-start'>
         <Avatar user={comment.writer} nicknameDisplayType='hidden' />
         <View>
           <Text variant='bodySmall' color={colors.outline}>
             {comment.writer.nickname} · 2주 전
           </Text>
           <Text>{comment.content}</Text>
-          <View flexDirection='row' mt={2} alignItems='center'>
-            <IconButton
-              size={16}
+          <View flexDirection='row'>
+            <Button
+              mt={2}
               icon='comment-text-outline'
-              m={0}
-              onPress={() => navigation.navigate('CommentDetail', { comment })}
-            />
-            <Text variant='labelSmall' ml={-1}>
+              compact
+              onPress={() => setRepliesActionSheetVisible(true)}
+              contentStyle={{ gap: 0, margin: 0, padding: 0 }}
+              labelStyle={globalStyles.btnLabelXs}>
               47
-            </Text>
+            </Button>
           </View>
         </View>
         <View flex={1} alignItems='flex-end'>
@@ -58,6 +64,13 @@ function Comment({ comment }: Props) {
             <Button>부적절한 댓글 신고 및 차단하기</Button>
           </ActionSheet.Body>
         </ActionSheet>
+      )}
+
+      {repliesActionSheetVisible && (
+        <RepliesActionSheet
+          comment={comment}
+          onClose={() => setRepliesActionSheetVisible(false)}
+        />
       )}
     </>
   )

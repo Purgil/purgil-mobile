@@ -4,8 +4,15 @@ const globalStyles = StyleSheet.create({
   flexReverse: {
     flexDirection: 'row-reverse',
   },
-  bottomSheetTitleStyle: {
-    fontSize: 24,
+  btnLabelS: {
+    fontSize: 14,
+    margin: 0,
+    padding: 0,
+  },
+  btnLabelXs: {
+    fontSize: 12,
+    margin: 0,
+    padding: 0,
   },
 })
 
