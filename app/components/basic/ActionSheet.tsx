@@ -2,6 +2,7 @@ import React, {
   PropsWithChildren,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 import {
@@ -14,6 +15,7 @@ import { Portal, useTheme } from 'react-native-paper'
 import {
   runOnJS,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
@@ -53,8 +55,7 @@ function ActionSheet({
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
   /** state */
-  const [localVisible, setLocalVisible] = useState(visible)
-  const [snapHeights, setSnapHeights] = useState<number[]>([])
+  const [mounted, setMounted] = useState(false)
 
   /** sharedValue */
   const layoutH = useSharedValue(0)
@@ -63,44 +64,46 @@ function ActionSheet({
   const height = useSharedValue(0)
   const snapHeight = useSharedValue(0)
 
+  const snapHeights = useDerivedValue(() =>
+    snapPoints[0]
+      ? snapPoints.sort((a, b) => a - b).map(point => layoutH.value * point)
+      : [],
+  )
+
   /** function */
   const onMount = useCallback((targetHeight: number) => {
     height.value = targetHeight
-    snapHeight.value = targetHeight
     translateY.value = withTiming(0, basicTimingConfig)
     opacity.value = withTiming(dim ? 0.7 : 0, basicTimingConfig)
+    snapHeight.value = targetHeight
+    setMounted(true)
   }, [])
 
+  // 무조건 한번 실행 되어야 함
   const handleLayout = useCallback((event: LayoutChangeEvent) => {
-    if (!layoutH.value) {
-      let { height: layoutHeight } = event.nativeEvent.layout
-      layoutHeight += redeemHeight
-      layoutH.value = layoutHeight
-      if (snapPoints[0]) {
-        setSnapHeights(
-          snapPoints.sort((a, b) => a - b).map(point => layoutHeight * point),
-        )
-        onMount(layoutHeight * snapPoints[0])
-      }
+    let { height: layoutHeight } = event.nativeEvent.layout
+    layoutHeight += redeemHeight
+    layoutH.value = layoutHeight
+    if (snapPoints[0]) {
+      onMount(layoutHeight * snapPoints[0])
     }
   }, [])
 
+  // snapPoints 없을 경우에만 한번 실행 하면 됨
   const handleContentLayout = useCallback((event: LayoutChangeEvent) => {
-    if (!snapHeight.value && !snapPoints[0]) {
-      const { height: contentHeight } = event.nativeEvent.layout
-      onMount(contentHeight)
-    }
+    const { height: contentHeight } = event.nativeEvent.layout
+    onMount(contentHeight)
+  }, [])
+
+  const handleClose = useCallback(() => {
+    translateY.value = withTiming(height.value, basicTimingConfig)
+    // height.value = withTiming(0, basicTimingConfig)
+    opacity.value = withTiming(0, basicTimingConfig, () => {
+      if (onClose) runOnJS(onClose)()
+    })
   }, [])
 
   /** effect */
-  useEffect(() => {
-    if (!localVisible) {
-      translateY.value = withTiming(windowH, basicTimingConfig)
-      opacity.value = withTiming(0, basicTimingConfig, () => {
-        if (onClose) runOnJS(onClose)()
-      })
-    }
-  }, [localVisible])
   // 뒤로가기 제어
   useEffect(() => {
     const onBack = (e: any) => {
@@ -114,46 +117,58 @@ function ActionSheet({
     }
   }, [navigation])
 
+  /** memo */
+  const layoutFunction = useMemo(
+    () => (mounted ? undefined : handleLayout),
+    [mounted],
+  )
+  const contentLayoutFunction = useMemo(
+    () => (snapPoints[0] || mounted ? undefined : handleContentLayout),
+    [mounted],
+  )
+
   /** other */
   const panGesture = Gesture.Pan()
     .onChange(event => {
       const target = snapHeight.value - event.translationY
-      const maxHeight = snapHeights?.[0]
-        ? snapHeights[snapHeights.length - 1]
+      const maxHeight = snapHeights.value?.[0]
+        ? snapHeights.value[snapHeights.value.length - 1]
         : snapHeight.value
       if (target <= maxHeight && target >= 0)
         height.value = snapHeight.value - event.translationY
     })
     .onEnd(event => {
       // 가장 가까운 snapPoint 의 height
-      let snapTarget = (onClose ? [0, ...snapHeights] : snapHeights).reduce(
+      let snapTarget = (
+        onClose ? [0, ...snapHeights.value] : snapHeights.value
+      ).reduce(
         (closest, snapH) =>
           Math.abs(height.value - snapH) < Math.abs(height.value - closest)
             ? snapH
             : closest,
         snapHeight.value,
       )
-
       // 가장 까깝지 않더라도 pan 의 범위가 50 이상이면 다음 혹은 이전 snapPoint 로 이동 시키기
       if (
         snapTarget === snapHeight.value &&
         Math.abs(event.translationY) > 50
       ) {
-        const index = snapHeights.indexOf(snapTarget)
+        const index = snapHeights.value.indexOf(snapTarget)
         if (event.translationY > 0) {
-          if (index > 0) snapTarget = snapHeights[index - 1]
+          if (index > 0) snapTarget = snapHeights.value[index - 1]
           else if (onClose) snapTarget = 0
-        } else if (event.translationY < 0 && index < snapHeights.length - 1) {
-          snapTarget = snapHeights[index + 1]
+        } else if (
+          event.translationY < 0 &&
+          index < snapHeights.value.length - 1
+        ) {
+          snapTarget = snapHeights.value[index + 1]
         }
       }
 
-      height.value = withTiming(snapTarget, basicTimingConfig)
-      snapHeight.value = snapTarget
-
-      if (snapTarget === 0) {
-        snapHeight.value = 1
-        runOnJS(setLocalVisible)(false)
+      if (snapTarget === 0) runOnJS(handleClose)()
+      else {
+        height.value = withTiming(snapTarget, basicTimingConfig)
+        snapHeight.value = snapTarget
       }
     })
 
@@ -173,7 +188,7 @@ function ActionSheet({
   )
 
   /** render */
-  const renderChildren = () => {
+  const renderChildren = useCallback(() => {
     const childrenEl: any = {
       header: undefined,
       body: undefined,
@@ -217,16 +232,16 @@ function ActionSheet({
         {childrenEl.footer}
       </>
     )
-  }
+  }, [children])
 
   return (
     <Portal>
       {/* dim 영역 */}
-      <View
-        onLayout={handleLayout}
+      <AnimatedView
+        onLayout={layoutFunction}
         height={keyboardAvoiding ? windowH : '100%'}>
         {dim && (
-          <TouchableWithoutFeedback onPress={() => setLocalVisible(false)}>
+          <TouchableWithoutFeedback onPress={handleClose}>
             <AnimatedView flex={1} bg={colors.backdrop} style={dimStyle} />
           </TouchableWithoutFeedback>
         )}
@@ -239,10 +254,10 @@ function ActionSheet({
           position='absolute'
           borderTopRightRadius={rounded ? 8 : 0}
           borderTopLeftRadius={rounded ? 8 : 0}
-          onLayout={handleContentLayout}>
+          onLayout={contentLayoutFunction}>
           {renderChildren()}
         </AnimatedView>
-      </View>
+      </AnimatedView>
     </Portal>
   )
 }

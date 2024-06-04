@@ -2,7 +2,7 @@ import { WithTimingConfig } from 'react-native-reanimated/src/reanimated2/animat
 import { Easing } from 'react-native-reanimated'
 
 const basicTimingConfig: WithTimingConfig = {
-  duration: 100,
+  duration: 150,
   easing: Easing.out(Easing.ease),
 }
 

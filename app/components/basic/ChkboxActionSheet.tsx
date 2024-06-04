@@ -61,8 +61,6 @@ function ChkboxActionSheet({
             </TouchableRipple>
           ))}
         </List.Section>
-      </ActionSheet.Body>
-      <ActionSheet.Footer>
         <View p={3} flexDirection='row' justifyContent='flex-end' gap={8}>
           <Button flex={1} onPress={handleClear}>
             클리어
@@ -71,7 +69,7 @@ function ChkboxActionSheet({
             적용
           </Button>
         </View>
-      </ActionSheet.Footer>
+      </ActionSheet.Body>
     </ActionSheet>
   )
 }
