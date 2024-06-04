@@ -1,4 +1,4 @@
-import { Text, View } from '../styled'
+import { Text, View } from '../../styled'
 import { useTheme } from 'react-native-paper'
 
 function MapArea() {

@@ -20,7 +20,7 @@ import { useTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { RootStackParamList } from '~/navigation/types.ts'
-import CommentsActionSheet from '~/screens/stacks/adventureDetail/components/CommentsActionSheet.tsx'
+import CommentsActionSheet from '~/components/comment/CommentsActionSheet/CommentsActionSheet.tsx'
 
 type Props = {
   activity: ActivityT

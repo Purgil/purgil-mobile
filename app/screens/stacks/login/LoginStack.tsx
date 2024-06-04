@@ -1,5 +1,5 @@
 import { Button, Dialog, HelperText, Portal, Text } from 'react-native-paper'
-import { TextInput, View } from '../../../components/styled'
+import { TextInput, View } from '~/components/styled'
 import { useEffect, useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import { Keyboard } from 'react-native'

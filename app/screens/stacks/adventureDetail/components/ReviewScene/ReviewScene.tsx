@@ -7,12 +7,13 @@ import {
   View,
 } from '~/components/styled'
 import { Icon, useTheme } from 'react-native-paper'
-import { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useFormik } from 'formik'
-import { Pressable } from 'react-native'
-import AdventureReviews from '~/screens/stacks/adventureDetail/components/AdventureReviews.tsx'
+import { FlatList, Pressable } from 'react-native'
 import { ActionSheet, Avatar, RatingStars } from '~/components/basic'
 import { User } from '~/core/data/user.data'
+import { reviews } from '~/screens/stacks/adventureDetail/components/ReviewScene/ReviewScene.consts.ts'
+import AdventureReview from '~/components/adventure/AdventureReview/AdventureReview.tsx'
 
 export const me: User = {
   id: 151,
@@ -75,6 +76,11 @@ export default function ReviewScene() {
 
     return Number(maxKey)
   }, [])
+
+  /** effects */
+  useEffect(() => {
+    console.log('values.content>>', writeReviewValues.content)
+  }, [writeReviewValues.content])
 
   /** render */
   const renderRatingBar = (rating: 1 | 2 | 3 | 4 | 5) => (
@@ -149,7 +155,13 @@ export default function ReviewScene() {
         </>
       </TouchableRipple>
 
-      <AdventureReviews adventureId={1} />
+      <FlatList
+        scrollEnabled={false}
+        data={reviews}
+        renderItem={({ item }) => (
+          <AdventureReview key={item.id} review={item} />
+        )}
+      />
 
       {actionSheet.writeReview && (
         <ActionSheet
@@ -181,7 +193,6 @@ export default function ReviewScene() {
                 multiline
                 placeholder='이 루트에 대한 내 평가를 남겨보세요!'
                 height={150}
-                value={writeReviewValues.content}
                 onChangeText={value => setFieldValue('content', value)}
               />
               <View flexDirection='row'>

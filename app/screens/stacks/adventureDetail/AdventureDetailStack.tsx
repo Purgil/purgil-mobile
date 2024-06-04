@@ -12,8 +12,8 @@ import { Appbar, Divider, Icon, useTheme } from 'react-native-paper'
 import { MToHM } from '~/utils/datetime.utils.ts'
 import { adventureDetail } from './AdventureDetailStack.consts.ts'
 import { ActionSheet, ImgArea, Swiper, TabView } from '~/components/basic'
-import ReviewScene from '~/screens/stacks/adventureDetail/components/ReviewScene'
-import ActivityScene from '~/screens/stacks/adventureDetail/components/ActivityScene'
+import ReviewScene from '~/screens/stacks/adventureDetail/components/ReviewScene/ReviewScene.tsx'
+import Activities from '~/components/activity/Activities/Activities.tsx'
 import PhotoScene from '~/screens/stacks/adventureDetail/components/PhotoScene'
 import { SceneMap } from 'react-native-tab-view'
 import {
@@ -26,7 +26,7 @@ import { basicTimingConfig } from '~/utils/animation.utils.ts'
 
 const renderScene = SceneMap({
   review: ReviewScene,
-  activity: ActivityScene,
+  activity: Activities,
   photo: PhotoScene,
 })
 

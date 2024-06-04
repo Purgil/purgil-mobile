@@ -1,11 +1,11 @@
-import { Adventure as AdventureT } from '../../core/data/adventure.data'
-import { Text, TouchableRipple, View } from '../styled'
+import { Adventure as AdventureT } from '../../../core/data/adventure.data'
+import { Text, TouchableRipple, View } from '../../styled'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { Icon, useTheme } from 'react-native-paper'
 import { RootStackParamList } from '~/navigation/types.ts'
-import { ImgArea } from '../basic'
+import { ImgArea } from '../../basic'
 import { Swiper } from '~/components/basic'
 
 type Props = {

@@ -8,10 +8,10 @@ import {
 } from './HomeScreen.consts.ts'
 import { useFormik } from 'formik'
 import { MapArea } from '~/components/basic'
-import ChkboxActionSheet from '~/components/basic/ChkboxActionSheet.tsx'
-import ActionSheet from '~/components/basic/ActionSheet.tsx'
+import ChkboxActionSheet from '~/components/basic/ChkboxActionSheet/ChkboxActionSheet.tsx'
+import ActionSheet from '~/components/basic/ActionSheet/ActionSheet.tsx'
 import { FlatList } from 'react-native'
-import Adventure from '~/components/adventure/Adventure.tsx'
+import Adventure from '~/components/adventure/Adventure/Adventure.tsx'
 
 const initialLocation = '경기도 파주시'
 

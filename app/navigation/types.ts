@@ -14,9 +14,6 @@ export type RootStackParamList = {
   AdventureDetail: {
     adventure: Adventure
   }
-  CommentDetail: {
-    comment: Comment
-  }
 }
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

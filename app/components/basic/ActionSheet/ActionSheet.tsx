@@ -12,14 +12,14 @@ import {
   View,
 } from '~/components/styled'
 import { Portal, useTheme } from 'react-native-paper'
-import {
+import Animated, {
   runOnJS,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
-import { Dimensions, LayoutChangeEvent } from 'react-native'
+import { Dimensions, Keyboard, LayoutChangeEvent } from 'react-native'
 import { basicTimingConfig } from '~/utils/animation.utils.ts'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
@@ -63,7 +63,7 @@ function ActionSheet({
   const opacity = useSharedValue(0)
   const height = useSharedValue(0)
   const snapHeight = useSharedValue(0)
-
+  const keyboardHeight = useSharedValue(0)
   const snapHeights = useDerivedValue(() =>
     snapPoints[0]
       ? snapPoints.sort((a, b) => a - b).map(point => layoutH.value * point)
@@ -103,6 +103,16 @@ function ActionSheet({
     })
   }, [])
 
+  /** memo */
+  const layoutFunction = useMemo(
+    () => (mounted ? undefined : handleLayout),
+    [mounted],
+  )
+  const contentLayoutFunction = useMemo(
+    () => (snapPoints[0] || mounted ? undefined : handleContentLayout),
+    [mounted],
+  )
+
   /** effect */
   // 뒤로가기 제어
   useEffect(() => {
@@ -116,16 +126,29 @@ function ActionSheet({
       navigation.removeListener('beforeRemove', onBack)
     }
   }, [navigation])
-
-  /** memo */
-  const layoutFunction = useMemo(
-    () => (mounted ? undefined : handleLayout),
-    [mounted],
-  )
-  const contentLayoutFunction = useMemo(
-    () => (snapPoints[0] || mounted ? undefined : handleContentLayout),
-    [mounted],
-  )
+  // 키보드 제어
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      event => {
+        keyboardHeight.value = withTiming(-event.endCoordinates.height, {
+          duration: event.duration,
+        })
+      },
+    )
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      event => {
+        keyboardHeight.value = withTiming(0, {
+          duration: event.duration,
+        })
+      },
+    )
+    return () => {
+      keyboardDidShowListener.remove()
+      keyboardDidHideListener.remove()
+    }
+  }, [])
 
   /** other */
   const panGesture = Gesture.Pan()
@@ -186,6 +209,12 @@ function ActionSheet({
           transform: [{ translateY: translateY.value }],
         },
   )
+  const bottomStyle = useAnimatedStyle(() => ({
+    position: 'absolute',
+    width: '100%',
+    bottom: 0,
+    transform: [{ translateY: keyboardHeight.value }],
+  }))
 
   /** render */
   const renderChildren = useCallback(() => {
@@ -229,7 +258,7 @@ function ActionSheet({
 
         {childrenEl.body}
 
-        {childrenEl.footer}
+        <AnimatedView style={bottomStyle}>{childrenEl.footer}</AnimatedView>
       </>
     )
   }, [children])
@@ -286,3 +315,4 @@ ActionSheet.Footer = ({ children }: PropsWithChildren) => {
 }
 
 export default ActionSheet
+// export default React.memo(ActionSheet) as unknown as typeof ActionSheet

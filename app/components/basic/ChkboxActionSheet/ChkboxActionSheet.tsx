@@ -2,8 +2,8 @@ import React, { useCallback, useState } from 'react'
 import { Button, View } from '~/components/styled'
 import { ValueLabelPair } from '~/core/data/basic.types'
 import { Checkbox, List, TouchableRipple } from 'react-native-paper'
-import { ActionSheetProps } from '~/components/basic/ActionSheet.tsx'
-import { ActionSheet } from '~/components/basic/index.ts'
+import { ActionSheetProps } from '~/components/basic/ActionSheet/ActionSheet.tsx'
+import { ActionSheet } from '~/components/basic'
 
 type Props = {
   value: any[]
