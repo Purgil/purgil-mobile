@@ -39,7 +39,7 @@ export default function RepliesActionSheet({
           <View bg={colors.elevation.level3}>
             <Comment comment={comment} />
           </View>
-          <View pl={10}>
+          <View pl={30}>
             <FlatList
               scrollEnabled={false}
               data={comments}

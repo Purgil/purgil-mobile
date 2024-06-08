@@ -152,13 +152,15 @@ function HomeScreen() {
                 </Text>
               </ActionSheet.Header>
               <ActionSheet.Body>
-                <FlatList
-                  scrollEnabled
-                  data={adventures}
-                  renderItem={({ item }) => (
-                    <Adventure key={item.id} adventure={item} />
-                  )}
-                />
+                <View px={10}>
+                  <FlatList
+                    scrollEnabled
+                    data={adventures}
+                    renderItem={({ item }) => (
+                      <Adventure key={item.id} adventure={item} />
+                    )}
+                  />
+                </View>
               </ActionSheet.Body>
             </ActionSheet>
           </Portal.Host>

@@ -23,6 +23,8 @@ import {
   withTiming,
 } from 'react-native-reanimated'
 import { basicTimingConfig } from '~/utils/animation.utils.ts'
+import globalStyles from '~/utils/style.utils.ts'
+import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 
 const renderScene = SceneMap({
   review: ReviewScene,
@@ -64,6 +66,15 @@ function AdventureDetailStack({
     console.log('>>')
   }, [])
   const handlePressNavigate = useCallback(() => {}, [])
+  const handleScroll = useCallback(
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (e.nativeEvent.contentOffset.y > 100 && headerBg.value === 0)
+        headerBg.value = withTiming(1, basicTimingConfig)
+      else if (e.nativeEvent.contentOffset.y <= 100 && headerBg.value === 1)
+        headerBg.value = withTiming(0, basicTimingConfig)
+    },
+    [],
+  )
 
   /** memo */
   const bookmarkIcon = useMemo(
@@ -80,9 +91,6 @@ function AdventureDetailStack({
     ),
   }))
 
-  /** render */
-  const carouselItem = <ImgArea />
-
   return (
     <>
       <AnimatedView
@@ -91,7 +99,7 @@ function AdventureDetailStack({
         zIndex={1}
         width='100%'
         style={headerStyle}>
-        <Appbar.Header style={{ backgroundColor: 'transparent' }}>
+        <Appbar.Header style={globalStyles.transparentBg}>
           <Appbar.BackAction
             onPress={() => navigation.goBack()}
             containerColor={colors.background}
@@ -122,17 +130,8 @@ function AdventureDetailStack({
         flex={1}
         bg={colors.background}
         scrollEventThrottle={10}
-        onScroll={e => {
-          // scrollY.value = e.nativeEvent.contentOffset.y
-          if (e.nativeEvent.contentOffset.y > 100 && headerBg.value === 0)
-            headerBg.value = withTiming(1, basicTimingConfig)
-          else if (e.nativeEvent.contentOffset.y <= 100 && headerBg.value === 1)
-            headerBg.value = withTiming(0, basicTimingConfig)
-        }}>
-        {/*<ScrollView flex={1} bg={colors.background} stickyHeaderIndices={[0]}>*/}
-        <View height={300}>
-          <Swiper data={[...new Array(6)]} renderItem={() => carouselItem} />
-        </View>
+        onScroll={handleScroll}>
+        <Swiper data={[...new Array(6)]} renderItem={() => <ImgArea />} />
 
         <View
           px={10}

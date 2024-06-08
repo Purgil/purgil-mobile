@@ -13,6 +13,7 @@ import LoginStack from '../screens/stacks/login/LoginStack.tsx'
 import { RootStackParamList } from './types.ts'
 import AdventureDetailStack from '../screens/stacks/adventureDetail/AdventureDetailStack.tsx'
 import { Portal } from 'react-native-paper'
+import ActivityDetailStack from '~/screens/stacks/activityDetail/ActivityDetailStack.tsx'
 
 function Router() {
   const Stack = createStackNavigator<RootStackParamList>()
@@ -42,6 +43,7 @@ function Router() {
             name='AdventureDetail'
             component={AdventureDetailStack}
           />
+          <Stack.Screen name='ActivityDetail' component={ActivityDetailStack} />
         </Stack.Navigator>
       </Portal.Host>
     </NavigationContainer>

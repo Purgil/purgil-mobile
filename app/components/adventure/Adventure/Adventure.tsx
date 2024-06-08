@@ -24,26 +24,23 @@ function Adventure({ adventure }: Props) {
   const itemRenderer = () => <ImgArea />
 
   return (
-    <View flex={1}>
-      <TouchableRipple onPress={handlePress} flex={1}>
-        <View flex={1}>
-          <Swiper data={[...new Array(3)]} renderItem={itemRenderer} />
-          <View px={10} py={1}>
-            <Text variant='titleMedium' mb={2}>
-              {adventure.name}
-            </Text>
-            <Text variant='labelMedium' mb={1}>
-              {adventure.address}
-            </Text>
-            <Text variant='labelSmall'>
-              <Icon size={12} source='star' color={colors.primary} />
-              {adventure.rating} · {adventure.distance}km ·{' '}
-              {adventure.difficulty}
-            </Text>
-          </View>
+    <TouchableRipple onPress={handlePress} flex={1} py={10}>
+      <View flex={1}>
+        <Swiper data={[...new Array(3)]} renderItem={itemRenderer} />
+        <View px={10} py={1}>
+          <Text variant='titleMedium' mb={2}>
+            {adventure.name}
+          </Text>
+          <Text variant='labelMedium' mb={1}>
+            {adventure.address}
+          </Text>
+          <Text variant='labelSmall'>
+            <Icon size={12} source='star' color={colors.primary} />
+            {adventure.rating} · {adventure.distance}km · {adventure.difficulty}
+          </Text>
         </View>
-      </TouchableRipple>
-    </View>
+      </View>
+    </TouchableRipple>
   )
 }
 

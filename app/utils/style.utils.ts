@@ -14,6 +14,12 @@ const globalStyles = StyleSheet.create({
     margin: 0,
     padding: 0,
   },
+  transparentBg: {
+    backgroundColor: 'transparent',
+  },
+  textCenter: {
+    textAlign: 'center',
+  },
 })
 
 export default globalStyles

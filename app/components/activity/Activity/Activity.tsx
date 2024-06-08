@@ -41,7 +41,7 @@ function Activity({ activity }: Props) {
 
   return (
     <>
-      <TouchableRipple
+      <View
         pt={20}
         pb={10}
         borderBottomWidth={2}
@@ -73,56 +73,58 @@ function Activity({ activity }: Props) {
             </View>
           </View>
 
-          <View>
-            <Swiper data={[1, 2, 3]} renderItem={() => <ImgArea />} />
-          </View>
+          <TouchableRipple
+            onPress={() => navigation.navigate('ActivityDetail', { activity })}>
+            <>
+              <Swiper data={[1, 2, 3]} renderItem={() => <ImgArea />} />
 
-          <View>
-            <Text variant='titleMedium' mb={2}>
-              {activity.title}
-            </Text>
-            <View flexDirection='row' gap={3} alignItems='center'>
-              <Text fontSize={12}>하이킹</Text>
-              <Text>·</Text>
-              <RatingStars rating={activity.rating} single />
-            </View>
-            <Text variant='bodyMedium' mt={1}>
-              {activity.description}
-            </Text>
-            <View
-              flexDirection='row'
-              justifyContent='space-between'
-              alignItems='center'
-              mt={2}>
-              <Pressable
-                onPress={() =>
-                  navigation.navigate('AdventureDetail', {
-                    adventure: activity.adventure,
-                  })
-                }>
-                <Text color={colors.onSurfaceDisabled}>
-                  {activity.adventure.name}
-                </Text>
-              </Pressable>
-              <View flexDirection='row' gap={15}>
-                <Button
-                  labelStyle={globalStyles.btnLabelS}
-                  icon='thumb-up-outline'
-                  compact>
-                  242
-                </Button>
-                <Button
-                  labelStyle={globalStyles.btnLabelS}
-                  icon='comment-text-outline'
-                  compact
-                  onPress={() => setCommentsActionSheetVisible(true)}>
-                  14
-                </Button>
+              <Text variant='titleMedium' mb={2}>
+                {activity.title}
+              </Text>
+              <View flexDirection='row' gap={3} alignItems='center'>
+                <Text fontSize={12}>하이킹</Text>
+                <Text>·</Text>
+                <RatingStars rating={activity.rating} single />
               </View>
+              <Text variant='bodyMedium' mt={1}>
+                {activity.description}
+              </Text>
+            </>
+          </TouchableRipple>
+
+          <View
+            flexDirection='row'
+            justifyContent='space-between'
+            alignItems='center'
+            mt={2}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('AdventureDetail', {
+                  adventure: activity.adventure,
+                })
+              }>
+              <Text color={colors.onSurfaceDisabled}>
+                {activity.adventure.name}
+              </Text>
+            </Pressable>
+            <View flexDirection='row' gap={15}>
+              <Button
+                labelStyle={globalStyles.btnLabelS}
+                icon='thumb-up-outline'
+                compact>
+                242
+              </Button>
+              <Button
+                labelStyle={globalStyles.btnLabelS}
+                icon='comment-text-outline'
+                compact
+                onPress={() => setCommentsActionSheetVisible(true)}>
+                14
+              </Button>
             </View>
           </View>
         </>
-      </TouchableRipple>
+      </View>
 
       {reportActionSheetVisible && (
         <ActionSheet

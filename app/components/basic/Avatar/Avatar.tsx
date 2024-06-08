@@ -6,6 +6,7 @@ import { Avatar as RNAvatar, useTheme } from 'react-native-paper'
 type Props = {
   user: User
   nicknameDisplayType?: 'left' | 'right' | 'hidden'
+  flexEnd?: boolean
   underNickname?: string
   size?: number
   nicknameSize?: number
@@ -17,20 +18,16 @@ function Avatar({
   nicknameDisplayType = 'left',
   underNickname,
   nicknameSize = 13,
+  flexEnd = false,
 }: Props) {
   const { colors } = useTheme()
 
   return (
     <View
       flexDirection={nicknameDisplayType === 'right' ? 'row-reverse' : 'row'}
-      justifyContent='flex-end'
       alignItems='center'
       gap={5}>
-      <View
-        gap={1}
-        alignItems={
-          nicknameDisplayType === 'right' ? 'flex-start' : 'flex-end'
-        }>
+      <View gap={1} alignItems={flexEnd ? 'flex-end' : 'flex-start'}>
         {nicknameDisplayType !== 'hidden' && (
           <Text fontSize={nicknameSize}>{user.nickname}</Text>
         )}

@@ -13,3 +13,4 @@ export { default as TouchableWithoutFeedback } from './TouchableWithoutFeedback.
 export { default as Divider } from './Divider.ts'
 export { default as Pressable } from './Pressable.ts'
 export { default as Icon } from './Icon.ts'
+export { default as Avatar } from './Avatar.ts'
