@@ -47,6 +47,12 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<key>NSCameraUsageDescription</key>
+    <string>We need your permission to use your camera</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need your permission to access your photo library</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need your permission to save photos</string>
 	<false/>
 </dict>
 </plist>

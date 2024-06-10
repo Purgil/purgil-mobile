@@ -99,7 +99,7 @@ function BottomNav() {
           name='Profile'
           component={ProfileScreen}
           options={{
-            title: '프로필',
+            title: '나',
             tabBarIcon: ({ focused, color }) =>
               iconRenderer('Profile', focused, color),
           }}

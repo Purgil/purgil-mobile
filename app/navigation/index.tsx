@@ -14,6 +14,7 @@ import { RootStackParamList } from './types.ts'
 import AdventureDetailStack from '../screens/stacks/adventureDetail/AdventureDetailStack.tsx'
 import { Portal } from 'react-native-paper'
 import ActivityDetailStack from '~/screens/stacks/activityDetail/ActivityDetailStack.tsx'
+import ImgUploadStack from '~/screens/stacks/imgUpload/ImgUploadStack.tsx'
 
 function Router() {
   const Stack = createStackNavigator<RootStackParamList>()
@@ -44,6 +45,7 @@ function Router() {
             component={AdventureDetailStack}
           />
           <Stack.Screen name='ActivityDetail' component={ActivityDetailStack} />
+          <Stack.Screen name='ImgUpload' component={ImgUploadStack} />
         </Stack.Navigator>
       </Portal.Host>
     </NavigationContainer>

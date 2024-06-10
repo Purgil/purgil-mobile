@@ -17,6 +17,7 @@ export type RootStackParamList = {
   ActivityDetail: {
     activity: Activity
   }
+  ImgUpload: undefined
 }
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

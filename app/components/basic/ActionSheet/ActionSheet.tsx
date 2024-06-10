@@ -121,7 +121,6 @@ function ActionSheet({
       if (onClose) onClose()
     }
     navigation.addListener('beforeRemove', onBack)
-
     return () => {
       navigation.removeListener('beforeRemove', onBack)
     }
@@ -273,7 +272,7 @@ function ActionSheet({
         )}
 
         <AnimatedView
-          bg={colors.elevation.level1}
+          bg={colors.elevation.level2}
           style={contentStyle}
           bottom={0}
           width='100%'

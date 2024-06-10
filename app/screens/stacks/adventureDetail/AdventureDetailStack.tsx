@@ -26,6 +26,12 @@ import { basicTimingConfig } from '~/utils/animation.utils.ts'
 import globalStyles from '~/utils/style.utils.ts'
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 
+const routes = [
+  { key: 'review', title: '리뷰' },
+  { key: 'activity', title: '활동' },
+  { key: 'photo', title: '사진' },
+]
+
 const renderScene = SceneMap({
   review: ReviewScene,
   activity: Activities,
@@ -40,11 +46,6 @@ function AdventureDetailStack({
 }: RootStackScreenProps<'AdventureDetail'>) {
   /** state */
   const [marked, setMarked] = useState(false)
-  const [routes] = useState([
-    { key: 'review', title: '리뷰' },
-    { key: 'activity', title: '활동' },
-    { key: 'photo', title: '사진' },
-  ])
   const [actionSheets, setActionSheets] = useState({ report: false })
 
   /** hooks */
