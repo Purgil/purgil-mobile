@@ -1,64 +1,87 @@
-import { Button, View } from '~/components/styled'
-import { Appbar } from 'react-native-paper'
-import { Image, PermissionsAndroid, Platform } from 'react-native'
-import { launchImageLibrary } from 'react-native-image-picker'
-import { useState } from 'react'
+import { Button, Icon, View } from '~/components/styled'
+import {
+  CameraRoll,
+  useCameraRoll,
+} from '@react-native-camera-roll/camera-roll'
+import { Image, PermissionsAndroid } from 'react-native'
+import { useEffect, useState } from 'react'
+import { useGallery } from '~/hooks/useGallary.ts'
+import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll/src/CameraRoll.ts'
 
 export default function ImgUploadStack() {
-  const [imageUri, setImageUri] = useState(null)
+  const [photos, getPhotos] = useCameraRoll()
 
-  const requestPermission = async () => {
-    if (Platform.OS === 'android') {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        {
-          title: 'Storage Permission',
-          message: 'This app needs access to your storage to select photos',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      )
-      console.log('granted', granted)
-      console.log('PermissionsAndroid.RESULTS', PermissionsAndroid.RESULTS)
-      return granted === PermissionsAndroid.RESULTS.GRANTED
+  async function hasAndroidPermission() {
+    const getCheckPermissionPromise = () => {
+      if (true) {
+        // if (Platform.Version >= 33) {
+        return Promise.all([
+          PermissionsAndroid.check(
+            PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+          ),
+          PermissionsAndroid.check(
+            PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
+          ),
+        ]).then(
+          ([hasReadMediaImagesPermission, hasReadMediaVideoPermission]) =>
+            hasReadMediaImagesPermission && hasReadMediaVideoPermission,
+        )
+      } else {
+        return PermissionsAndroid.check(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        )
+      }
     }
-    return true
+
+    const hasPermission = await getCheckPermissionPromise()
+    console.log('hasPermission', hasPermission)
+    if (hasPermission) {
+      return true
+    }
+    const getRequestPermissionPromise = () => {
+      if (true) {
+        // if (Platform.Version >= 33) {
+        return PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+          PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
+        ]).then(
+          statuses =>
+            statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES] ===
+              PermissionsAndroid.RESULTS.GRANTED &&
+            statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO] ===
+              PermissionsAndroid.RESULTS.GRANTED,
+        )
+      } else {
+        return PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        ).then(status => status === PermissionsAndroid.RESULTS.GRANTED)
+      }
+    }
+    const rr = await getRequestPermissionPromise()
+    console.log('rr', rr)
+    return rr
   }
 
-  const pickImage = async () => {
-    const hasPermission = await requestPermission()
-    // if (!hasPermission) return
-
-    const result = await launchImageLibrary({
-      mediaType: 'photo',
-      includeBase64: false,
-      maxHeight: 200,
-      maxWidth: 200,
-    })
-
-    if (result.didCancel) {
-      console.log('User cancelled image picker')
-    } else if (result.error) {
-      console.log('ImagePicker Error: ', result.error)
-    } else if (result.assets && result.assets.length > 0) {
-      setImageUri(result.assets[0].uri)
-    }
+  const kk = async () => {
+    const hasRole = await hasAndroidPermission()
+    if (hasRole) await getPhotos()
   }
+
+  useEffect(() => {
+    console.log('000')
+    kk()
+  }, [])
 
   return (
-    <View>
-      <Appbar.Header>
-        <Appbar.Content title='이미지 업로드' mode='small' />
-      </Appbar.Header>
+    <>
+      <Button>get Photo</Button>
 
-      <Button onPress={pickImage}>Pick an Image</Button>
-      {imageUri && (
+      {photos?.edges?.map((photo, index) => (
         <Image
-          source={{ uri: imageUri }}
+          source={{ uri: photo.node.image.uri }}
           style={{ width: 200, height: 200, marginTop: 20 }}
         />
-      )}
-    </View>
+      ))}
+    </>
   )
 }
