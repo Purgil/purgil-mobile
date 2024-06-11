@@ -1,87 +1,57 @@
-import { Button, Icon, View } from '~/components/styled'
-import {
-  CameraRoll,
-  useCameraRoll,
-} from '@react-native-camera-roll/camera-roll'
-import { Image, PermissionsAndroid } from 'react-native'
-import { useEffect, useState } from 'react'
-import { useGallery } from '~/hooks/useGallary.ts'
-import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll/src/CameraRoll.ts'
+import { Button, Image, Text, TouchableRipple, View } from '~/components/styled'
+import { useCameraRoll } from '@react-native-camera-roll/camera-roll'
+import { Dimensions, FlatList } from 'react-native'
+import usePermission from '~/hooks/usePermission.ts'
+import { PermissionType } from '~/enums/basic.enums.ts'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
+import { RootStackParamList } from '~/navigation/types.ts'
+import { Appbar } from 'react-native-paper'
+
+const windowWidth = Dimensions.get('window').width
 
 export default function ImgUploadStack() {
+  /** hook */
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+
   const [photos, getPhotos] = useCameraRoll()
 
-  async function hasAndroidPermission() {
-    const getCheckPermissionPromise = () => {
-      if (true) {
-        // if (Platform.Version >= 33) {
-        return Promise.all([
-          PermissionsAndroid.check(
-            PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
-          ),
-          PermissionsAndroid.check(
-            PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
-          ),
-        ]).then(
-          ([hasReadMediaImagesPermission, hasReadMediaVideoPermission]) =>
-            hasReadMediaImagesPermission && hasReadMediaVideoPermission,
-        )
-      } else {
-        return PermissionsAndroid.check(
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        )
-      }
-    }
+  usePermission({
+    permissionTypes: [PermissionType.GALLERY],
+    onPermissionGranted: () => getPhotos({ first: 80, assetType: 'Photos' }),
+    onPermissionDenied: navigation.goBack,
+  })
 
-    const hasPermission = await getCheckPermissionPromise()
-    console.log('hasPermission', hasPermission)
-    if (hasPermission) {
-      return true
-    }
-    const getRequestPermissionPromise = () => {
-      if (true) {
-        // if (Platform.Version >= 33) {
-        return PermissionsAndroid.requestMultiple([
-          PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
-          PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
-        ]).then(
-          statuses =>
-            statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES] ===
-              PermissionsAndroid.RESULTS.GRANTED &&
-            statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO] ===
-              PermissionsAndroid.RESULTS.GRANTED,
-        )
-      } else {
-        return PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        ).then(status => status === PermissionsAndroid.RESULTS.GRANTED)
-      }
-    }
-    const rr = await getRequestPermissionPromise()
-    console.log('rr', rr)
-    return rr
-  }
-
-  const kk = async () => {
-    const hasRole = await hasAndroidPermission()
-    if (hasRole) await getPhotos()
-  }
-
-  useEffect(() => {
-    console.log('000')
-    kk()
-  }, [])
+  /** function */
+  const handlePressImg = (item: any) => {}
 
   return (
-    <>
-      <Button>get Photo</Button>
+    <View flex={1}>
+      <Appbar.Header>
+        <Appbar.Action icon='close' onPress={() => navigation.goBack()} />
+        <Appbar.Content title='사진 선택' />
+        <Button icon='check'>선택완료</Button>
+      </Appbar.Header>
 
-      {photos?.edges?.map((photo, index) => (
-        <Image
-          source={{ uri: photo.node.image.uri }}
-          style={{ width: 200, height: 200, marginTop: 20 }}
-        />
-      ))}
-    </>
+      <FlatList
+        data={photos?.edges}
+        numColumns={4}
+        keyExtractor={item => item.node.id}
+        renderItem={({ item }) => (
+          <TouchableRipple
+            onPress={() => handlePressImg(item)}
+            flex={1 / 4}
+            height={windowWidth / 4}
+            p='1px'>
+            <Image
+              source={{ uri: item.node.image.uri }}
+              width='100%'
+              height='100%'
+            />
+          </TouchableRipple>
+        )}
+      />
+    </View>
   )
 }

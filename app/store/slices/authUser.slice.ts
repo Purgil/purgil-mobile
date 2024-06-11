@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Gender } from '~/enums/common.enums.ts'
+import { Gender } from '~/enums/basic.enums.ts'
 
 export type AuthUser = {
   email: string
