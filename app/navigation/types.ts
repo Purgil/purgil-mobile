@@ -1,5 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import { Activity, Adventure } from '~/core/data/adventure.data'
+import { Image } from '~/core/data/basic.types'
 
 export type RootStackParamList = {
   Home: undefined
@@ -18,8 +19,10 @@ export type RootStackParamList = {
     activity: Activity
   }
   ImgUpload: {
-    onComplete: () => void
     maxCount: number
+  }
+  CreatePost: {
+    selectedImgs: Image[]
   }
 }
 

@@ -5,14 +5,15 @@ import { FAB } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { RootStackParamList } from '~/navigation/types.ts'
+import { Image } from '~/core/data/basic.types'
 
 export default function ActivityScene() {
+  /** hook */
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
+  /** state */
   const [fabOpened, setFabOpened] = useState(false)
-
-  const handleToggleFab = () => setFabOpened(!fabOpened)
 
   return (
     <>
@@ -28,7 +29,10 @@ export default function ActivityScene() {
           {
             icon: 'image-outline',
             label: '사진 업로드',
-            onPress: () => navigation.navigate('ImgUpload'),
+            onPress: () =>
+              navigation.navigate('ImgUpload', {
+                maxCount: 10,
+              }),
           },
           {
             icon: 'post-outline',
@@ -41,7 +45,7 @@ export default function ActivityScene() {
             onPress: () => console.log('Pressed notifications'),
           },
         ]}
-        onStateChange={handleToggleFab}
+        onStateChange={() => setFabOpened(!fabOpened)}
       />
     </>
   )
