@@ -17,7 +17,10 @@ export type RootStackParamList = {
   ActivityDetail: {
     activity: Activity
   }
-  ImgUpload: undefined
+  ImgUpload: {
+    onComplete: () => void
+    maxCount: number
+  }
 }
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

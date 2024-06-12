@@ -3,4 +3,12 @@ type ValueLabelPair = {
   label: string
 }
 
-export const { ValueLabelPair }
+type Image = {
+  uri: string
+  fileSize: number
+  width: number
+  height: number
+  extension: string
+}
+
+export const { ValueLabelPair, Image }
