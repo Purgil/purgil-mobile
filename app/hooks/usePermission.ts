@@ -41,7 +41,10 @@ export default function usePermission({
       }
     }
     const hasPermission = await checkPermission()
-    if (hasPermission) return true
+    if (hasPermission) {
+      setPermissions({ ...permissions, [PermissionType.GALLERY]: true })
+      return true
+    }
 
     const requestPermission = async () => {
       if (Number(Platform.Version) >= 33) {
