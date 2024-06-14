@@ -10,9 +10,11 @@ import { Swiper } from '~/components/basic'
 
 type Props = {
   adventure: AdventureT
+  panRef?: any
+  listRef?: any
 }
 
-function Adventure({ adventure }: Props) {
+function Adventure({ adventure, panRef, listRef }: Props) {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const { colors } = useTheme()
@@ -26,7 +28,12 @@ function Adventure({ adventure }: Props) {
   return (
     <TouchableRipple onPress={handlePress} flex={1} py={10}>
       <View flex={1}>
-        <Swiper data={[...new Array(3)]} renderItem={itemRenderer} />
+        <Swiper
+          panRef={panRef}
+          listRef={listRef}
+          data={[...new Array(3)]}
+          renderItem={itemRenderer}
+        />
         <View px={10} py={1}>
           <Text variant='titleMedium' mb={2}>
             {adventure.name}

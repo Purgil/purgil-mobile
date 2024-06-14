@@ -13,11 +13,12 @@ import {
   Portal,
   useTheme,
 } from 'react-native-paper'
-import { useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Image as ImageT } from '~/core/data/basic.types'
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll/src/CameraRoll.ts'
 
 const windowWidth = Dimensions.get('window').width
+const PAGE_SIZE_UNIT = 200
 
 export default function ImgUploadStack({
   navigation,
@@ -28,45 +29,40 @@ export default function ImgUploadStack({
   /** state */
   const [selectedImgs, setSelectedImgs] = useState<ImageT[]>([])
   const [alertDialogVisible, setAlertDialogVisible] = useState(false)
-  const [pageSize, setPageSize] = useState(40)
-  const [loading, setLoading] = useState(false)
+  const [pageSize, setPageSize] = useState(PAGE_SIZE_UNIT)
 
   /** hook */
   const [photos, getPhotos] = useCameraRoll()
-  const { colors } = useTheme()
 
   const { permissions } = usePermission({
     permissionTypes: [PermissionType.GALLERY],
-    onPermissionGranted: () =>
-      getPhotos({
-        first: pageSize,
-        assetType: 'Photos',
-        include: ['filename', 'fileSize', 'imageSize', 'fileExtension'],
-      }),
     onPermissionDenied: navigation.goBack,
   })
 
   /** function */
-  const handlePressImg = (item: PhotoIdentifier) => {
-    if (selectedImgs.some(img => img.uri === item.node.image.uri))
-      setSelectedImgs(
-        selectedImgs.filter(img => img.uri !== item.node.image.uri),
-      )
-    else if (selectedImgs.length === maxCount) {
-      setAlertDialogVisible(true)
-      return
-    } else
-      setSelectedImgs([
-        ...selectedImgs,
-        {
-          uri: item.node.image.uri,
-          fileSize: item.node.image.fileSize as number,
-          width: item.node.image.width as number,
-          height: item.node.image.height as number,
-          extension: item.node.image.extension as string,
-        },
-      ])
-  }
+  const handlePressImg = useCallback(
+    (item: PhotoIdentifier) => {
+      setSelectedImgs(state => {
+        if (state.some(img => img.uri === item.node.image.uri))
+          return state.filter(img => img.uri !== item.node.image.uri)
+        else if (state.length === maxCount) {
+          setAlertDialogVisible(true)
+          return state
+        } else
+          return [
+            ...state,
+            {
+              uri: item.node.image.uri,
+              fileSize: item.node.image.fileSize as number,
+              width: item.node.image.width as number,
+              height: item.node.image.height as number,
+              extension: item.node.image.extension as string,
+            },
+          ]
+      })
+    },
+    [maxCount],
+  )
 
   const handleSubmit = () => {
     navigation.replace('CreatePost', { selectedImgs })
@@ -77,21 +73,17 @@ export default function ImgUploadStack({
     })*/
   }
 
-  const test = async () => {
-    setLoading(true)
+  const handleGetPhotos = useCallback(async () => {
     getPhotos({
       first: pageSize,
       assetType: 'Photos',
       include: ['filename', 'fileSize', 'imageSize', 'fileExtension'],
-    }).then(() => {
-      setLoading(false)
-      console.log('yse!!!')
     })
-  }
+  }, [pageSize])
 
   /** effect */
   useEffect(() => {
-    if (permissions[PermissionType.GALLERY]) test()
+    if (permissions[PermissionType.GALLERY]) handleGetPhotos()
   }, [permissions, pageSize])
 
   /** render */
@@ -100,40 +92,13 @@ export default function ImgUploadStack({
       const index = selectedImgs.findIndex(
         selectedImg => selectedImg.uri === item.node.image.uri,
       )
-      const picked = index > -1
       return (
-        <Pressable
-          onPress={() => handlePressImg(item)}
-          flex={1 / 4}
-          height={windowWidth / 4}
-          p='1px'>
-          <Image
-            source={{ uri: item.node.image.uri }}
-            width='100%'
-            height='100%'
-          />
-          <View
-            border={2}
-            borderColor='white'
-            width={25}
-            height={25}
-            bg={picked ? colors.primaryContainer : colors.background}
-            borderRadius={100}
-            position='absolute'
-            right={1}
-            bottom={1}
-            justifyContent='center'
-            alignItems='center'>
-            {picked && (
-              <Text
-                color={colors.onPrimaryContainer}
-                fontSize={12}
-                fontWeight='bold'>
-                {index + 1}
-              </Text>
-            )}
-          </View>
-        </Pressable>
+        <ImgItem
+          picked={index > -1}
+          number={index + 1}
+          item={item}
+          handlePressImg={handlePressImg}
+        />
       )
     },
     [selectedImgs],
@@ -155,14 +120,13 @@ export default function ImgUploadStack({
             numColumns={4}
             keyExtractor={item => item.node.id}
             renderItem={({ item }) => renderImage(item)}
-            onEndReached={() => setPageSize(pageSize + 40)}
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              console.log('onEndReached !!')
+              setPageSize(pageSize + PAGE_SIZE_UNIT)
+            }}
             showsVerticalScrollIndicator={false}
           />
-        )}
-        {loading && (
-          <View>
-            <ActivityIndicator animating size='large' />
-          </View>
         )}
       </View>
 
@@ -179,3 +143,54 @@ export default function ImgUploadStack({
     </>
   )
 }
+
+const ImgItem = memo(
+  ({
+    picked,
+    number,
+    item,
+    handlePressImg,
+  }: {
+    picked: boolean
+    number: number
+    item: PhotoIdentifier
+    handlePressImg: (item: PhotoIdentifier) => void
+  }) => {
+    // console.log('ChildComponent rendered')
+    const { colors } = useTheme()
+    return (
+      <Pressable
+        onPress={() => handlePressImg(item)}
+        flex={1 / 4}
+        height={windowWidth / 4}
+        p='1px'>
+        <Image
+          source={{ uri: item.node.image.uri }}
+          width='100%'
+          height='100%'
+        />
+        <View
+          border={2}
+          borderColor='white'
+          width={25}
+          height={25}
+          bg={picked ? colors.primaryContainer : colors.background}
+          borderRadius={100}
+          position='absolute'
+          right={1}
+          bottom={1}
+          justifyContent='center'
+          alignItems='center'>
+          {picked && (
+            <Text
+              color={colors.onPrimaryContainer}
+              fontSize={12}
+              fontWeight='bold'>
+              {number}
+            </Text>
+          )}
+        </View>
+      </Pressable>
+    )
+  },
+)

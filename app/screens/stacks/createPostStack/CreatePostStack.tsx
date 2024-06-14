@@ -1,15 +1,16 @@
 import {
-  Avatar,
   Button,
   IconButton,
   Image,
+  ScrollView,
   TextInput,
   View,
 } from '~/components/styled'
 import { Appbar, useTheme } from 'react-native-paper'
 import { RootStackScreenProps } from '~/navigation/types.ts'
-import { Swiper } from '~/components/basic'
-import { Dimensions } from 'react-native'
+import { ImgArea, Swiper } from '~/components/basic'
+import { Dimensions, LayoutChangeEvent } from 'react-native'
+import { useState } from 'react'
 
 const windowWidth = Dimensions.get('window').width
 
@@ -19,11 +20,20 @@ export default function CreatePostStack({
     params: { selectedImgs },
   },
 }: RootStackScreenProps<'CreatePost'>) {
+  /** state */
+  const [contentW, setContentW] = useState(0)
+
   /** hook */
   const { colors } = useTheme()
 
+  /** function */
+  const handleLayout = (e: LayoutChangeEvent) => {
+    console.log('e>>')
+    setContentW(e.nativeEvent.layout.width)
+  }
+
   return (
-    <View flex={1}>
+    <View flex={1} bg={colors.background}>
       <Appbar.Header>
         <Appbar.Action icon='close' onPress={navigation.goBack} />
         <Appbar.Content title='게시글' />
@@ -32,27 +42,35 @@ export default function CreatePostStack({
         </Button>
       </Appbar.Header>
 
-      <View p={2}>
+      <View p={10}>
         <TextInput
           multiline
           mode='outlined'
-          placeholder='무슨일이 일어나고 있나요?'
+          label='무슨일이 일어나고 있나요?'
           numberOfLines={6}
         />
 
-        <Swiper
-          data={selectedImgs}
-          renderItem={item => (
-            <Image
-              width='100%'
-              height={windowWidth}
-              source={{ uri: item.uri }}
-            />
-          )}
-        />
+        <View onLayout={handleLayout}>
+          <Swiper
+            hideIndicator
+            groupCount={3}
+            data={selectedImgs}
+            renderItem={item => (
+              <View>
+                <Image
+                  borderRadius={10}
+                  width='100%'
+                  height={contentW / 3}
+                  source={{ uri: item.uri }}
+                />
+              </View>
+            )}
+          />
+        </View>
       </View>
 
       <View
+        bg={colors.background}
         position='absolute'
         bottom={0}
         width='100%'

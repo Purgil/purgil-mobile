@@ -1,17 +1,18 @@
 import { Chip, ScrollView, Text, View } from '../../components/styled'
 import { Portal, Searchbar } from 'react-native-paper'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   adventureTypes,
   adventures,
   difficultyTypes,
 } from './HomeScreen.consts.ts'
 import { useFormik } from 'formik'
-import { MapArea } from '~/components/basic'
+import { ImgArea, MapArea, Swiper } from '~/components/basic'
 import ChkboxActionSheet from '~/components/basic/ChkboxActionSheet/ChkboxActionSheet.tsx'
 import ActionSheet from '~/components/basic/ActionSheet/ActionSheet.tsx'
 import { FlatList } from 'react-native'
 import Adventure from '~/components/adventure/Adventure/Adventure.tsx'
+import { NativeViewGestureHandler } from 'react-native-gesture-handler'
 
 const initialLocation = '경기도 파주시'
 
@@ -40,6 +41,8 @@ function HomeScreen() {
   })
 
   /** hook */
+  const listRef = useRef<any>(null)
+  const panRef = useRef<any>(null)
   const { values, setFieldValue } = useFormik<SearchForm>({
     initialValues,
     onSubmit: () => {},
@@ -153,13 +156,21 @@ function HomeScreen() {
               </ActionSheet.Header>
               <ActionSheet.Body>
                 <View px={10}>
-                  <FlatList
-                    scrollEnabled
-                    data={adventures}
-                    renderItem={({ item }) => (
-                      <Adventure key={item.id} adventure={item} />
-                    )}
-                  />
+                  <NativeViewGestureHandler
+                    ref={listRef}
+                    simultaneousHandlers={panRef}>
+                    <FlatList
+                      data={adventures}
+                      renderItem={({ item }) => (
+                        <Adventure
+                          key={item.id}
+                          adventure={item}
+                          listRef={listRef}
+                          panRef={panRef}
+                        />
+                      )}
+                    />
+                  </NativeViewGestureHandler>
                 </View>
               </ActionSheet.Body>
             </ActionSheet>
