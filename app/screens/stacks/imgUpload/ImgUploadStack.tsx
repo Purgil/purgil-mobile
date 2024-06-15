@@ -3,7 +3,7 @@ import { useCameraRoll } from '@react-native-camera-roll/camera-roll'
 import { Dimensions, FlatList } from 'react-native'
 import usePermission from '~/hooks/usePermission.ts'
 import { PermissionType } from '~/enums/basic.enums.ts'
-import { useNavigation } from '@react-navigation/native'
+import { CommonActions, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { RootStackParamList, RootStackScreenProps } from '~/navigation/types.ts'
 import {
@@ -65,12 +65,27 @@ export default function ImgUploadStack({
   )
 
   const handleSubmit = () => {
-    navigation.replace('CreatePost', { selectedImgs })
-    /*navigation.navigate({
-      name: 'CreatePost',
-      params: { selectedImgs },
-      merge: true,
-    })*/
+    const routes = navigation.getState().routes as any
+    let targetRouteParams = routes[routes.length - 2].params
+
+    if (targetRouteParams) {
+      targetRouteParams.selectedImgs = [
+        ...(targetRouteParams.selectedImgs || []),
+        ...selectedImgs,
+      ]
+    } else {
+      targetRouteParams = {
+        selectedImgs,
+      }
+    }
+
+    routes[routes.length - 2] = {
+      ...routes[routes.length - 2],
+      params: targetRouteParams,
+    }
+
+    navigation.dispatch(CommonActions.reset({ index: 1, routes }))
+    navigation.goBack()
   }
 
   const handleGetPhotos = useCallback(async () => {
@@ -122,7 +137,6 @@ export default function ImgUploadStack({
             renderItem={({ item }) => renderImage(item)}
             onEndReachedThreshold={0.5}
             onEndReached={() => {
-              console.log('onEndReached !!')
               setPageSize(pageSize + PAGE_SIZE_UNIT)
             }}
             showsVerticalScrollIndicator={false}

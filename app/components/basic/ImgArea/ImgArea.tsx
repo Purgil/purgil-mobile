@@ -11,7 +11,6 @@ function ImgArea({ height = 300 }: Props) {
   return (
     <View
       height={height}
-      width='100%'
       justifyContent='center'
       bg={colors.inverseSurface}
       borderRadius={8}

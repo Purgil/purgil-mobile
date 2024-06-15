@@ -22,12 +22,13 @@ import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { RootStackParamList } from '~/navigation/types.ts'
 import CommentsActionSheet from '~/components/comment/CommentsActionSheet/CommentsActionSheet.tsx'
 import globalStyles from '~/utils/style.utils.ts'
+import { SimultaneousRefs } from '~/core/data/basic.types'
 
 type Props = {
   activity: ActivityT
-}
+} & Partial<SimultaneousRefs>
 
-function Activity({ activity }: Props) {
+function Activity({ activity, scrollRef, swiperRef }: Props) {
   /** state */
   const [commentsActionSheetVisible, setCommentsActionSheetVisible] =
     useState(false)
@@ -76,7 +77,12 @@ function Activity({ activity }: Props) {
           <TouchableRipple
             onPress={() => navigation.navigate('ActivityDetail', { activity })}>
             <>
-              <Swiper data={[1, 2, 3]} renderItem={() => <ImgArea />} />
+              <Swiper
+                data={[1, 2, 3]}
+                renderItem={() => <ImgArea />}
+                swiperRef={swiperRef}
+                scrollRef={scrollRef}
+              />
 
               <Text variant='titleMedium' mb={2}>
                 {activity.title}

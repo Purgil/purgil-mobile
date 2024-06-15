@@ -11,4 +11,9 @@ type Image = {
   extension: string
 }
 
-export const { ValueLabelPair, Image }
+type SimultaneousRefs = {
+  scrollRef: any
+  swiperRef: any
+}
+
+export const { ValueLabelPair, Image, SimultaneousRefs }

@@ -21,7 +21,7 @@ export type RootStackParamList = {
   ImgUpload: {
     maxCount: number
   }
-  CreatePost: {
+  CreatePost?: {
     selectedImgs: Image[]
   }
 }

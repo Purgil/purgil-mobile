@@ -7,14 +7,13 @@ import { Icon, useTheme } from 'react-native-paper'
 import { RootStackParamList } from '~/navigation/types.ts'
 import { ImgArea } from '../../basic'
 import { Swiper } from '~/components/basic'
+import { SimultaneousRefs } from '~/core/data/basic.types'
 
 type Props = {
   adventure: AdventureT
-  panRef?: any
-  listRef?: any
-}
+} & Partial<SimultaneousRefs>
 
-function Adventure({ adventure, panRef, listRef }: Props) {
+function Adventure({ adventure, swiperRef, scrollRef }: Props) {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const { colors } = useTheme()
@@ -26,11 +25,11 @@ function Adventure({ adventure, panRef, listRef }: Props) {
   const itemRenderer = () => <ImgArea />
 
   return (
-    <TouchableRipple onPress={handlePress} flex={1} py={10}>
-      <View flex={1}>
+    <TouchableRipple onPress={handlePress} py={10}>
+      <View>
         <Swiper
-          panRef={panRef}
-          listRef={listRef}
+          swiperRef={swiperRef}
+          scrollRef={scrollRef}
           data={[...new Array(3)]}
           renderItem={itemRenderer}
         />

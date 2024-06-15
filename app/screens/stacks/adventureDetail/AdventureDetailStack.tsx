@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from '~/components/styled'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { RootStackScreenProps } from '~/navigation/types.ts'
 import { Appbar, Divider, Icon, useTheme } from 'react-native-paper'
 import { MToHM } from '~/utils/datetime.utils.ts'
@@ -25,18 +25,13 @@ import {
 import { basicTimingConfig } from '~/utils/animation.utils.ts'
 import globalStyles from '~/utils/style.utils.ts'
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
+import { NativeViewGestureHandler } from 'react-native-gesture-handler'
 
 const routes = [
   { key: 'review', title: '리뷰' },
   { key: 'activity', title: '활동' },
   { key: 'photo', title: '사진' },
 ]
-
-const renderScene = SceneMap({
-  review: ReviewScene,
-  activity: Activities,
-  photo: PhotoScene,
-})
 
 function AdventureDetailStack({
   navigation,
@@ -50,6 +45,14 @@ function AdventureDetailStack({
 
   /** hooks */
   const { colors } = useTheme()
+  const scrollRef = useRef<any>(null)
+  const swiperRef = useRef<any>(null)
+
+  const renderScene = SceneMap({
+    review: ReviewScene,
+    activity: () => <Activities scrollRef={scrollRef} swiperRef={swiperRef} />,
+    photo: PhotoScene,
+  })
 
   /** shared */
   const headerBg = useSharedValue(0)
@@ -127,81 +130,85 @@ function AdventureDetailStack({
         </Appbar.Header>
       </AnimatedView>
 
-      <AnimatedScrollView
-        flex={1}
-        bg={colors.background}
-        scrollEventThrottle={10}
-        onScroll={handleScroll}>
-        <Swiper data={[...new Array(6)]} renderItem={() => <ImgArea />} />
-
-        <View
-          px={10}
-          py={20}
+      <NativeViewGestureHandler
+        ref={scrollRef}
+        simultaneousHandlers={swiperRef}>
+        <AnimatedScrollView
+          flex={1}
           bg={colors.background}
-          borderTopRightRadius={10}
-          borderTopLeftRadius={10}
-          top={-20}>
-          <Text variant='titleLarge'>{adventure.name}</Text>
-          <View flexDirection='row' justifyContent='space-between' pr={1}>
-            <View justifyContent='flex-end'>
-              <Text variant='bodyMedium' mb={1}>
-                {adventure.difficulty} ·{' '}
-                <Icon size={16} source='star' color={colors.primary} />
-                {adventure.rating}
-              </Text>
-              <Text variant='bodyMedium' mb={2}>
-                {adventure.address}
-              </Text>
-            </View>
-            <IconButton
-              size={36}
-              icon='navigation-variant'
-              bg={colors.primary}
-              iconColor={colors.onPrimary}
-              onPress={handlePressNavigate}
-            />
-          </View>
-
-          <Divider />
+          scrollEventThrottle={10}
+          onScroll={handleScroll}>
+          <Swiper data={[...new Array(6)]} renderItem={() => <ImgArea />} />
 
           <View
-            flexDirection='row'
-            justifyContent='space-around'
-            mt={55}
-            mb={10}>
-            <View gap={10}>
-              <Text variant='bodySmall' textAlign='center'>
-                거리
-              </Text>
-              <Text variant='titleLarge' textAlign='center'>
-                {adventureDetail.distance}km
-              </Text>
+            px={10}
+            py={20}
+            bg={colors.background}
+            borderTopRightRadius={10}
+            borderTopLeftRadius={10}
+            top={-20}>
+            <Text variant='titleLarge'>{adventure.name}</Text>
+            <View flexDirection='row' justifyContent='space-between' pr={1}>
+              <View justifyContent='flex-end'>
+                <Text variant='bodyMedium' mb={1}>
+                  {adventure.difficulty} ·{' '}
+                  <Icon size={16} source='star' color={colors.primary} />
+                  {adventure.rating}
+                </Text>
+                <Text variant='bodyMedium' mb={2}>
+                  {adventure.address}
+                </Text>
+              </View>
+              <IconButton
+                size={36}
+                icon='navigation-variant'
+                bg={colors.primary}
+                iconColor={colors.onPrimary}
+                onPress={handlePressNavigate}
+              />
             </View>
-            {adventureDetail.avgCompleteTime && (
+
+            <Divider />
+
+            <View
+              flexDirection='row'
+              justifyContent='space-around'
+              mt={55}
+              mb={10}>
               <View gap={10}>
                 <Text variant='bodySmall' textAlign='center'>
-                  평균 소요시간
+                  거리
                 </Text>
                 <Text variant='titleLarge' textAlign='center'>
-                  {MToHM(adventureDetail.avgCompleteTime)}
+                  {adventureDetail.distance}km
                 </Text>
-                {/* 칼로리 */}
-                {/* 루트 유형 */}
               </View>
-            )}
-            <View gap={10}>
-              <Text variant='bodySmall' textAlign='center'>
-                누적 오르막
-              </Text>
-              <Text variant='titleLarge' textAlign='center'>
-                {adventureDetail.elevationGain}m
-              </Text>
+              {adventureDetail.avgCompleteTime && (
+                <View gap={10}>
+                  <Text variant='bodySmall' textAlign='center'>
+                    평균 소요시간
+                  </Text>
+                  <Text variant='titleLarge' textAlign='center'>
+                    {MToHM(adventureDetail.avgCompleteTime)}
+                  </Text>
+                  {/* 칼로리 */}
+                  {/* 루트 유형 */}
+                </View>
+              )}
+              <View gap={10}>
+                <Text variant='bodySmall' textAlign='center'>
+                  누적 오르막
+                </Text>
+                <Text variant='titleLarge' textAlign='center'>
+                  {adventureDetail.elevationGain}m
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-        {/* 탭 */}
-        <TabView routes={routes} renderScene={renderScene} />
-      </AnimatedScrollView>
+          {/* 탭 */}
+          <TabView routes={routes} renderScene={renderScene} />
+        </AnimatedScrollView>
+      </NativeViewGestureHandler>
 
       {/* 신고하기 */}
       {actionSheets.report && (

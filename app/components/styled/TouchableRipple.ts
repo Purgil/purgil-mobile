@@ -13,6 +13,8 @@ import {
   border,
   HeightProps,
   height,
+  WidthProps,
+  width,
 } from 'styled-system'
 import styled from 'styled-components/native'
 
@@ -22,7 +24,8 @@ interface TouchableRippleStyledProps
     PaddingProps,
     MarginProps,
     HeightProps,
-    BorderProps {
+    BorderProps,
+    WidthProps {
   children: React.ReactNode
   gap?: number
 }
@@ -34,5 +37,6 @@ const TouchableRipple = styled(RNPTouchableRipple)<TouchableRippleStyledProps>`
   ${border}
   ${margin}
   ${height}
+  ${width}
 `
 export default TouchableRipple

@@ -4,11 +4,14 @@ import Activity from '~/components/activity/Activity/Activity.tsx'
 import { Activity as ActivityT } from '~/core/data/adventure.data'
 import { FlatList } from 'react-native'
 import { activities } from '~/components/activity/Activities/Activities.consts.ts'
+import { SimultaneousRefs } from '~/core/data/basic.types'
 
-export default function Activities() {
+type Props = {} & Partial<SimultaneousRefs>
+
+export default function Activities({ scrollRef, swiperRef }: Props) {
   /** render */
   const renderActivity = (activity: ActivityT) => (
-    <Activity key={activity.id} activity={activity} />
+    <Activity activity={activity} scrollRef={scrollRef} swiperRef={swiperRef} />
   )
 
   return (
@@ -21,6 +24,7 @@ export default function Activities() {
       <FlatList
         scrollEnabled={false}
         data={activities}
+        keyExtractor={item => `${item.id}`}
         renderItem={({ item }) => renderActivity(item)}
       />
     </View>

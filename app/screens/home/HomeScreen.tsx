@@ -41,8 +41,8 @@ function HomeScreen() {
   })
 
   /** hook */
-  const listRef = useRef<any>(null)
-  const panRef = useRef<any>(null)
+  const scrollRef = useRef<any>(null)
+  const swiperRef = useRef<any>(null)
   const { values, setFieldValue } = useFormik<SearchForm>({
     initialValues,
     onSubmit: () => {},
@@ -157,16 +157,16 @@ function HomeScreen() {
               <ActionSheet.Body>
                 <View px={10}>
                   <NativeViewGestureHandler
-                    ref={listRef}
-                    simultaneousHandlers={panRef}>
+                    ref={scrollRef}
+                    simultaneousHandlers={swiperRef}>
                     <FlatList
                       data={adventures}
+                      keyExtractor={item => `${item.id}`}
                       renderItem={({ item }) => (
                         <Adventure
-                          key={item.id}
                           adventure={item}
-                          listRef={listRef}
-                          panRef={panRef}
+                          scrollRef={scrollRef}
+                          swiperRef={swiperRef}
                         />
                       )}
                     />
