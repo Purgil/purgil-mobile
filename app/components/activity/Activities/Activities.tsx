@@ -5,10 +5,11 @@ import { Activity as ActivityT } from '~/core/data/adventure.data'
 import { FlatList } from 'react-native'
 import { activities } from '~/components/activity/Activities/Activities.consts.ts'
 import { SimultaneousRefs } from '~/core/data/basic.types'
+import { memo } from 'react'
 
 type Props = {} & Partial<SimultaneousRefs>
 
-export default function Activities({ scrollRef, swiperRef }: Props) {
+function Activities({ scrollRef, swiperRef }: Props) {
   /** render */
   const renderActivity = (activity: ActivityT) => (
     <Activity activity={activity} scrollRef={scrollRef} swiperRef={swiperRef} />
@@ -30,3 +31,5 @@ export default function Activities({ scrollRef, swiperRef }: Props) {
     </View>
   )
 }
+
+export default memo(Activities)

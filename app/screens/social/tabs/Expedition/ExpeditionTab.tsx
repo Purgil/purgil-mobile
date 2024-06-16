@@ -1,9 +1,9 @@
 import { Text, View } from '~/components/styled'
 
-export default function CrewScene() {
+export default function ExpeditionTab() {
   return (
     <View>
-      <Text>CrewScene</Text>
+      <Text>ExpeditionScene</Text>
     </View>
   )
 }

@@ -19,7 +19,7 @@ import {
 import { useTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
-import { RootStackParamList } from '~/navigation/types.ts'
+import { ScreenPropsMap } from '~/navigation/types.ts'
 import CommentsActionSheet from '~/components/comment/CommentsActionSheet/CommentsActionSheet.tsx'
 import globalStyles from '~/utils/style.utils.ts'
 import { SimultaneousRefs } from '~/core/data/basic.types'
@@ -37,8 +37,7 @@ function Activity({ activity, scrollRef, swiperRef }: Props) {
 
   /** hook */
   const { colors } = useTheme()
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+  const navigation = useNavigation<NativeStackNavigationProp<ScreenPropsMap>>()
 
   return (
     <>

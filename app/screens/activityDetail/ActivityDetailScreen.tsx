@@ -10,12 +10,10 @@ import {
   TouchableRipple,
   View,
 } from '~/components/styled'
-import { RootStackScreenProps } from '~/navigation/types.ts'
-import { Appbar, List, useTheme } from 'react-native-paper'
-import React, { useCallback, useMemo, useState } from 'react'
+import { RootScreenProps } from '~/navigation/types.ts'
+import { Appbar, useTheme } from 'react-native-paper'
+import React, { useMemo, useState } from 'react'
 import {
-  ActionSheet,
-  Comment,
   ImgArea,
   ListActionSheet,
   MapArea,
@@ -32,15 +30,15 @@ import globalStyles from '~/utils/style.utils.ts'
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import { basicTimingConfig } from '~/utils/animation.utils.ts'
 import CommentsActionSheet from '~/components/comment/CommentsActionSheet/CommentsActionSheet.tsx'
-import { adventureDetail } from '~/screens/stacks/adventureDetail/AdventureDetailStack.consts.ts'
 import { MToHM } from '~/utils/datetime.utils.ts'
+import { adventureDetail } from '~/screens/adventureDetail/AdventureDetailScreen.consts.ts'
 
-export default function ActivityDetailStack({
+export default function ActivityDetailScreen({
   navigation,
   route: {
     params: { activity },
   },
-}: RootStackScreenProps<'ActivityDetail'>) {
+}: RootScreenProps<'ActivityDetail'>) {
   /** hooks */
   const { colors } = useTheme()
 

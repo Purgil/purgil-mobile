@@ -4,12 +4,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import { Keyboard } from 'react-native'
 import * as yup from 'yup'
-import regex from '../../../utils/regex.tsx'
+import regex from '../../utils/regex.tsx'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '~/store'
 import { login } from '~/store/slices/authUser.slice.ts'
 import { Gender } from '~/enums/basic.enums.ts'
-import { RootStackScreenProps } from '~/navigation/types.ts'
+import { RootScreenProps } from '~/navigation/types.ts'
 
 type AuthForm = {
   email: string
@@ -25,7 +25,7 @@ const initialValues: AuthForm = {
   nickname: '',
 }
 
-function LoginStack({ navigation }: RootStackScreenProps<'Login'>) {
+function LoginScreen({ navigation }: RootScreenProps<'Login'>) {
   const dispatch = useDispatch<AppDispatch>()
   const [dialogVisible, setDialogVisible] = useState(false)
   const [step, setStep] = useState<'email' | 'login' | 'register'>('email')
@@ -234,4 +234,4 @@ function LoginStack({ navigation }: RootStackScreenProps<'Login'>) {
   )
 }
 
-export default LoginStack
+export default LoginScreen

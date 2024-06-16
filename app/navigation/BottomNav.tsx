@@ -5,7 +5,7 @@ import MapScreen from '../screens/map/MapScreen.tsx'
 import SocialScreen from '../screens/social/SocialScreen.tsx'
 import ProfileScreen from '../screens/profile/ProfileScreen.tsx'
 import { Icon } from 'react-native-paper'
-import { RootStackParamList } from './types.ts'
+import { ScreenPropsMap } from './types.ts'
 import { ReactNode, useCallback } from 'react'
 import { View } from '~/components/styled'
 import { Dimensions } from 'react-native'
@@ -37,7 +37,7 @@ const iconMap: { [screenName: string]: { icon: string; focusedIcon: string } } =
 const { height } = Dimensions.get('window')
 
 function BottomNav() {
-  const Tab = createMaterialBottomTabNavigator<RootStackParamList>()
+  const Tab = createMaterialBottomTabNavigator<ScreenPropsMap>()
 
   const iconRenderer = useCallback(
     (screenName: string, focused: boolean, color: string): ReactNode => {

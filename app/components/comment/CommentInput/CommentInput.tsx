@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Icon, TextInput, TouchableRipple, View } from '~/components/styled'
 import { Avatar } from '~/components/basic'
-import { me } from '~/screens/stacks/adventureDetail/components/ReviewScene/ReviewScene.tsx'
 import { useTheme } from 'react-native-paper'
+import { me } from '~/screens/adventureDetail/tabs/AdventureReview/AdventureReviewTab.tsx'
 
 type Props = {
   onSubmit: (text: string) => void

@@ -2,11 +2,10 @@ import { Button } from 'react-native-paper'
 import { View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
-import { RootStackParamList } from '../../navigation/types.ts'
+import { ScreenPropsMap } from '../../navigation/types.ts'
 
 function ProfileScreen() {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+  const navigation = useNavigation<NativeStackNavigationProp<ScreenPropsMap>>()
 
   return (
     <View>

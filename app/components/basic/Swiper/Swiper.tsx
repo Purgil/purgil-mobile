@@ -12,20 +12,20 @@ import { AnimatedView, Icon, Pressable, View } from '~/components/styled'
 import { useTheme } from 'react-native-paper'
 import { SimultaneousRefs } from '~/core/data/basic.types'
 
-const GAP_WIDTH = 8
-
 type Props = {
   data: any[]
   renderItem: (item: any, index: number) => React.ReactNode
   groupCount?: number
   hideIndicator?: boolean
+  gap?: number
 } & Partial<SimultaneousRefs>
 
 function Swiper({
   data = [],
-  renderItem,
   groupCount = 1,
   hideIndicator = false,
+  gap = 0,
+  renderItem,
   swiperRef,
   scrollRef,
 }: Props) {
@@ -43,15 +43,13 @@ function Swiper({
   /** memo */
   const dividedContentW = useMemo(
     () =>
-      groupCount
-        ? (contentW - (groupCount - 1) * GAP_WIDTH) / groupCount
-        : contentW,
+      groupCount ? (contentW - (groupCount - 1) * gap) / groupCount : contentW,
     [contentW, groupCount],
   )
   const maxOffset = useMemo(
     () =>
       -(data.length - groupCount) * dividedContentW -
-      GAP_WIDTH * (data.length - groupCount),
+      gap * (data.length - groupCount),
     [data, dividedContentW],
   )
 
@@ -61,8 +59,9 @@ function Swiper({
     setContentW(width)
   }, [])
 
+  /** effect */
   useEffect(() => {
-    const destination = -currIndex * (dividedContentW + GAP_WIDTH)
+    const destination = -currIndex * (dividedContentW + gap)
     translateX.value = withTiming(destination, {
       duration: 100,
       easing: Easing.out(Easing.ease),
@@ -70,24 +69,30 @@ function Swiper({
     accTranslateX.value = destination
   }, [currIndex])
 
+  useEffect(() => {
+    if (currIndex > data.length - groupCount && data.length >= groupCount) {
+      setCurrIndex(data.length - groupCount)
+    }
+  }, [data.length])
+
   /** other */
   const panGesture = Gesture.Pan()
     .onUpdate(event => {
+      if (data.length <= groupCount) return
       const targetX = accTranslateX.value + event.translationX
       if (targetX <= 0 && targetX >= maxOffset) {
         translateX.value = targetX
       }
     })
     .onEnd(event => {
+      if (data.length <= groupCount) return
       let targetIndex
       if (currIndex === 0 && translateX.value > 0) {
         targetIndex = 0
       } else if (translateX.value <= maxOffset + 1) {
         targetIndex = data.length - groupCount
       } else {
-        targetIndex = Math.round(
-          -translateX.value / (dividedContentW + GAP_WIDTH),
-        )
+        targetIndex = Math.round(-translateX.value / (dividedContentW + gap))
         if (targetIndex === currIndex) {
           if (event.translationX > 30 && currIndex > 0) targetIndex--
           else if (event.translationX < -30 && currIndex < data.length - 1)
@@ -95,7 +100,7 @@ function Swiper({
         }
       }
       if (currIndex === targetIndex) {
-        const destination = -currIndex * (dividedContentW + GAP_WIDTH)
+        const destination = -currIndex * (dividedContentW + gap)
         translateX.value = withTiming(destination, {
           duration: 100,
           easing: Easing.out(Easing.ease),
@@ -139,7 +144,7 @@ function Swiper({
           style={animatedStyle}
           flexDirection='row'
           borderRadius={7}
-          gap={GAP_WIDTH}>
+          gap={gap}>
           {data.map((item, index) => (
             <View key={index} width={dividedContentW}>
               {renderItem(item, index)}

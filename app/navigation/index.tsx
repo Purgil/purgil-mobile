@@ -5,20 +5,21 @@ import {
   DarkTheme,
 } from '@react-navigation/native'
 import { useColorScheme } from 'react-native'
-import SignUpStack from '../screens/stacks/register/SignUpStack.tsx'
+import SignUpScreen from '~/screens/register/SignUpScreen.tsx'
 import { createStackNavigator } from '@react-navigation/stack'
 import BottomNav from './BottomNav.tsx'
-import AuthStack from '../screens/stacks/auth/AuthStack.tsx'
-import LoginStack from '../screens/stacks/login/LoginStack.tsx'
-import { RootStackParamList } from './types.ts'
-import AdventureDetailStack from '../screens/stacks/adventureDetail/AdventureDetailStack.tsx'
+import AuthScreen from '~/screens/auth/AuthScreen.tsx'
+import LoginScreen from '~/screens/login/LoginScreen.tsx'
+import { ScreenPropsMap } from './types.ts'
 import { Portal } from 'react-native-paper'
-import ActivityDetailStack from '~/screens/stacks/activityDetail/ActivityDetailStack.tsx'
-import ImgUploadStack from '~/screens/stacks/imgUpload/ImgUploadStack.tsx'
-import CreatePostStack from '~/screens/stacks/createPostStack/CreatePostStack.tsx'
+import ActivityDetailScreen from '~/screens/activityDetail/ActivityDetailScreen.tsx'
+import ImgUploadScreen from '~/screens/imgUpload/ImgUploadScreen.tsx'
+import CreateActivityScreen from '~/screens/createActivity/CreateActivityScreen.tsx'
+import CreatePostScreen from '~/screens/createPost/CreatePostScreen.tsx'
+import AdventureDetailScreen from '~/screens/adventureDetail/AdventureDetailScreen.tsx'
 
 function Router() {
-  const Stack = createStackNavigator<RootStackParamList>()
+  const Stack = createStackNavigator<ScreenPropsMap>()
   const isDarkMode = useColorScheme() === 'dark'
 
   return (
@@ -28,26 +29,33 @@ function Router() {
           <Stack.Screen name='BottomNav' component={BottomNav} />
           <Stack.Screen
             name='Auth'
-            component={AuthStack}
+            component={AuthScreen}
             options={{ headerTitle: '로그인/회원가입', headerShown: true }}
           />
           <Stack.Screen
             name='Login'
-            component={LoginStack}
+            component={LoginScreen}
             options={{ headerTitle: '이메일로 시작', headerShown: true }}
           />
           <Stack.Screen
             name='SignUp'
-            component={SignUpStack}
+            component={SignUpScreen}
             options={{ headerTitle: '이메일로 시작', headerShown: true }}
           />
           <Stack.Screen
             name='AdventureDetail'
-            component={AdventureDetailStack}
+            component={AdventureDetailScreen}
           />
-          <Stack.Screen name='ActivityDetail' component={ActivityDetailStack} />
-          <Stack.Screen name='ImgUpload' component={ImgUploadStack} />
-          <Stack.Screen name='CreatePost' component={CreatePostStack} />
+          <Stack.Screen
+            name='ActivityDetail'
+            component={ActivityDetailScreen}
+          />
+          <Stack.Screen name='ImgUpload' component={ImgUploadScreen} />
+          <Stack.Screen name='CreatePost' component={CreatePostScreen} />
+          <Stack.Screen
+            name='CreateActivity'
+            component={CreateActivityScreen}
+          />
         </Stack.Navigator>
       </Portal.Host>
     </NavigationContainer>

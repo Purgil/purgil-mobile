@@ -5,7 +5,7 @@ import usePermission from '~/hooks/usePermission.ts'
 import { PermissionType } from '~/enums/basic.enums.ts'
 import { CommonActions, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
-import { RootStackParamList, RootStackScreenProps } from '~/navigation/types.ts'
+import { ScreenPropsMap, RootScreenProps } from '~/navigation/types.ts'
 import {
   ActivityIndicator,
   Appbar,
@@ -20,12 +20,12 @@ import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll/src/Camer
 const windowWidth = Dimensions.get('window').width
 const PAGE_SIZE_UNIT = 200
 
-export default function ImgUploadStack({
+export default function ImgUploadScreen({
   navigation,
   route: {
-    params: { maxCount },
+    params: { maxCount, targetScreen },
   },
-}: RootStackScreenProps<'ImgUpload'>) {
+}: RootScreenProps<'ImgUpload'>) {
   /** state */
   const [selectedImgs, setSelectedImgs] = useState<ImageT[]>([])
   const [alertDialogVisible, setAlertDialogVisible] = useState(false)
@@ -65,6 +65,10 @@ export default function ImgUploadStack({
   )
 
   const handleSubmit = () => {
+    if (targetScreen) {
+      navigation.navigate(targetScreen, { selectedImgs })
+      return
+    }
     const routes = navigation.getState().routes as any
     let targetRouteParams = routes[routes.length - 2].params
 

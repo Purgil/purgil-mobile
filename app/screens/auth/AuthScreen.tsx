@@ -1,10 +1,10 @@
-import { Button, IconButton, Text, View } from '../../../components/styled'
-import KakaoIcon from '../../../assets/svgs/kakao-logo.svg'
-import NaverIcon from '../../../assets/svgs/naver-logo.svg'
-import GoogleIcon from '../../../assets/svgs/google-logo.svg'
-import { RootStackScreenProps } from '../../../navigation/types.ts'
+import { Button, IconButton, Text, View } from '../../components/styled'
+import KakaoIcon from '../../assets/svgs/kakao-logo.svg'
+import NaverIcon from '../../assets/svgs/naver-logo.svg'
+import GoogleIcon from '../../assets/svgs/google-logo.svg'
+import { RootScreenProps } from '../../navigation/types.ts'
 
-function AuthStack({ navigation }: RootStackScreenProps<'Auth'>) {
+function AuthScreen({ navigation }: RootScreenProps<'Auth'>) {
   return (
     <View flex={1} py={20} px={12} justifyContent='flex-end'>
       <Button
@@ -25,4 +25,4 @@ function AuthStack({ navigation }: RootStackScreenProps<'Auth'>) {
   )
 }
 
-export default AuthStack
+export default AuthScreen

@@ -1,7 +1,7 @@
 import { SceneMap } from 'react-native-tab-view'
-import ActivityScene from '~/screens/social/components/ActivityScene/ActivityScene.tsx'
-import CrewScene from '~/screens/social/components/CrewScene/CrewScene.tsx'
-import ExpeditionScene from '~/screens/social/components/ExpeditionScene/ExpeditionScene.tsx'
+import SocialActivityTab from '~/screens/social/tabs/SocialActivity/SocialActivityTab.tsx'
+import CrewTab from '~/screens/social/tabs/Crew/CrewTab.tsx'
+import ExpeditionTab from '~/screens/social/tabs/Expedition/ExpeditionTab.tsx'
 
 const routes = [
   { key: 'activity', title: '활동' },
@@ -10,10 +10,10 @@ const routes = [
   // { key: 'follow', title: '팔로우' },
 ]
 
-const renderScene = SceneMap({
-  activity: ActivityScene,
-  crew: CrewScene,
-  expedition: ExpeditionScene,
+const renderTabs = SceneMap({
+  activity: SocialActivityTab,
+  crew: CrewTab,
+  expedition: ExpeditionTab,
 })
 
-export { routes, renderScene }
+export { routes, renderTabs }

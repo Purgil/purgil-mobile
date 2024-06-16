@@ -7,14 +7,11 @@ import {
   View,
 } from '~/components/styled'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { RootStackScreenProps } from '~/navigation/types.ts'
+import { RootScreenProps } from '~/navigation/types.ts'
 import { Appbar, Divider, Icon, useTheme } from 'react-native-paper'
 import { MToHM } from '~/utils/datetime.utils.ts'
-import { adventureDetail } from './AdventureDetailStack.consts.ts'
 import { ActionSheet, ImgArea, Swiper, TabView } from '~/components/basic'
-import ReviewScene from '~/screens/stacks/adventureDetail/components/ReviewScene/ReviewScene.tsx'
 import Activities from '~/components/activity/Activities/Activities.tsx'
-import PhotoScene from '~/screens/stacks/adventureDetail/components/PhotoScene'
 import { SceneMap } from 'react-native-tab-view'
 import {
   interpolateColor,
@@ -26,6 +23,9 @@ import { basicTimingConfig } from '~/utils/animation.utils.ts'
 import globalStyles from '~/utils/style.utils.ts'
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import { NativeViewGestureHandler } from 'react-native-gesture-handler'
+import { adventureDetail } from '~/screens/adventureDetail/AdventureDetailScreen.consts.ts'
+import AdventureReviewTab from '~/screens/adventureDetail/tabs/AdventureReview/AdventureReviewTab.tsx'
+import AdventurePhotoTab from '~/screens/adventureDetail/tabs/AdventurePhoto/AdventurePhotoTab.tsx'
 
 const routes = [
   { key: 'review', title: '리뷰' },
@@ -33,12 +33,12 @@ const routes = [
   { key: 'photo', title: '사진' },
 ]
 
-function AdventureDetailStack({
+function AdventureDetailScreen({
   navigation,
   route: {
     params: { adventure },
   },
-}: RootStackScreenProps<'AdventureDetail'>) {
+}: RootScreenProps<'AdventureDetail'>) {
   /** state */
   const [marked, setMarked] = useState(false)
   const [actionSheets, setActionSheets] = useState({ report: false })
@@ -48,11 +48,17 @@ function AdventureDetailStack({
   const scrollRef = useRef<any>(null)
   const swiperRef = useRef<any>(null)
 
-  const renderScene = SceneMap({
-    review: ReviewScene,
-    activity: () => <Activities scrollRef={scrollRef} swiperRef={swiperRef} />,
-    photo: PhotoScene,
-  })
+  const renderTabs = useMemo(
+    () =>
+      SceneMap({
+        review: AdventureReviewTab,
+        activity: () => (
+          <Activities scrollRef={scrollRef} swiperRef={swiperRef} />
+        ),
+        photo: AdventurePhotoTab,
+      }),
+    [],
+  )
 
   /** shared */
   const headerBg = useSharedValue(0)
@@ -64,8 +70,8 @@ function AdventureDetailStack({
 
   /** handle */
   const handlePressBookmark = useCallback(() => {
-    setMarked(!marked)
-  }, [marked])
+    setMarked(state => !state)
+  }, [])
   const handlePressReportAdventure = useCallback(() => {
     console.log('>>')
   }, [])
@@ -206,7 +212,7 @@ function AdventureDetailStack({
             </View>
           </View>
           {/* 탭 */}
-          <TabView routes={routes} renderScene={renderScene} />
+          <TabView routes={routes} renderScene={renderTabs} />
         </AnimatedScrollView>
       </NativeViewGestureHandler>
 
@@ -226,4 +232,4 @@ function AdventureDetailStack({
   )
 }
 
-export default AdventureDetailStack
+export default AdventureDetailScreen

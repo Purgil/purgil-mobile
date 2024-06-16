@@ -2,7 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import { Activity, Adventure } from '~/core/data/adventure.data'
 import { Image } from '~/core/data/basic.types'
 
-export type RootStackParamList = {
+export type ScreenPropsMap = {
   Home: undefined
   Map: undefined
   Record: undefined
@@ -20,17 +20,23 @@ export type RootStackParamList = {
   }
   ImgUpload: {
     maxCount: number
+    targetScreen?: 'CreatePost'
   }
   CreatePost?: {
     selectedImgs: Image[]
   }
+  CreateActivity?: {
+    selectedImgs: Image[]
+  }
 }
 
-export type RootStackScreenProps<T extends keyof RootStackParamList> =
-  StackScreenProps<RootStackParamList, T>
+export type RootScreenProps<T extends keyof ScreenPropsMap> = StackScreenProps<
+  ScreenPropsMap,
+  T
+>
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface ScreenProps extends ScreenPropsMap {}
   }
 }

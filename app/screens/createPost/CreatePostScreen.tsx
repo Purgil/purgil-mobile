@@ -1,5 +1,6 @@
 import {
   Button,
+  Divider,
   Icon,
   IconButton,
   Image,
@@ -9,16 +10,16 @@ import {
   View,
 } from '~/components/styled'
 import { Appbar, useTheme } from 'react-native-paper'
-import { RootStackScreenProps } from '~/navigation/types.ts'
+import { RootScreenProps } from '~/navigation/types.ts'
 import { Swiper } from '~/components/basic'
 import { LayoutChangeEvent } from 'react-native'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { Image as ImageT } from '~/core/data/basic.types'
 
-export default function CreatePostStack({
+export default function CreatePostScreen({
   navigation,
   route: { params },
-}: RootStackScreenProps<'CreatePost'>) {
+}: RootScreenProps<'CreatePost'>) {
   /** state */
   const [contentW, setContentW] = useState(0)
 
@@ -56,9 +57,14 @@ export default function CreatePostStack({
           numberOfLines={8}
         />
 
+        <Divider my={10} />
+
+        <Text variant='titleLarge'>사진</Text>
+
         <View onLayout={handleLayout}>
           {images.length > 0 && (
             <Swiper
+              gap={8}
               hideIndicator
               groupCount={3}
               data={images}

@@ -3,7 +3,7 @@ import React from 'react'
 import { Text, View } from '~/components/styled'
 
 type Props = {
-  height?: number
+  height?: number | string
 }
 
 function ImgArea({ height = 300 }: Props) {
@@ -13,7 +13,7 @@ function ImgArea({ height = 300 }: Props) {
       height={height}
       justifyContent='center'
       bg={colors.inverseSurface}
-      borderRadius={8}
+      // borderRadius={8}
       mb={10}>
       <Text textAlign='center' color={colors.inverseOnSurface}>
         이미지 영역

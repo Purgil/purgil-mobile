@@ -1,5 +1,6 @@
 import {
   Button,
+  IconButton,
   ScrollView,
   Text,
   TextInput,
@@ -7,13 +8,14 @@ import {
   View,
 } from '~/components/styled'
 import { Icon, useTheme } from 'react-native-paper'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import { FlatList, Pressable } from 'react-native'
 import { ActionSheet, Avatar, RatingStars } from '~/components/basic'
 import { User } from '~/core/data/user.data'
-import { reviews } from '~/screens/stacks/adventureDetail/components/ReviewScene/ReviewScene.consts.ts'
 import AdventureReview from '~/components/adventure/AdventureReview/AdventureReview.tsx'
+import WriteReviewActionSheet from '~/screens/adventureDetail/tabs/AdventureReview/components/WriteReviewActionSheet.tsx'
+import { reviews } from '~/screens/adventureDetail/tabs/AdventureReview/AdventureReviewTab.consts.ts'
 
 export const me: User = {
   id: 151,
@@ -33,31 +35,12 @@ const ratingData = {
   },
 }
 
-type WriteReviewForm = {
-  content: string
-  rating: number
-}
-const initialWriteReviewValues = {
-  content: '',
-  rating: 0,
-}
-
-export default function ReviewScene() {
+export default function AdventureReviewTab() {
   /** state */
   const [actionSheet, setActionSheet] = useState({ writeReview: false })
 
   /** hook */
   const { colors } = useTheme()
-  const {
-    values: writeReviewValues,
-    setFieldValue,
-    submitForm: submitWriteReview,
-  } = useFormik<WriteReviewForm>({
-    initialValues: initialWriteReviewValues,
-    onSubmit: () => {
-      setActionSheet({ ...actionSheet, writeReview: false })
-    },
-  })
 
   /** memo */
   const mostDistributedRating = useMemo(() => {
@@ -77,29 +60,27 @@ export default function ReviewScene() {
     return Number(maxKey)
   }, [])
 
-  /** effects */
-  useEffect(() => {
-    console.log('values.content>>', writeReviewValues.content)
-  }, [writeReviewValues.content])
-
   /** render */
-  const renderRatingBar = (rating: 1 | 2 | 3 | 4 | 5) => (
-    <View gap={5} alignItems='center' key={rating}>
-      <View
-        borderRadius={3}
-        height={120 * (ratingData.distribution[rating] / ratingData.count)}
-        width={30}
-        bg={
-          rating === mostDistributedRating
-            ? colors.primary
-            : colors.surfaceVariant
-        }
-      />
-      <Text textAlign='center'>
-        <Icon size={15} source='star' color={colors.primary} />
-        {rating}
-      </Text>
-    </View>
+  const renderRatingBar = useCallback(
+    (rating: 1 | 2 | 3 | 4 | 5) => (
+      <View gap={5} alignItems='center' key={rating}>
+        <View
+          borderRadius={3}
+          height={120 * (ratingData.distribution[rating] / ratingData.count)}
+          width={30}
+          bg={
+            rating === mostDistributedRating
+              ? colors.primary
+              : colors.surfaceVariant
+          }
+        />
+        <Text textAlign='center'>
+          <Icon size={15} source='star' color={colors.primary} />
+          {rating}
+        </Text>
+      </View>
+    ),
+    [],
   )
 
   return (
@@ -164,52 +145,10 @@ export default function ReviewScene() {
       />
 
       {actionSheet.writeReview && (
-        <ActionSheet
-          visible={actionSheet.writeReview}
-          onClose={() =>
-            setActionSheet({ ...actionSheet, writeReview: false })
-          }>
-          <ActionSheet.Body>
-            <View gap={15} px={10} py={15}>
-              <View flexDirection='row' justifyContent='center'>
-                {[1, 2, 3, 4, 5].map(rating => (
-                  <Pressable
-                    key={rating}
-                    onPress={() => setFieldValue('rating', rating)}>
-                    <Icon
-                      source='star'
-                      size={40}
-                      color={
-                        writeReviewValues.rating >= rating
-                          ? colors.primary
-                          : colors.surfaceVariant
-                      }
-                    />
-                  </Pressable>
-                ))}
-              </View>
-              <TextInput
-                mode='outlined'
-                multiline
-                placeholder='이 루트에 대한 내 평가를 남겨보세요!'
-                height={150}
-                onChangeText={value => setFieldValue('content', value)}
-              />
-              <View flexDirection='row'>
-                <Button
-                  flex={1}
-                  onPress={() =>
-                    setActionSheet({ ...actionSheet, writeReview: false })
-                  }>
-                  취소
-                </Button>
-                <Button flex={1} mode='contained' onPress={submitWriteReview}>
-                  등록
-                </Button>
-              </View>
-            </View>
-          </ActionSheet.Body>
-        </ActionSheet>
+        <WriteReviewActionSheet
+          onClose={() => setActionSheet({ writeReview: false })}
+          onSubmit={() => {}}
+        />
       )}
     </ScrollView>
   )

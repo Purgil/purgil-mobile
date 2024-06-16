@@ -24,7 +24,7 @@ import { basicTimingConfig } from '~/utils/animation.utils.ts'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
-import { RootStackParamList } from '~/navigation/types.ts'
+import { ScreenPropsMap } from '~/navigation/types.ts'
 
 const windowH = Dimensions.get('window').height
 
@@ -51,8 +51,7 @@ function ActionSheet({
 }: ActionSheetProps) {
   /** hook */
   const { colors } = useTheme()
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+  const navigation = useNavigation<NativeStackNavigationProp<ScreenPropsMap>>()
 
   /** state */
   const [mounted, setMounted] = useState(false)
