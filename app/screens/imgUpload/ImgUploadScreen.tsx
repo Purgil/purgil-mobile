@@ -3,16 +3,9 @@ import { useCameraRoll } from '@react-native-camera-roll/camera-roll'
 import { Dimensions, FlatList } from 'react-native'
 import usePermission from '~/hooks/usePermission.ts'
 import { PermissionType } from '~/enums/basic.enums.ts'
-import { CommonActions, useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
-import { ScreenPropsMap, RootScreenProps } from '~/navigation/types.ts'
-import {
-  ActivityIndicator,
-  Appbar,
-  Dialog,
-  Portal,
-  useTheme,
-} from 'react-native-paper'
+import { CommonActions } from '@react-navigation/native'
+import { RootScreenProps } from '~/navigation/types.ts'
+import { Appbar, Dialog, useTheme } from 'react-native-paper'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Image as ImageT } from '~/core/data/basic.types'
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll/src/CameraRoll.ts'

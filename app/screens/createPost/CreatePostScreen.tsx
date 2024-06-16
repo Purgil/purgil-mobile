@@ -13,7 +13,7 @@ import { Appbar, useTheme } from 'react-native-paper'
 import { RootScreenProps } from '~/navigation/types.ts'
 import { Swiper } from '~/components/basic'
 import { LayoutChangeEvent } from 'react-native'
-import { memo, useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { Image as ImageT } from '~/core/data/basic.types'
 
 export default function CreatePostScreen({

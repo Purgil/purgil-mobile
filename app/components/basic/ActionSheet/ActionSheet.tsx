@@ -12,7 +12,7 @@ import {
   View,
 } from '~/components/styled'
 import { Portal, useTheme } from 'react-native-paper'
-import Animated, {
+import {
   runOnJS,
   useAnimatedStyle,
   useDerivedValue,
@@ -40,7 +40,6 @@ export type ActionSheetProps = {
 } & PropsWithChildren
 
 function ActionSheet({
-  visible,
   onClose,
   children,
   redeemHeight = 0,

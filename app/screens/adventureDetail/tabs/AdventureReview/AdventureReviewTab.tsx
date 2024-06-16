@@ -1,17 +1,8 @@
-import {
-  Button,
-  IconButton,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableRipple,
-  View,
-} from '~/components/styled'
+import { ScrollView, Text, TouchableRipple, View } from '~/components/styled'
 import { Icon, useTheme } from 'react-native-paper'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useFormik } from 'formik'
-import { FlatList, Pressable } from 'react-native'
-import { ActionSheet, Avatar, RatingStars } from '~/components/basic'
+import React, { useCallback, useMemo, useState } from 'react'
+import { FlatList } from 'react-native'
+import { Avatar, RatingStars } from '~/components/basic'
 import { User } from '~/core/data/user.data'
 import AdventureReview from '~/components/adventure/AdventureReview/AdventureReview.tsx'
 import WriteReviewActionSheet from '~/screens/adventureDetail/tabs/AdventureReview/components/WriteReviewActionSheet.tsx'

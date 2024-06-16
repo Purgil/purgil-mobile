@@ -1,8 +1,8 @@
 import { Button, IconButton, Text, View } from '../../components/styled'
-import KakaoIcon from '../../assets/svgs/kakao-logo.svg'
-import NaverIcon from '../../assets/svgs/naver-logo.svg'
-import GoogleIcon from '../../assets/svgs/google-logo.svg'
-import { RootScreenProps } from '../../navigation/types.ts'
+import KakaoIcon from '~/assets/svgs/kakao-logo.svg'
+import NaverIcon from '~/assets/svgs/naver-logo.svg'
+import GoogleIcon from '~/assets/svgs/google-logo.svg'
+import { RootScreenProps } from '~/navigation/types.ts'
 
 function AuthScreen({ navigation }: RootScreenProps<'Auth'>) {
   return (

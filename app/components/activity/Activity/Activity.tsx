@@ -61,7 +61,7 @@ function Activity({ activity, scrollRef, swiperRef }: Props) {
                 fontSize={10}
                 compact
                 bg={colors.surfaceVariant}
-                textStyle={{ fontSize: 12 }}>
+                textStyle={font12}>
                 팔로우
               </Chip>
               <IconButton
@@ -153,3 +153,5 @@ function Activity({ activity, scrollRef, swiperRef }: Props) {
 }
 
 export default React.memo(Activity)
+
+const font12 = { fontSize: 12 }

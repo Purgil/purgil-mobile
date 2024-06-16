@@ -1,13 +1,12 @@
 import { Button, View } from '~/components/styled'
 import { Appbar } from 'react-native-paper'
-import { useState } from 'react'
 import { RootScreenProps } from '~/navigation/types.ts'
 
 export default function CreateActivityScreen({
   navigation,
 }: RootScreenProps<'CreateActivity'>) {
   /** state */
-  const [step, setStep] = useState(0)
+  // const [step, setStep] = useState(0)
 
   return (
     <View flex={1} justifyContent='space-between'>

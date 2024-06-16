@@ -137,7 +137,7 @@ export default function ActivityDetailScreen({
                 fontSize={10}
                 compact
                 bg={colors.surfaceVariant}
-                textStyle={{ fontSize: 12 }}>
+                textStyle={font12}>
                 팔로우
               </Chip>
             </View>
@@ -274,3 +274,5 @@ export default function ActivityDetailScreen({
     </>
   )
 }
+
+const font12 = { fontSize: 12 }
