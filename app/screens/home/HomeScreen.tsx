@@ -1,44 +1,39 @@
-import { Chip, ScrollView, Text, View } from '../../components/styled'
+import { ScrollView, Text, View } from '../../components/styled'
 import { Portal, Searchbar } from 'react-native-paper'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   adventureTypes,
   adventures,
   difficultyTypes,
+  routeTypes,
 } from './HomeScreen.consts.ts'
 import { useFormik } from 'formik'
-import { ImgArea, MapArea, Swiper } from '~/components/basic'
-import ChkboxActionSheet from '~/components/basic/ChkboxActionSheet/ChkboxActionSheet.tsx'
+import { FilterChip, MapArea } from '~/components/basic'
 import ActionSheet from '~/components/basic/ActionSheet/ActionSheet.tsx'
 import { FlatList } from 'react-native'
 import Adventure from '~/components/adventure/Adventure/Adventure.tsx'
 import { NativeViewGestureHandler } from 'react-native-gesture-handler'
+import { IconButton } from '~/components/styled'
+import { RootScreenProps } from '~/navigation/types.ts'
 
 const initialLocation = '경기도 파주시'
-
-type FilterType = 'adventureTypes' | 'difficulties' | 'other'
-
-type ActionSheetState = { [key in FilterType]: boolean }
 
 type SearchForm = {
   searchText: string
   adventureTypes: string[]
   difficulties: string[]
+  routeTypes: string[]
 }
 
 const initialValues: SearchForm = {
   searchText: initialLocation,
   adventureTypes: [],
   difficulties: [],
+  routeTypes: [],
 }
 
-function HomeScreen() {
+function HomeScreen({ navigation }: RootScreenProps<'Home'>) {
   /** state */
-  const [actionSheets, setActionSheets] = useState<ActionSheetState>({
-    adventureTypes: false,
-    difficulties: false,
-    other: false,
-  })
 
   /** hook */
   const scrollRef = useRef<any>(null)
@@ -47,57 +42,6 @@ function HomeScreen() {
     initialValues,
     onSubmit: () => {},
   })
-
-  /** function */
-  const handleCloseActionSheet = useCallback(
-    (actionSheetType: FilterType) => {
-      setActionSheets({ ...actionSheets, [actionSheetType]: false })
-    },
-    [actionSheets],
-  )
-
-  const showFilterBottomSheet = useCallback(
-    (filterType: FilterType) => {
-      setActionSheets({ ...actionSheets, [filterType]: true })
-    },
-    [actionSheets],
-  )
-
-  const getFilterButtonMode = useCallback(
-    (filterType: FilterType): 'outlined' | 'flat' => {
-      if (filterType === 'adventureTypes') {
-        return values.adventureTypes.length > 0 ? 'flat' : 'outlined'
-      }
-      if (filterType === 'difficulties') {
-        return values.difficulties.length > 0 ? 'flat' : 'outlined'
-      }
-      return 'outlined'
-    },
-    [values.adventureTypes, values.difficulties],
-  )
-
-  /** memo */
-  const activityButtonText = useMemo(
-    () =>
-      values.adventureTypes.length > 0
-        ? adventureTypes
-            .filter(a => values.adventureTypes.includes(a.value))
-            .map(v => v.label)
-            .join(', ')
-        : '유형',
-    [values.adventureTypes],
-  )
-
-  const difficultyButtonText = useMemo(
-    () =>
-      values.difficulties.length > 0
-        ? difficultyTypes
-            .filter(a => values.difficulties.includes(a.value))
-            .map(v => v.label)
-            .join(', ')
-        : '난이도',
-    [values.difficulties],
-  )
 
   return (
     <>
@@ -108,37 +52,45 @@ function HomeScreen() {
             onChangeText={value => setFieldValue('searchText', value)}
             value={values.searchText}
           />
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View flexDirection='row' gap={5}>
-              <Chip
-                icon='chevron-down'
-                mode={getFilterButtonMode('adventureTypes')}
-                alignItems='center'
-                maxWidth={150}
-                onPress={() => showFilterBottomSheet('adventureTypes')}
-                justifyContent='center'>
-                {activityButtonText}
-              </Chip>
-              <Chip
-                icon='chevron-down'
-                mode={getFilterButtonMode('difficulties')}
-                alignItems='center'
-                maxWidth={150}
-                onPress={() => showFilterBottomSheet('difficulties')}
-                justifyContent='center'>
-                {difficultyButtonText}
-              </Chip>
-              <Chip
-                icon='chevron-down'
-                mode={getFilterButtonMode('other')}
-                alignItems='center'
-                maxWidth={150}
-                onPress={() => showFilterBottomSheet('other')}
-                justifyContent='center'>
-                기타
-              </Chip>
-            </View>
-          </ScrollView>
+          <View flexDirection='row' justifyContent='space-between'>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              gap={5}>
+              <View flexDirection='row' gap={5}>
+                <FilterChip
+                  defaultLabel='탐험 유형'
+                  value={values.adventureTypes}
+                  onChange={value => setFieldValue('adventureTypes', value)}
+                  options={adventureTypes}
+                />
+                <FilterChip
+                  defaultLabel='루트 유형'
+                  value={values.routeTypes}
+                  onChange={value => setFieldValue('routeTypes', value)}
+                  options={routeTypes}
+                />
+                <FilterChip
+                  defaultLabel='난이도'
+                  value={values.difficulties}
+                  onChange={value => setFieldValue('difficulties', value)}
+                  options={difficultyTypes}
+                />
+              </View>
+            </ScrollView>
+            <IconButton
+              icon='tune'
+              size={20}
+              m={0}
+              onPress={() => navigation.navigate('RouteFilter')}
+            />
+            {/*<Button
+              mode='outlined'
+              icon='tune'
+              contentStyle={{ flexDirection: 'row-reverse' }}>
+              1
+            </Button>*/}
+          </View>
         </View>
         <View flex={1}>
           <Portal.Host>
@@ -177,36 +129,6 @@ function HomeScreen() {
           </Portal.Host>
         </View>
       </View>
-
-      {/* 액티비티 타입 필터 */}
-      {actionSheets.adventureTypes && (
-        <ChkboxActionSheet
-          visible={actionSheets.adventureTypes}
-          onClose={() => {
-            handleCloseActionSheet('adventureTypes')
-          }}
-          title='모험 유형'
-          value={values.adventureTypes}
-          onChange={value => setFieldValue('adventureTypes', value)}
-          options={adventureTypes}
-        />
-      )}
-
-      {/* 난이도 필터 */}
-      {actionSheets.difficulties && (
-        <ChkboxActionSheet
-          visible={actionSheets.difficulties}
-          onClose={() => {
-            handleCloseActionSheet('difficulties')
-          }}
-          title='난이도'
-          value={values.difficulties}
-          onChange={value => setFieldValue('difficulties', value)}
-          options={difficultyTypes}
-        />
-      )}
-
-      {/* 기타 필터 */}
     </>
   )
 }

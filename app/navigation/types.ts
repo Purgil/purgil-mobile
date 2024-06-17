@@ -28,6 +28,7 @@ export type ScreenPropsMap = {
   CreateActivity?: {
     selectedImgs: Image[]
   }
+  RouteFilter: undefined
 }
 
 export type RootScreenProps<T extends keyof ScreenPropsMap> = StackScreenProps<

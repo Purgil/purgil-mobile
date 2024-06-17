@@ -8,6 +8,7 @@ import React, {
 import {
   AnimatedView,
   Divider,
+  Text,
   TouchableWithoutFeedback,
   View,
 } from '~/components/styled'
@@ -40,6 +41,7 @@ export type ActionSheetProps = {
 } & PropsWithChildren
 
 function ActionSheet({
+  visible,
   onClose,
   children,
   redeemHeight = 0,
@@ -47,6 +49,7 @@ function ActionSheet({
   dim = true,
   rounded = true,
   keyboardAvoiding = false,
+  title,
 }: ActionSheetProps) {
   /** hook */
   const { colors } = useTheme()
@@ -95,7 +98,6 @@ function ActionSheet({
 
   const handleClose = useCallback(() => {
     translateY.value = withTiming(height.value, basicTimingConfig)
-    // height.value = withTiming(0, basicTimingConfig)
     opacity.value = withTiming(0, basicTimingConfig, () => {
       if (onClose) runOnJS(onClose)()
     })
@@ -225,7 +227,6 @@ function ActionSheet({
           childrenEl.header = child
         }
         if (child.type === ActionSheet.Body) {
-          // return React.cloneElement(child, { stateVariable, setStateVariable })
           childrenEl.body = child
         }
         if (child.type === ActionSheet.Footer) {
@@ -247,7 +248,14 @@ function ActionSheet({
                 borderRadius={30}
               />
             </View>
-            {childrenEl.header}
+            {childrenEl.header ||
+              (title && (
+                <ActionSheet.Header>
+                  <Text variant='titleLarge' px={15}>
+                    {title}
+                  </Text>
+                </ActionSheet.Header>
+              ))}
           </View>
         </GestureDetector>
 

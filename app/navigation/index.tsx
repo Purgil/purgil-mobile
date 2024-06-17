@@ -17,6 +17,7 @@ import ImgUploadScreen from '~/screens/imgUpload/ImgUploadScreen.tsx'
 import CreateActivityScreen from '~/screens/createActivity/CreateActivityScreen.tsx'
 import CreatePostScreen from '~/screens/createPost/CreatePostScreen.tsx'
 import AdventureDetailScreen from '~/screens/adventureDetail/AdventureDetailScreen.tsx'
+import RouteFilterScreen from '~/screens/routeFilter/RouteFilterScreen.tsx'
 
 function Router() {
   const Stack = createStackNavigator<ScreenPropsMap>()
@@ -56,6 +57,7 @@ function Router() {
             name='CreateActivity'
             component={CreateActivityScreen}
           />
+          <Stack.Screen name='RouteFilter' component={RouteFilterScreen} />
         </Stack.Navigator>
       </Portal.Host>
     </NavigationContainer>

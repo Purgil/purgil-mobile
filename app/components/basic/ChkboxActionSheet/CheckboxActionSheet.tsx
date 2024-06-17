@@ -5,19 +5,23 @@ import { Checkbox, List, TouchableRipple } from 'react-native-paper'
 import { ActionSheetProps } from '~/components/basic/ActionSheet/ActionSheet.tsx'
 import { ActionSheet } from '~/components/basic'
 
-type Props = {
+export type Option = {
+  icon?: string
+} & ValueLabelPair
+
+export type CheckboxActionSheetProps = {
   value: any[]
   onChange: (value: any) => void
-  options: ValueLabelPair[]
+  options: Option[]
 } & ActionSheetProps
 
-function ChkboxActionSheet({
+function CheckboxActionSheet({
   options,
   value,
   onChange,
   onClose,
   ...props
-}: Props) {
+}: CheckboxActionSheetProps) {
   const [checkedItems, setCheckedItems] = useState<any[]>(value)
 
   const handlePressItem = useCallback(
@@ -74,4 +78,4 @@ function ChkboxActionSheet({
   )
 }
 
-export default React.memo(ChkboxActionSheet)
+export default React.memo(CheckboxActionSheet)

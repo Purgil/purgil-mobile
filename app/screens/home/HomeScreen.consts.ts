@@ -39,6 +39,21 @@ const difficultyTypes: ValueLabelPair[] = [
   },
 ]
 
+const routeTypes: ValueLabelPair[] = [
+  {
+    value: 'circular ',
+    label: '순환',
+  },
+  {
+    value: 'outAndBack',
+    label: '왕복',
+  },
+  {
+    value: 'pointToPoint',
+    label: '일방',
+  },
+]
+
 const adventures: Adventure[] = [
   {
     id: 1,
@@ -102,4 +117,4 @@ const adventures: Adventure[] = [
   },
 ]
 
-export { adventureTypes, difficultyTypes, adventures }
+export { adventureTypes, difficultyTypes, routeTypes, adventures }
