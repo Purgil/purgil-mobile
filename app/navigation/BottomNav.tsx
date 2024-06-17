@@ -63,7 +63,7 @@ function BottomNav() {
           name='Home'
           component={HomeScreen}
           options={{
-            title: '홈',
+            title: '지도',
             tabBarIcon: ({ focused, color }) =>
               iconRenderer('Home', focused, color),
           }}
@@ -81,7 +81,7 @@ function BottomNav() {
           name='Record'
           component={RecordScreen}
           options={{
-            title: '기록',
+            title: '탐험',
             tabBarIcon: ({ focused, color }) =>
               iconRenderer('Record', focused, color),
           }}

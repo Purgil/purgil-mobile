@@ -29,7 +29,7 @@ import AdventurePhotoTab from '~/screens/adventureDetail/tabs/AdventurePhoto/Adv
 
 const routes = [
   { key: 'review', title: '리뷰' },
-  { key: 'activity', title: '활동' },
+  { key: 'activity', title: '탐험' },
   { key: 'photo', title: '사진' },
 ]
 
@@ -165,13 +165,19 @@ function AdventureDetailScreen({
                   {adventure.address}
                 </Text>
               </View>
-              <IconButton
-                size={36}
-                icon='navigation-variant'
-                bg={colors.primary}
-                iconColor={colors.onPrimary}
-                onPress={handlePressNavigate}
-              />
+              <View alignItems='center'>
+                <IconButton
+                  m={0}
+                  size={36}
+                  icon='navigation-variant'
+                  bg={colors.primary}
+                  iconColor={colors.onPrimary}
+                  onPress={handlePressNavigate}
+                />
+                <Text variant='titleSmall' color={colors.primary} fontSize={12}>
+                  탐험하기
+                </Text>
+              </View>
             </View>
 
             <Divider />
