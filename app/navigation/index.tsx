@@ -18,6 +18,7 @@ import CreateActivityScreen from '~/screens/createActivity/CreateActivityScreen.
 import CreatePostScreen from '~/screens/createPost/CreatePostScreen.tsx'
 import AdventureDetailScreen from '~/screens/adventureDetail/AdventureDetailScreen.tsx'
 import RouteFilterScreen from '~/screens/routeFilter/RouteFilterScreen.tsx'
+import FollowScreen from '~/screens/follow/FollowScreen.tsx'
 
 function Router() {
   const Stack = createStackNavigator<ScreenPropsMap>()
@@ -58,6 +59,7 @@ function Router() {
             component={CreateActivityScreen}
           />
           <Stack.Screen name='RouteFilter' component={RouteFilterScreen} />
+          <Stack.Screen name='Follow' component={FollowScreen} />
         </Stack.Navigator>
       </Portal.Host>
     </NavigationContainer>

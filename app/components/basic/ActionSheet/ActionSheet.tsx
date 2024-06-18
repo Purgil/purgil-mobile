@@ -38,6 +38,7 @@ export type ActionSheetProps = {
   title?: string
   redeemHeight?: number
   keyboardAvoiding?: boolean
+  hideIndecator?: boolean
 } & PropsWithChildren
 
 function ActionSheet({
@@ -49,6 +50,7 @@ function ActionSheet({
   dim = true,
   rounded = true,
   keyboardAvoiding = false,
+  hideIndecator = false,
   title,
 }: ActionSheetProps) {
   /** hook */
@@ -239,15 +241,17 @@ function ActionSheet({
       <>
         <GestureDetector gesture={panGesture}>
           <View>
-            <View alignItems='center' p={15}>
-              <View
-                bg={colors.onSurface}
-                opacity={0.5}
-                height={4}
-                width={30}
-                borderRadius={30}
-              />
-            </View>
+            {!hideIndecator && (
+              <View alignItems='center' p={15}>
+                <View
+                  bg={colors.onSurface}
+                  opacity={0.5}
+                  height={4}
+                  width={30}
+                  borderRadius={30}
+                />
+              </View>
+            )}
             {childrenEl.header ||
               (title && (
                 <ActionSheet.Header>

@@ -1,7 +1,7 @@
 import { Button, IconButton, Text, View } from '~/components/styled'
 import React, { useState } from 'react'
 import { Comment as CommentT } from '~/core/data/adventure.data'
-import { ActionSheet, Avatar } from '~/components/basic'
+import { Avatar, ListActionSheet } from '~/components/basic'
 import { useTheme } from 'react-native-paper'
 import RepliesActionSheet from '~/components/comment/RepliesActionSheet/RepliesActionSheet.tsx'
 import globalStyles from '~/utils/style.utils.ts'
@@ -57,13 +57,16 @@ function Comment({ comment }: Props) {
       </View>
 
       {reportActionSheetVisible && (
-        <ActionSheet
-          visible={reportActionSheetVisible}
-          onClose={() => setReportActionSheetVisible(false)}>
-          <ActionSheet.Body>
-            <Button>부적절한 댓글 신고 및 차단하기</Button>
-          </ActionSheet.Body>
-        </ActionSheet>
+        <ListActionSheet
+          list={[
+            {
+              title: '부적절한 댓글 신고 및 차단하기',
+              onPress: () => {},
+              mode: 'error',
+            },
+          ]}
+          onClose={() => setReportActionSheetVisible(false)}
+        />
       )}
 
       {repliesActionSheetVisible && (

@@ -29,6 +29,7 @@ export type ScreenPropsMap = {
     selectedImgs: Image[]
   }
   RouteFilter: undefined
+  Follow: undefined
 }
 
 export type RootScreenProps<T extends keyof ScreenPropsMap> = StackScreenProps<

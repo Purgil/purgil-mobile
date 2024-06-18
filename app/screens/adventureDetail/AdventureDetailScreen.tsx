@@ -10,7 +10,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { RootScreenProps } from '~/navigation/types.ts'
 import { Appbar, Divider, Icon, useTheme } from 'react-native-paper'
 import { MToHM } from '~/utils/datetime.utils.ts'
-import { ActionSheet, ImgArea, Swiper, TabView } from '~/components/basic'
+import {
+  ActionSheet,
+  ImgArea,
+  ListActionSheet,
+  Swiper,
+  TabView,
+} from '~/components/basic'
 import Activities from '~/components/activity/Activities/Activities.tsx'
 import { SceneMap } from 'react-native-tab-view'
 import {
@@ -41,7 +47,7 @@ function AdventureDetailScreen({
 }: RootScreenProps<'AdventureDetail'>) {
   /** state */
   const [marked, setMarked] = useState(false)
-  const [actionSheets, setActionSheets] = useState({ report: false })
+  const [actionSheets, setActionSheets] = useState({ etc: false })
 
   /** hooks */
   const { colors } = useTheme()
@@ -129,110 +135,119 @@ function AdventureDetailScreen({
           />
           <Appbar.Action
             icon='dots-vertical'
-            onPress={() => setActionSheets({ ...actionSheets, report: true })}
+            onPress={() => setActionSheets(state => ({ ...state, etc: true }))}
             containerColor={colors.background}
             size={20}
           />
         </Appbar.Header>
       </AnimatedView>
 
-      <NativeViewGestureHandler
-        ref={scrollRef}
-        simultaneousHandlers={swiperRef}>
-        <AnimatedScrollView
-          flex={1}
-          bg={colors.background}
-          scrollEventThrottle={10}
-          onScroll={handleScroll}>
-          <Swiper data={[...new Array(6)]} renderItem={() => <ImgArea />} />
-
-          <View
-            px={10}
-            py={20}
-            bg={colors.background}
-            borderTopRightRadius={10}
-            borderTopLeftRadius={10}
-            top={-20}>
-            <Text variant='titleLarge'>{adventure.name}</Text>
-            <View flexDirection='row' justifyContent='space-between' pr={1}>
-              <View justifyContent='flex-end'>
-                <Text variant='bodyMedium' mb={1}>
-                  {adventure.difficulty} ·{' '}
-                  <Icon size={16} source='star' color={colors.primary} />
-                  {adventure.rating}
-                </Text>
-                <Text variant='bodyMedium' mb={2}>
-                  {adventure.address}
-                </Text>
-              </View>
-              <View alignItems='center'>
-                <IconButton
-                  m={0}
-                  size={36}
-                  icon='navigation-variant'
-                  bg={colors.primary}
-                  iconColor={colors.onPrimary}
-                  onPress={handlePressNavigate}
-                />
-                <Text variant='titleSmall' color={colors.primary} fontSize={12}>
-                  탐험하기
-                </Text>
-              </View>
-            </View>
-
-            <Divider />
+      <View flex={1} bg={colors.background}>
+        <NativeViewGestureHandler
+          ref={scrollRef}
+          simultaneousHandlers={swiperRef}>
+          <AnimatedScrollView scrollEventThrottle={10} onScroll={handleScroll}>
+            <Swiper data={[...new Array(6)]} renderItem={() => <ImgArea />} />
 
             <View
-              flexDirection='row'
-              justifyContent='space-around'
-              mt={55}
-              mb={10}>
-              <View gap={10}>
-                <Text variant='bodySmall' textAlign='center'>
-                  거리
-                </Text>
-                <Text variant='titleLarge' textAlign='center'>
-                  {adventureDetail.distance}km
-                </Text>
+              px={10}
+              py={20}
+              bg={colors.background}
+              borderTopRightRadius={10}
+              borderTopLeftRadius={10}
+              top={-20}>
+              <Text variant='titleLarge'>{adventure.name}</Text>
+              <View flexDirection='row' justifyContent='space-between' pr={1}>
+                <View justifyContent='flex-end'>
+                  <Text variant='bodyMedium' mb={1}>
+                    {adventure.difficulty} ·{' '}
+                    <Icon size={16} source='star' color={colors.primary} />
+                    {adventure.rating}
+                  </Text>
+                  <Text variant='bodyMedium' mb={2}>
+                    {adventure.address}
+                  </Text>
+                </View>
+                <View alignItems='center'>
+                  <IconButton
+                    m={0}
+                    size={36}
+                    icon='navigation-variant'
+                    bg={colors.primary}
+                    iconColor={colors.onPrimary}
+                    onPress={handlePressNavigate}
+                  />
+                  <Text
+                    variant='titleSmall'
+                    color={colors.primary}
+                    fontSize={12}>
+                    탐험하기
+                  </Text>
+                </View>
               </View>
-              {adventureDetail.avgCompleteTime && (
+
+              <Divider />
+
+              <View
+                flexDirection='row'
+                justifyContent='space-around'
+                mt={55}
+                mb={10}>
                 <View gap={10}>
                   <Text variant='bodySmall' textAlign='center'>
-                    평균 소요시간
+                    거리
                   </Text>
                   <Text variant='titleLarge' textAlign='center'>
-                    {MToHM(adventureDetail.avgCompleteTime)}
+                    {adventureDetail.distance}km
                   </Text>
-                  {/* 칼로리 */}
-                  {/* 루트 유형 */}
                 </View>
-              )}
-              <View gap={10}>
-                <Text variant='bodySmall' textAlign='center'>
-                  누적 오르막
-                </Text>
-                <Text variant='titleLarge' textAlign='center'>
-                  {adventureDetail.elevationGain}m
-                </Text>
+                {adventureDetail.avgCompleteTime && (
+                  <View gap={10}>
+                    <Text variant='bodySmall' textAlign='center'>
+                      평균 소요시간
+                    </Text>
+                    <Text variant='titleLarge' textAlign='center'>
+                      {MToHM(adventureDetail.avgCompleteTime)}
+                    </Text>
+                    {/* 칼로리 */}
+                    {/* 루트 유형 */}
+                  </View>
+                )}
+                <View gap={10}>
+                  <Text variant='bodySmall' textAlign='center'>
+                    누적 오르막
+                  </Text>
+                  <Text variant='titleLarge' textAlign='center'>
+                    {adventureDetail.elevationGain}m
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-          {/* 탭 */}
-          <TabView routes={routes} renderScene={renderTabs} />
-        </AnimatedScrollView>
-      </NativeViewGestureHandler>
+            {/* 탭 */}
+            <TabView routes={routes} renderScene={renderTabs} />
+          </AnimatedScrollView>
+        </NativeViewGestureHandler>
 
-      {/* 신고하기 */}
-      {actionSheets.report && (
-        <ActionSheet
-          visible={actionSheets.report}
-          onClose={() => setActionSheets({ ...actionSheets, report: false })}>
-          <ActionSheet.Body>
-            <Button onPress={handlePressReportAdventure}>
-              부적정한 루트 신고하기
-            </Button>
-          </ActionSheet.Body>
-        </ActionSheet>
+        <View p={10} borderTopWidth={1} borderColor={colors.elevation.level3}>
+          <Button mode='contained'>이 루트로 원정대 생성하기</Button>
+        </View>
+      </View>
+
+      {actionSheets.etc && (
+        <ListActionSheet
+          list={[
+            {
+              title: '이 루트로 원정대 생성하기',
+              onPress: handlePressReportAdventure,
+            },
+            {
+              title: '부적절한 루트 신고하기',
+              onPress: handlePressReportAdventure,
+              mode: 'error',
+            },
+          ]}
+          onClose={() => setActionSheets(state => ({ ...state, etc: false }))}
+        />
       )}
     </>
   )

@@ -13,6 +13,7 @@ import {
   ActionSheet,
   Avatar,
   ImgArea,
+  ListActionSheet,
   RatingStars,
   Swiper,
 } from '~/components/basic'
@@ -132,13 +133,16 @@ function Activity({ activity, scrollRef, swiperRef }: Props) {
       </View>
 
       {reportActionSheetVisible && (
-        <ActionSheet
-          visible={reportActionSheetVisible}
-          onClose={() => setReportActionSheetVisible(false)}>
-          <ActionSheet.Body>
-            <Button>부적절한 활동 신고 및 차단하기</Button>
-          </ActionSheet.Body>
-        </ActionSheet>
+        <ListActionSheet
+          list={[
+            {
+              title: '부적절한 탐험 신고 및 차단하기',
+              onPress: () => {},
+              mode: 'error',
+            },
+          ]}
+          onClose={() => setReportActionSheetVisible(false)}
+        />
       )}
 
       {commentsActionSheetVisible && (
