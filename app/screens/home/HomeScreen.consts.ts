@@ -1,10 +1,12 @@
-import { ValueLabelPair } from '~/core/data/basic.types'
-import { Adventure } from '~/core/data/adventure.data'
+import { ValueLabelPair } from '~/core/dto/shared/shared.dto'
+import { Adventure } from '~/core/dto/adventure.dto'
+import { Option } from '~/components/shared/filter/CheckboxFilter/CheckboxFilter.tsx'
 
-const adventureTypes: ValueLabelPair[] = [
+const adventureTypes: Option[] = [
   {
     value: 'hiking',
     label: '등산',
+    icon: 'hiking',
   },
   {
     value: 'running',

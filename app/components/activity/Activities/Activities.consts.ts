@@ -1,4 +1,4 @@
-import { Activity } from '~/core/data/adventure.data'
+import { Activity } from '~/core/dto/adventure.dto'
 
 const activities: Activity[] = [
   {

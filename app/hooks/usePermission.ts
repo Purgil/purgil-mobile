@@ -1,6 +1,6 @@
 import { PermissionsAndroid, Platform } from 'react-native'
 import { useCallback, useEffect, useState } from 'react'
-import { PermissionType } from '~/enums/basic.enums.ts'
+import { PermissionType } from '~/enums/shared.enum.ts'
 
 type Props = {
   permissionTypes: PermissionType[]

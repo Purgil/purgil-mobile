@@ -1,10 +1,10 @@
 import { Text, View } from '~/components/styled'
 import { Icon } from 'react-native-paper'
 import Activity from '~/components/activity/Activity/Activity.tsx'
-import { Activity as ActivityT } from '~/core/data/adventure.data'
+import { Activity as ActivityT } from '~/core/dto/adventure.dto'
 import { FlatList } from 'react-native'
 import { activities } from '~/components/activity/Activities/Activities.consts.ts'
-import { SimultaneousRefs } from '~/core/data/basic.types'
+import { SimultaneousRefs } from '~/core/dto/shared/shared.dto'
 import { memo } from 'react'
 
 type Props = {} & Partial<SimultaneousRefs>

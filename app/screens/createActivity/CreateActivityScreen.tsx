@@ -1,6 +1,6 @@
 import { Button, View } from '~/components/styled'
 import { Appbar } from 'react-native-paper'
-import { RootScreenProps } from '~/navigation/types.ts'
+import { RootScreenProps } from '~/router/types.ts'
 
 export default function CreateActivityScreen({
   navigation,

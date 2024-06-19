@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { AdventureReview as AdventureReviewT } from '~/core/data/adventure.data'
+import { AdventureReview as AdventureReviewT } from '~/core/dto/adventure.dto'
 import { Button, IconButton, Text, View } from '~/components/styled'
 import { useTheme } from 'react-native-paper'
 import {
@@ -7,7 +7,7 @@ import {
   Avatar,
   ListActionSheet,
   RatingStars,
-} from '~/components/basic'
+} from '~/components/shared'
 
 type Props = {
   review: AdventureReviewT

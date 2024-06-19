@@ -4,10 +4,10 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { Icon, useTheme } from 'react-native-paper'
-import { ScreenPropsMap } from '~/navigation/types.ts'
-import { ImgArea } from '../../basic'
-import { Swiper } from '~/components/basic'
-import { SimultaneousRefs } from '~/core/data/basic.types'
+import { ScreenPropsMap } from '~/router/types.ts'
+import { ImgArea } from '../../shared'
+import { Swiper } from '~/components/shared'
+import { SimultaneousRefs } from '~/core/dto/shared/shared.dto'
 
 type Props = {
   adventure: AdventureT

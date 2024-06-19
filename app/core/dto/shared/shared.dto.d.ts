@@ -16,4 +16,9 @@ type SimultaneousRefs = {
   swiperRef: any
 }
 
-export const { ValueLabelPair, Image, SimultaneousRefs }
+type Pageable = {
+  page: number
+  size: number
+}
+
+export const { ValueLabelPair, Image, SimultaneousRefs, Pageable }

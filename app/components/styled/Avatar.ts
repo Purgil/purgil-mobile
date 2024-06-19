@@ -7,7 +7,7 @@ import {
   display,
 } from 'styled-system'
 import styled from 'styled-components/native'
-import { Avatar as MyAvatar } from '~/components/basic'
+import { Avatar as MyAvatar } from '~/components/shared'
 
 interface AvatarStyledProps extends MarginProps, DisplayProps, PositionProps {}
 

@@ -7,7 +7,7 @@ import {
   View,
 } from '~/components/styled'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { RootScreenProps } from '~/navigation/types.ts'
+import { RootScreenProps } from '~/router/types.ts'
 import { Appbar, Divider, Icon, useTheme } from 'react-native-paper'
 import { MToHM } from '~/utils/datetime.utils.ts'
 import {
@@ -16,7 +16,7 @@ import {
   ListActionSheet,
   Swiper,
   TabView,
-} from '~/components/basic'
+} from '~/components/shared'
 import Activities from '~/components/activity/Activities/Activities.tsx'
 import { SceneMap } from 'react-native-tab-view'
 import {

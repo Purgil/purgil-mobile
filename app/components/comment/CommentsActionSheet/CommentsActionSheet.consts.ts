@@ -1,4 +1,4 @@
-import { Comment } from '~/core/data/adventure.data'
+import { Comment } from '~/core/dto/adventure.dto'
 
 const comments: Comment[] = [
   {

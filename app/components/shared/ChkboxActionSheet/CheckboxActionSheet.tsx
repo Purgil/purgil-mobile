@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { Button, View } from '~/components/styled'
-import { ValueLabelPair } from '~/core/data/basic.types'
+import { ValueLabelPair } from '~/core/dto/shared/shared.dto'
 import { Checkbox, List, TouchableRipple } from 'react-native-paper'
-import { ActionSheetProps } from '~/components/basic/ActionSheet/ActionSheet.tsx'
-import { ActionSheet } from '~/components/basic'
+import { ActionSheetProps } from '~/components/shared/ActionSheet/ActionSheet.tsx'
+import { ActionSheet } from '~/components/shared'
 
 export type Option = {
   icon?: string

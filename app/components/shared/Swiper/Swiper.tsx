@@ -10,7 +10,7 @@ import {
 import { LayoutChangeEvent } from 'react-native'
 import { AnimatedView, Icon, Pressable, View } from '~/components/styled'
 import { useTheme } from 'react-native-paper'
-import { SimultaneousRefs } from '~/core/data/basic.types'
+import { SimultaneousRefs } from '~/core/dto/shared/shared.dto'
 
 type Props = {
   data: any[]

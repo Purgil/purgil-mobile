@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
-import { ActionSheetProps } from '~/components/basic/ActionSheet/ActionSheet.tsx'
-import { ActionSheet } from '~/components/basic'
+import { ActionSheetProps } from '~/components/shared/ActionSheet/ActionSheet.tsx'
+import { ActionSheet } from '~/components/shared'
 import { List, useTheme } from 'react-native-paper'
 import { TouchableRipple } from '~/components/styled'
 

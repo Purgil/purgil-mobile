@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import { FAB } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
-import { ScreenPropsMap } from '~/navigation/types.ts'
+import { ScreenPropsMap } from '~/router/types.ts'
 import { NativeViewGestureHandler } from 'react-native-gesture-handler'
 
 export default function SocialActivityTab() {

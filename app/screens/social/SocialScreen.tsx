@@ -1,9 +1,9 @@
 import { Appbar } from 'react-native-paper'
 import { Button, IconButton, View } from '~/components/styled'
 import React from 'react'
-import { TabView } from '~/components/basic'
+import { TabView } from '~/components/shared'
 import { renderTabs, routes } from '~/screens/social/SocialScreen.consts.ts'
-import { RootScreenProps } from '~/navigation/types.ts'
+import { RootScreenProps } from '~/router/types.ts'
 
 export default function SocialScreen({
   navigation,

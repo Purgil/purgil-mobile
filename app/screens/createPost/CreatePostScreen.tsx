@@ -10,11 +10,11 @@ import {
   View,
 } from '~/components/styled'
 import { Appbar, useTheme } from 'react-native-paper'
-import { RootScreenProps } from '~/navigation/types.ts'
-import { Swiper } from '~/components/basic'
+import { RootScreenProps } from '~/router/types.ts'
+import { Swiper } from '~/components/shared'
 import { LayoutChangeEvent } from 'react-native'
 import { memo, useCallback, useState } from 'react'
-import { Image as ImageT } from '~/core/data/basic.types'
+import { Image as ImageT } from '~/core/dto/shared/shared.dto'
 
 export default function CreatePostScreen({
   navigation,

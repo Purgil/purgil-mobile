@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo } from 'react'
-import { ActionSheet } from '~/components/basic'
+import { ActionSheet } from '~/components/shared'
 import { Button, IconButton, TextInput, View } from '~/components/styled'
-import { ActionSheetProps } from '~/components/basic/ActionSheet/ActionSheet.tsx'
+import { ActionSheetProps } from '~/components/shared/ActionSheet/ActionSheet.tsx'
 import { useTheme } from 'react-native-paper'
 import { useFormik } from 'formik'
 

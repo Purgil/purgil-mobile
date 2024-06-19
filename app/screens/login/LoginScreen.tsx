@@ -8,8 +8,8 @@ import regex from '../../utils/regex.tsx'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '~/store'
 import { login } from '~/store/slices/authUser.slice.ts'
-import { Gender } from '~/enums/basic.enums.ts'
-import { RootScreenProps } from '~/navigation/types.ts'
+import { Gender } from '~/enums/shared.enum.ts'
+import { RootScreenProps } from '~/router/types.ts'
 
 type AuthForm = {
   email: string

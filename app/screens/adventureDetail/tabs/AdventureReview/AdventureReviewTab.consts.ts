@@ -1,4 +1,4 @@
-import { AdventureReview } from '~/core/data/adventure.data'
+import { AdventureReview } from '~/core/dto/adventure.dto'
 
 const reviews: AdventureReview[] = [
   {

@@ -1,9 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import { Activity, Adventure } from '~/core/data/adventure.data'
-import { Image } from '~/core/data/basic.types'
+import { Activity, Adventure } from '~/core/dto/adventure.dto'
+import { Image } from '~/core/dto/shared/shared.dto'
+import { AdventureListReqDto } from '~/core/dto/adventure/adventure.reqDto'
 
 export type ScreenPropsMap = {
-  Home: undefined
+  Home?: {
+    filter: AdventureListReqDto
+  }
   Map: undefined
   Record: undefined
   Social: undefined
@@ -28,7 +31,9 @@ export type ScreenPropsMap = {
   CreateActivity?: {
     selectedImgs: Image[]
   }
-  RouteFilter: undefined
+  RouteFilter: {
+    filter: AdventureListReqDto
+  }
   Follow: undefined
 }
 

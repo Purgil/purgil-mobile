@@ -1,7 +1,7 @@
 import { Text, View } from '~/components/styled'
 import { Icon } from 'react-native-paper'
 import { Dimensions, FlatList } from 'react-native'
-import { ImgArea } from '~/components/basic'
+import { ImgArea } from '~/components/shared'
 
 const imageW = Dimensions.get('window').width / 3
 const imageH = imageW * 1.618

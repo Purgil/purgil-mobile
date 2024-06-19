@@ -1,7 +1,7 @@
 import { memo, useMemo, useState } from 'react'
-import { Chip } from '~/components/styled'
-import { CheckboxActionSheetProps } from '~/components/basic/ChkboxActionSheet/CheckboxActionSheet.tsx'
-import { ChkboxActionSheet } from '~/components/basic'
+import { Chip, Icon } from '~/components/styled'
+import { CheckboxActionSheetProps } from '~/components/shared/ChkboxActionSheet/CheckboxActionSheet.tsx'
+import { ChkboxActionSheet } from '~/components/shared'
 
 type Props = {
   defaultLabel: string
@@ -36,7 +36,7 @@ function FilterChip({ options, value, defaultLabel, ...props }: Props) {
         mode={mode}
         onPress={() => setActionSheetVisible(true)}
         maxWidth={150}>
-        {label}
+        <Icon size={20} source='bike' />
       </Chip>
 
       {actionSheetVisible && (

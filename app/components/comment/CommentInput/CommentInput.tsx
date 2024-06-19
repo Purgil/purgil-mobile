@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Icon, TextInput, TouchableRipple, View } from '~/components/styled'
-import { Avatar } from '~/components/basic'
+import { Avatar } from '~/components/shared'
 import { useTheme } from 'react-native-paper'
 import { me } from '~/screens/adventureDetail/tabs/AdventureReview/AdventureReviewTab.tsx'
 

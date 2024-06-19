@@ -10,7 +10,7 @@ import {
   TouchableRipple,
   View,
 } from '~/components/styled'
-import { RootScreenProps } from '~/navigation/types.ts'
+import { RootScreenProps } from '~/router/types.ts'
 import { Appbar, useTheme } from 'react-native-paper'
 import React, { useMemo, useState } from 'react'
 import {
@@ -19,7 +19,7 @@ import {
   MapArea,
   RatingStars,
   Swiper,
-} from '~/components/basic'
+} from '~/components/shared'
 import {
   interpolateColor,
   useAnimatedStyle,

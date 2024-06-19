@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Activity as ActivityT } from '~/core/data/adventure.data'
+import { Activity as ActivityT } from '~/core/dto/adventure.dto'
 import {
   Button,
   Chip,
@@ -16,14 +16,14 @@ import {
   ListActionSheet,
   RatingStars,
   Swiper,
-} from '~/components/basic'
+} from '~/components/shared'
 import { useTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
-import { ScreenPropsMap } from '~/navigation/types.ts'
+import { ScreenPropsMap } from '~/router/types.ts'
 import CommentsActionSheet from '~/components/comment/CommentsActionSheet/CommentsActionSheet.tsx'
 import globalStyles from '~/utils/style.utils.ts'
-import { SimultaneousRefs } from '~/core/data/basic.types'
+import { SimultaneousRefs } from '~/core/dto/shared/shared.dto'
 
 type Props = {
   activity: ActivityT
