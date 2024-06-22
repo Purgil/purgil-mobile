@@ -1,32 +1,35 @@
-import { ValueLabelPair } from '~/core/dto/shared/shared.dto'
+import { Option, ValueLabelPair } from '~/core/dto/shared/shared.dto'
 import { Adventure } from '~/core/dto/adventure.dto'
-import { Option } from '~/components/shared/filter/CheckboxFilter/CheckboxFilter.tsx'
 
-const adventureTypes: Option[] = [
+const adventureTypeOptions: Option[] = [
+  {
+    value: 'cycling',
+    label: '로드 자전거',
+    icon: 'bike',
+  },
+  {
+    value: 'mountain-cycling',
+    label: '산악 자전거',
+    icon: 'bike-fast',
+  },
   {
     value: 'hiking',
-    label: '등산',
+    label: '하이킹',
     icon: 'hiking',
   },
   {
     value: 'running',
     label: '러닝',
+    icon: 'run-fast',
   },
   {
     value: 'walking',
     label: '산책',
-  },
-  {
-    value: 'cycling',
-    label: '로드 사이클',
-  },
-  {
-    value: 'mountain-cycling',
-    label: '마운틴 사이클',
+    icon: 'walk',
   },
 ]
 
-const difficultyTypes: ValueLabelPair[] = [
+const difficultyOptions: ValueLabelPair[] = [
   {
     value: 'high',
     label: '높음',
@@ -41,18 +44,64 @@ const difficultyTypes: ValueLabelPair[] = [
   },
 ]
 
-const routeTypes: ValueLabelPair[] = [
+const sortByOptions = [
+  {
+    value: 'popularity',
+    label: '인기순',
+  },
+  {
+    value: 'distance',
+    label: '거리순',
+  },
+  {
+    value: 'latest',
+    label: '최신순',
+  },
+]
+
+const routeTypeOptions: Option[] = [
   {
     value: 'circular ',
     label: '순환',
+    icon: 'sync',
   },
   {
     value: 'outAndBack',
     label: '왕복',
+    icon: 'swap-horizontal',
   },
   {
     value: 'pointToPoint',
     label: '일방',
+    icon: 'arrow-right',
+  },
+]
+
+const categoryOptions: Option[] = [
+  {
+    value: 'natural',
+    label: '자연풍경',
+    icon: 'forest',
+  },
+  {
+    value: 'lake',
+    label: '강/호수',
+    icon: 'waves',
+  },
+  {
+    value: 'ocean',
+    label: '바다',
+    icon: 'beach',
+  },
+  {
+    value: 'dogFriendly',
+    label: '애견 친화적',
+    icon: 'dog-service',
+  },
+  {
+    value: 'waterfall',
+    label: '폭포',
+    icon: 'waterfall',
   },
 ]
 
@@ -119,4 +168,11 @@ const adventures: Adventure[] = [
   },
 ]
 
-export { adventureTypes, difficultyTypes, routeTypes, adventures }
+export {
+  adventureTypeOptions,
+  difficultyOptions,
+  routeTypeOptions,
+  adventures,
+  categoryOptions,
+  sortByOptions,
+}

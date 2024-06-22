@@ -1,12 +1,9 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { Checkbox, List, TouchableRipple } from 'react-native-paper'
-import { ValueLabelPair } from '~/core/dto/shared/shared.dto'
+import { Option, ValueLabelPair } from '~/core/dto/shared/shared.dto'
 import { Button, View } from '~/components/styled'
 import globalStyles from '~/utils/style.utils.ts'
-
-export type Option = {
-  icon?: string
-} & ValueLabelPair
+import { Style } from 'react-native-paper/lib/typescript/components/List/utils'
 
 export type CheckboxFilterProps = {
   value: any[]
@@ -79,15 +76,22 @@ function CheckboxFilter({
     [],
   )
 
+  const renderIcon = useCallback(
+    (icon: string | undefined, style: Style) =>
+      icon ? <List.Icon icon={icon} style={style} /> : undefined,
+    [],
+  )
+
   return (
     <>
       <List.Section title={title}>
-        {showOptions.map((option: ValueLabelPair) => (
+        {showOptions.map((option: Option) => (
           <TouchableRipple
             onPress={() => handlePressItem(option.value)}
             key={option.value}>
             <List.Item
               title={option.label}
+              left={({ style }) => renderIcon(option.icon, style)}
               right={() => renderCheckbox(value.includes(option.value))}
             />
           </TouchableRipple>

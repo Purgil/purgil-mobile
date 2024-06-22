@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import { Activity, Adventure } from '~/core/dto/adventure.dto'
 import { Image } from '~/core/dto/shared/shared.dto'
-import { AdventureListReqDto } from '~/core/dto/adventure/adventure.reqDto'
+import { AdventureListReqDto } from '~/core/dto/adventure/adventure.req-dto'
 
 export type ScreenPropsMap = {
   Home?: {

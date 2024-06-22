@@ -1,11 +1,10 @@
 import { ScrollView, Text, View } from '../../components/styled'
 import { Portal, Searchbar, useTheme } from 'react-native-paper'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef } from 'react'
 import {
   adventures,
-  adventureTypes,
-  difficultyTypes,
-  routeTypes,
+  adventureTypeOptions,
+  categoryOptions,
 } from './HomeScreen.consts.ts'
 import { useFormik } from 'formik'
 import { FilterChip, MapArea } from '~/components/shared'
@@ -13,17 +12,19 @@ import ActionSheet from '~/components/shared/ActionSheet/ActionSheet.tsx'
 import { FlatList } from 'react-native'
 import Adventure from '~/components/adventure/Adventure/Adventure.tsx'
 import { NativeViewGestureHandler } from 'react-native-gesture-handler'
-import { Chip, Icon, Pressable } from '~/components/styled'
+import { Icon, Pressable } from '~/components/styled'
 import { RootScreenProps } from '~/router/types.ts'
-import { AdventureListReqDto } from '~/core/dto/adventure/adventure.reqDto'
+import { AdventureListReqDto } from '~/core/dto/adventure/adventure.req-dto'
 
 const initialLocation = '경기도 파주시'
 
 const initialValues: AdventureListReqDto = {
   searchText: initialLocation,
-  adventureTypeCode: 'bike',
+  sortBy: 'popularity',
+  adventureTypeCodes: ['cycling'],
   difficultyCodes: [],
   routeTypeCodes: [],
+  categoryCode: undefined,
 }
 
 function HomeScreen({
@@ -43,11 +44,18 @@ function HomeScreen({
   const filterCount = useMemo(
     () =>
       Object.keys(filter).reduce((count, key) => {
-        const value = filter[key]
-        if (Array.isArray(value)) {
-          return count + (value.length > 0 ? 1 : 0)
-        } else if (key === 'searchText') {
+        const value = (filter as any)[key]
+        if (
+          [
+            'searchText',
+            'categoryCode',
+            'adventureTypeCodes',
+            'sortBy',
+          ].includes(key)
+        ) {
           return count
+        } else if (Array.isArray(value)) {
+          return count + (value.length > 0 ? 1 : 0)
         } else {
           return count + (value ? 1 : 0)
         }
@@ -72,36 +80,19 @@ function HomeScreen({
               <View flexDirection='row' gap={5}>
                 <FilterChip
                   defaultLabel='탐험 유형'
-                  value={values.adventureTypeCode}
-                  onChange={value => setFieldValue('adventureTypeCode', value)}
-                  options={adventureTypes}
-                />
-                <Chip icon='map-marker' mode='outlined'>
-                  가까운
-                </Chip>
-                <Chip icon='trending-up'>인기</Chip>
-                <Chip icon='bookmark' mode='outlined'>
-                  저장한
-                </Chip>
-                {/*
-                <FilterChip
-                  defaultLabel='탐험 유형'
-                  value={values.adventureTypes}
-                  onChange={value => setFieldValue('adventureTypes', value)}
-                  options={adventureTypes}
+                  labelType='icon'
+                  value={values.adventureTypeCodes}
+                  onChange={value => setFieldValue('adventureTypeCodes', value)}
+                  options={adventureTypeOptions}
                 />
                 <FilterChip
-                  defaultLabel='루트 유형'
-                  value={values.routeTypes}
-                  onChange={value => setFieldValue('routeTypes', value)}
-                  options={routeTypes}
+                  filterType='radio'
+                  labelType='icon'
+                  defaultLabel='카테고리'
+                  value={values.categoryCode}
+                  onChange={value => setFieldValue('categoryCode', value)}
+                  options={categoryOptions}
                 />
-                <FilterChip
-                  defaultLabel='난이도'
-                  value={values.difficulties}
-                  onChange={value => setFieldValue('difficulties', value)}
-                  options={difficultyTypes}
-                />*/}
               </View>
             </ScrollView>
             <Pressable
@@ -118,7 +109,7 @@ function HomeScreen({
                   {filterCount}
                 </Text>
               )}
-              <Icon size={18} source='tune' />
+              <Icon size={16} source='tune-variant' />
             </Pressable>
           </View>
         </View>

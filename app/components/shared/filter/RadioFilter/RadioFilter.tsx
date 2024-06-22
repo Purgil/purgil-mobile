@@ -1,10 +1,11 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { List, RadioButton, TouchableRipple } from 'react-native-paper'
-import { Option } from '~/components/shared/filter/CheckboxFilter/CheckboxFilter.tsx'
 import { Button, View } from '~/components/styled'
 import globalStyles from '~/utils/style.utils.ts'
+import { Option } from '~/core/dto/shared/shared.dto'
+import { Style } from 'react-native-paper/lib/typescript/components/List/utils'
 
-export type RadioFilterProps = {
+type RadioFilterProps = {
   value: any
   onChange: (value: any) => void
   options: Option[]
@@ -68,6 +69,12 @@ function RadioFilter({
     [value],
   )
 
+  const renderIcon = useCallback(
+    (icon: string | undefined, style: Style) =>
+      icon ? <List.Icon icon={icon} style={style} /> : undefined,
+    [],
+  )
+
   return (
     <>
       <List.Section title={title}>
@@ -77,6 +84,7 @@ function RadioFilter({
             key={option.value}>
             <List.Item
               title={option.label}
+              left={({ style }) => renderIcon(option.icon, style)}
               right={() => renderRadioButton(option)}
             />
           </TouchableRipple>

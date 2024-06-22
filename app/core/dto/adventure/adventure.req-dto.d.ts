@@ -1,8 +1,10 @@
 type AdventureListReqDto = {
+  sortBy: string
   searchText: string
-  routeTypeCode: string
+  routeTypeCodes: string[]
   adventureTypeCodes: string[]
   difficultyCodes: string[]
-} & Pageable
+  categoryCode?: string
+}
 
 export { AdventureListReqDto }

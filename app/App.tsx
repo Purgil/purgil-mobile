@@ -1,5 +1,5 @@
 import React from 'react'
-import Router from './navigation'
+import Router from './router'
 import {
   MD3LightTheme as DefaultTheme,
   MD3DarkTheme as DefaultDarkTheme,
