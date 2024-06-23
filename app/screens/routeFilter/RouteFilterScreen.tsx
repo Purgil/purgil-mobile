@@ -11,6 +11,8 @@ import {
 import { RootScreenProps } from '~/router/types.ts'
 import { AdventureListReqDto } from '~/core/dto/adventure/adventure.req-dto'
 import RadioFilter from '~/components/shared/filter/RadioFilter/RadioFilter.tsx'
+import { SlideBar } from '~/components/shared'
+import ListSubheader from 'react-native-paper/src/components/List/ListSubheader.tsx'
 
 export default function RouteFilterScreen({
   navigation,
@@ -39,9 +41,25 @@ export default function RouteFilterScreen({
     [],
   )
 
+  /** function */
   const handleClear = useCallback(() => {
     setValues(initialValues)
   }, [])
+
+  const getDistanceSlideRightLabel = useCallback(
+    (num: number) => (num === 50 ? '50+ km' : `${num} km`),
+    [],
+  )
+
+  const getElvGainSlideRightLabel = useCallback(
+    (num: number) => (num === 1500 ? '1,500+ m' : `${num} m`),
+    [],
+  )
+
+  const getHighestPointSlideRightLabel = useCallback(
+    (num: number) => (num === 3000 ? '3,000+ m' : `${num} m`),
+    [],
+  )
 
   return (
     <View flex={1} bg={colors.background}>
@@ -50,8 +68,6 @@ export default function RouteFilterScreen({
         <Appbar.Content title='필터' />
       </Appbar.Header>
       <ScrollView>
-        <Divider my={10} />
-
         <RadioFilter
           title='정렬순서'
           value={values.sortBy}
@@ -80,9 +96,66 @@ export default function RouteFilterScreen({
         <Divider my={10} />
 
         {/* 루트 거리 */}
+        <View py={10}>
+          <ListSubheader>총 길이</ListSubheader>
+          <SlideBar
+            divideCount={50}
+            leftLabel={num => `${num} km`}
+            rightLabel={getDistanceSlideRightLabel}
+            leftValue={values.minLength}
+            rightValue={values.maxLength}
+            leftOnChange={value => setFieldValue('minLength', value)}
+            rightOnChange={value => setFieldValue('maxLength', value)}
+          />
+        </View>
+
+        <Divider my={10} />
+
         {/* 누적 오르막 */}
+        <View py={10}>
+          <ListSubheader>누적 오르막</ListSubheader>
+          <SlideBar
+            divideCount={15}
+            multiply={100}
+            leftLabel={num => `${num} m`}
+            rightLabel={getElvGainSlideRightLabel}
+            leftValue={values.minElvGain}
+            rightValue={values.maxElvGain}
+            leftOnChange={value => setFieldValue('minElvGain', value)}
+            rightOnChange={value => setFieldValue('maxElvGain', value)}
+          />
+        </View>
+
+        <Divider my={10} />
+
         {/* 평점 */}
+        {/*        <View py={10}>
+          <ListSubheader>평점</ListSubheader>
+          <SlideBar
+            divideCount={15}
+            leftLabel={num => `${num * 100} m`}
+            rightLabel={getElvGainSlideRightLabel}
+            leftValue={values.minElvGain}
+            rightValue={values.maxElvGain}
+            leftOnChange={value => setFieldValue('minElvGain', value)}
+            rightOnChange={value => setFieldValue('maxElvGain', value)}
+          />
+        </View>*/}
+
         {/* 정상 고도 */}
+        <View py={10}>
+          <ListSubheader>정상 고도</ListSubheader>
+          <SlideBar
+            divideCount={30}
+            multiply={100}
+            leftLabel={num => `${num} m`}
+            rightLabel={getHighestPointSlideRightLabel}
+            leftValue={values.minHighestPoint}
+            rightValue={values.maxHighestPoint}
+            leftOnChange={value => setFieldValue('minHighestPoint', value)}
+            rightOnChange={value => setFieldValue('maxHighestPoint', value)}
+          />
+        </View>
       </ScrollView>
       <View
         p={10}

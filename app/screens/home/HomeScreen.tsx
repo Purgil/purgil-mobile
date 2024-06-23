@@ -24,7 +24,15 @@ const initialValues: AdventureListReqDto = {
   adventureTypeCodes: ['cycling'],
   difficultyCodes: [],
   routeTypeCodes: [],
-  categoryCode: undefined,
+  categoryCodes: [],
+  minLength: 0,
+  maxLength: 50,
+  minElvGain: 0,
+  maxElvGain: 1500,
+  minHighestPoint: 0,
+  maxHighestPoint: 3000,
+  minRating: 0,
+  maxRating: 5,
 }
 
 function HomeScreen({
@@ -48,7 +56,7 @@ function HomeScreen({
         if (
           [
             'searchText',
-            'categoryCode',
+            'categoryCodes',
             'adventureTypeCodes',
             'sortBy',
           ].includes(key)
@@ -64,93 +72,87 @@ function HomeScreen({
   )
 
   return (
-    <>
-      <View flex={1}>
-        <View p={10} gap={8}>
-          <Searchbar
-            placeholder='검색'
-            onChangeText={value => setFieldValue('searchText', value)}
-            value={values.searchText}
-          />
-          <View flexDirection='row' justifyContent='space-between'>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              gap={5}>
-              <View flexDirection='row' gap={5}>
-                <FilterChip
-                  defaultLabel='탐험 유형'
-                  labelType='icon'
-                  value={values.adventureTypeCodes}
-                  onChange={value => setFieldValue('adventureTypeCodes', value)}
-                  options={adventureTypeOptions}
-                />
-                <FilterChip
-                  filterType='radio'
-                  labelType='icon'
-                  defaultLabel='카테고리'
-                  value={values.categoryCode}
-                  onChange={value => setFieldValue('categoryCode', value)}
-                  options={categoryOptions}
-                />
-              </View>
-            </ScrollView>
-            <Pressable
-              flexDirection='row'
-              alignItems='center'
-              px={13}
-              gap={4}
-              border={1}
-              borderRadius={20}
-              onPress={() => navigation.navigate('RouteFilter', { filter })}
-              borderColor={colors.outline}>
-              {filterCount > 0 && (
-                <Text color={colors.primary} fontWeight='bold'>
-                  {filterCount}
-                </Text>
-              )}
-              <Icon size={16} source='tune-variant' />
-            </Pressable>
-          </View>
-        </View>
-        <View flex={1}>
-          <Portal.Host>
-            <MapArea />
-            {/* 루트 목록 */}
-            <ActionSheet
-              visible
-              dim={false}
-              snapPoints={[0.1, 1]}
-              redeemHeight={15}>
-              <ActionSheet.Header>
-                <Text textAlign='center' variant='titleMedium'>
-                  123 결과
-                </Text>
-              </ActionSheet.Header>
-              <ActionSheet.Body>
-                <View px={10}>
-                  <NativeViewGestureHandler
-                    ref={scrollRef}
-                    simultaneousHandlers={swiperRef}>
-                    <FlatList
-                      data={adventures}
-                      keyExtractor={item => `${item.id}`}
-                      renderItem={({ item }) => (
-                        <Adventure
-                          adventure={item}
-                          scrollRef={scrollRef}
-                          swiperRef={swiperRef}
-                        />
-                      )}
-                    />
-                  </NativeViewGestureHandler>
-                </View>
-              </ActionSheet.Body>
-            </ActionSheet>
-          </Portal.Host>
+    <View flex={1}>
+      <View p={10} gap={8}>
+        <Searchbar
+          placeholder='검색'
+          onChangeText={value => setFieldValue('searchText', value)}
+          value={values.searchText}
+        />
+        <View flexDirection='row' justifyContent='space-between'>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} gap={5}>
+            <View flexDirection='row' gap={5}>
+              <FilterChip
+                defaultLabel='탐험 유형'
+                labelType='icon'
+                value={values.adventureTypeCodes}
+                onChange={value => setFieldValue('adventureTypeCodes', value)}
+                options={adventureTypeOptions}
+              />
+              <FilterChip
+                labelType='icon'
+                defaultLabel='카테고리'
+                value={values.categoryCodes}
+                onChange={value => setFieldValue('categoryCodes', value)}
+                options={categoryOptions}
+              />
+            </View>
+          </ScrollView>
+          <Pressable
+            flexDirection='row'
+            alignItems='center'
+            px={13}
+            gap={4}
+            border={1}
+            borderRadius={20}
+            onPress={() => navigation.navigate('RouteFilter', { filter })}
+            borderColor={colors.outline}>
+            {filterCount > 0 && (
+              <Text color={colors.primary} fontWeight='bold'>
+                {filterCount}
+              </Text>
+            )}
+            <Icon size={16} source='tune-variant' />
+          </Pressable>
         </View>
       </View>
-    </>
+      <View flex={1}>
+        <Portal.Host>
+          <MapArea />
+          {/* 루트 목록 */}
+          <ActionSheet
+            visible
+            dim={false}
+            snapPoints={[0.1, 1]}
+            redeemHeight={15}>
+            <ActionSheet.Header>
+              <Text textAlign='center' variant='titleMedium'>
+                123 결과
+              </Text>
+            </ActionSheet.Header>
+            <ActionSheet.Body>
+              <View px={10}>
+                <NativeViewGestureHandler
+                  ref={scrollRef}
+                  simultaneousHandlers={swiperRef}>
+                  <FlatList
+                    data={adventures}
+                    keyExtractor={item => `${item.id}`}
+                    renderItem={({ item }) => (
+                      <Adventure
+                        adventure={item}
+                        scrollRef={scrollRef}
+                        swiperRef={swiperRef}
+                      />
+                    )}
+                  />
+                </NativeViewGestureHandler>
+              </View>
+            </ActionSheet.Body>
+          </ActionSheet>
+        </Portal.Host>
+      </View>
+    </View>
   )
 }
 

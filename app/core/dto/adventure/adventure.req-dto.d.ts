@@ -4,7 +4,15 @@ type AdventureListReqDto = {
   routeTypeCodes: string[]
   adventureTypeCodes: string[]
   difficultyCodes: string[]
-  categoryCode?: string
+  categoryCodes: string[]
+  minLength: number
+  maxLength: number
+  minElvGain: number
+  maxElvGain: number
+  minHighestPoint: number
+  maxHighestPoint: number
+  minRating: number
+  maxRating: number
 }
 
 export { AdventureListReqDto }
