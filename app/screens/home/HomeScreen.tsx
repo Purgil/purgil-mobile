@@ -26,13 +26,12 @@ const initialValues: AdventureListReqDto = {
   routeTypeCodes: [],
   categoryCodes: [],
   minLength: 0,
-  maxLength: 50,
+  maxLength: undefined,
   minElvGain: 0,
-  maxElvGain: 1500,
+  maxElvGain: undefined,
   minHighestPoint: 0,
-  maxHighestPoint: 3000,
+  maxHighestPoint: undefined,
   minRating: 0,
-  maxRating: 5,
 }
 
 function HomeScreen({
@@ -49,27 +48,15 @@ function HomeScreen({
   })
 
   /** memo */
-  const filterCount = useMemo(
-    () =>
-      Object.keys(filter).reduce((count, key) => {
-        const value = (filter as any)[key]
-        if (
-          [
-            'searchText',
-            'categoryCodes',
-            'adventureTypeCodes',
-            'sortBy',
-          ].includes(key)
-        ) {
-          return count
-        } else if (Array.isArray(value)) {
-          return count + (value.length > 0 ? 1 : 0)
-        } else {
-          return count + (value ? 1 : 0)
-        }
-      }, 0),
-    [filter],
-  )
+  const filterCount = useMemo(() => {
+    let count = 0
+    if (filter.routeTypeCodes.length) count++
+    if (filter.difficultyCodes.length) count++
+    if (filter.minLength || filter.maxLength) count++
+    if (filter.minElvGain || filter.maxElvGain) count++
+    if (filter.minHighestPoint || filter.maxHighestPoint) count++
+    return count
+  }, [filter])
 
   return (
     <View flex={1}>

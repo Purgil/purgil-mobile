@@ -18,6 +18,8 @@ type Props = {
   rightValue?: number
   leftOnChange?: (value: number) => void
   rightOnChange?: (value: number) => void
+  fixedRight?: boolean
+  fixedLeft?: boolean
 }
 
 function SlideBar({
@@ -29,13 +31,15 @@ function SlideBar({
   rightValue = 0,
   rightOnChange,
   leftOnChange,
+  fixedRight,
+  fixedLeft,
 }: Props) {
   /** hook */
   const { colors } = useTheme()
 
   /** state */
   const [movingIndicator, setMovingIndicator] = React.useState<
-    'left' | 'right'
+    'left' | 'right' | undefined
   >('left')
   const [width, setWidth] = React.useState(0)
   const [leftTargetIndex, setLeftTargetIndex] = React.useState(
@@ -44,6 +48,9 @@ function SlideBar({
   const [rightTargetIndex, setRightTargetIndex] = React.useState(
     rightValue / multiply || divideCount,
   )
+  const [pandingStatus, setPandingStatus] = React.useState<
+    undefined | 'panding' | 'padingFinished'
+  >()
 
   /** memo */
   const dividedX = useMemo(() => {
@@ -74,15 +81,28 @@ function SlideBar({
     pr.value = targetWidth * (1 - rightTargetIndex / divideCount)
   }, [])
 
+  /** effect */
+  useEffect(() => {
+    if (pandingStatus === 'padingFinished') {
+      if (movingIndicator === 'left' && leftOnChange)
+        leftOnChange(leftTargetIndex * multiply)
+      else if (movingIndicator === 'right' && rightOnChange)
+        rightOnChange(rightTargetIndex * multiply)
+    }
+  }, [pandingStatus])
+
   /** animated */
   const pl = useSharedValue(0)
   const pr = useSharedValue(0)
 
   const panGesture = Gesture.Pan()
     .onBegin(({ x }) => {
-      console.log('x - pl.value>>', x - pl.value)
-      console.log('width - pr.value - x>>', width - pr.value - x)
-      const mvInd = x - pl.value < width - pr.value - x ? 'left' : 'right'
+      if (fixedLeft && fixedRight) return
+      runOnJS(setPandingStatus)('panding')
+      let mvInd: 'left' | 'right' | undefined
+      if (fixedLeft) mvInd = 'right'
+      else if (fixedRight) mvInd = 'left'
+      else mvInd = x - pl.value < width - pr.value - x ? 'left' : 'right'
       runOnJS(setMovingIndicator)(mvInd)
 
       const result = dividedX.reduce(
@@ -126,11 +146,8 @@ function SlideBar({
         runOnJS(setRightTargetIndex)(Math.max(result.index, leftTargetIndex))
       }
     })
-    .onEnd(() => {
-      if (movingIndicator === 'left' && leftOnChange)
-        runOnJS(leftOnChange)(leftTargetIndex * multiply)
-      else if (movingIndicator === 'right' && rightOnChange)
-        runOnJS(rightOnChange)(rightTargetIndex * multiply)
+    .onFinalize(() => {
+      runOnJS(setPandingStatus)('padingFinished')
     })
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -162,25 +179,29 @@ function SlideBar({
               flexDirection='row'
               borderRadius={100}
               justifyContent='space-between'>
-              <Pressable
-                position='absolute'
-                height={16}
-                width={16}
-                borderRadius={100}
-                bg={colors.onBackground}
-                ml={-2}
-                opacity={0.9}
-              />
-              <Pressable
-                position='absolute'
-                right={0}
-                height={16}
-                width={16}
-                borderRadius={100}
-                bg={colors.onBackground}
-                mr={-2}
-                opacity={0.9}
-              />
+              {!fixedLeft && (
+                <Pressable
+                  position='absolute'
+                  height={16}
+                  width={16}
+                  borderRadius={100}
+                  bg={colors.onBackground}
+                  ml={-2}
+                  opacity={0.9}
+                />
+              )}
+              {!fixedRight && (
+                <Pressable
+                  position='absolute'
+                  right={0}
+                  height={16}
+                  width={16}
+                  borderRadius={100}
+                  bg={colors.onBackground}
+                  mr={-2}
+                  opacity={0.9}
+                />
+              )}
             </View>
           </AnimatedView>
         </View>

@@ -95,6 +95,24 @@ export default function RouteFilterScreen({
 
         <Divider my={10} />
 
+        {/* 평점 */}
+        <View py={10}>
+          <ListSubheader>평점</ListSubheader>
+          <SlideBar
+            fixedRight
+            divideCount={5}
+            leftLabel={num => (num >= 5 ? '4.5 +' : `${num}`)}
+            rightLabel='4.5 +'
+            leftValue={values.minRating}
+            rightValue={5}
+            leftOnChange={value =>
+              setFieldValue('minRating', value >= 5 ? 4.5 : value)
+            }
+          />
+        </View>
+
+        <Divider my={10} />
+
         {/* 루트 거리 */}
         <View py={10}>
           <ListSubheader>총 길이</ListSubheader>
@@ -103,9 +121,11 @@ export default function RouteFilterScreen({
             leftLabel={num => `${num} km`}
             rightLabel={getDistanceSlideRightLabel}
             leftValue={values.minLength}
-            rightValue={values.maxLength}
+            rightValue={values.maxLength || 50}
             leftOnChange={value => setFieldValue('minLength', value)}
-            rightOnChange={value => setFieldValue('maxLength', value)}
+            rightOnChange={value =>
+              setFieldValue('maxLength', value >= 50 ? undefined : value)
+            }
           />
         </View>
 
@@ -120,27 +140,15 @@ export default function RouteFilterScreen({
             leftLabel={num => `${num} m`}
             rightLabel={getElvGainSlideRightLabel}
             leftValue={values.minElvGain}
-            rightValue={values.maxElvGain}
+            rightValue={values.maxElvGain || 1500}
             leftOnChange={value => setFieldValue('minElvGain', value)}
-            rightOnChange={value => setFieldValue('maxElvGain', value)}
+            rightOnChange={value =>
+              setFieldValue('maxElvGain', value >= 1500 ? undefined : value)
+            }
           />
         </View>
 
         <Divider my={10} />
-
-        {/* 평점 */}
-        {/*        <View py={10}>
-          <ListSubheader>평점</ListSubheader>
-          <SlideBar
-            divideCount={15}
-            leftLabel={num => `${num * 100} m`}
-            rightLabel={getElvGainSlideRightLabel}
-            leftValue={values.minElvGain}
-            rightValue={values.maxElvGain}
-            leftOnChange={value => setFieldValue('minElvGain', value)}
-            rightOnChange={value => setFieldValue('maxElvGain', value)}
-          />
-        </View>*/}
 
         {/* 정상 고도 */}
         <View py={10}>
@@ -151,9 +159,14 @@ export default function RouteFilterScreen({
             leftLabel={num => `${num} m`}
             rightLabel={getHighestPointSlideRightLabel}
             leftValue={values.minHighestPoint}
-            rightValue={values.maxHighestPoint}
+            rightValue={values.maxHighestPoint || 3000}
             leftOnChange={value => setFieldValue('minHighestPoint', value)}
-            rightOnChange={value => setFieldValue('maxHighestPoint', value)}
+            rightOnChange={value =>
+              setFieldValue(
+                'maxHighestPoint',
+                value >= 3000 ? undefined : value,
+              )
+            }
           />
         </View>
       </ScrollView>

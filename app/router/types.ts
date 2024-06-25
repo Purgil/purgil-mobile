@@ -2,6 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import { Activity, Adventure } from '~/core/dto/adventure.dto'
 import { Image } from '~/core/dto/shared/shared.dto'
 import { AdventureListReqDto } from '~/core/dto/adventure/adventure.req-dto'
+import { ExpeditionListReqDto } from '~/core/dto/expedition/expedition.req-dto'
 
 export type ScreenPropsMap = {
   Home?: {
@@ -35,6 +36,9 @@ export type ScreenPropsMap = {
     filter: AdventureListReqDto
   }
   Follow: undefined
+  ExpeditionFilter: {
+    filter: ExpeditionListReqDto
+  }
 }
 
 export type RootScreenProps<T extends keyof ScreenPropsMap> = StackScreenProps<

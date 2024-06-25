@@ -19,6 +19,7 @@ import CreatePostScreen from '~/screens/createPost/CreatePostScreen.tsx'
 import AdventureDetailScreen from '~/screens/adventureDetail/AdventureDetailScreen.tsx'
 import RouteFilterScreen from '~/screens/routeFilter/RouteFilterScreen.tsx'
 import FollowScreen from '~/screens/follow/FollowScreen.tsx'
+import { ExpeditionFilterScreen } from '~/screens/expeditionFilter/ExpeditionFilterScreen.tsx'
 
 function Router() {
   const Stack = createStackNavigator<ScreenPropsMap>()
@@ -60,6 +61,10 @@ function Router() {
           />
           <Stack.Screen name='RouteFilter' component={RouteFilterScreen} />
           <Stack.Screen name='Follow' component={FollowScreen} />
+          <Stack.Screen
+            name='ExpeditionFilter'
+            component={ExpeditionFilterScreen}
+          />
         </Stack.Navigator>
       </Portal.Host>
     </NavigationContainer>

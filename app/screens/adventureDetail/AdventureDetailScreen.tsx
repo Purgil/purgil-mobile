@@ -39,6 +39,10 @@ const routes = [
   { key: 'photo', title: '사진' },
 ]
 
+const ActivityTab = (scrollRef: any, swiperRef: any) => (
+  <Activities scrollRef={scrollRef} swiperRef={swiperRef} />
+)
+
 function AdventureDetailScreen({
   navigation,
   route: {
@@ -58,9 +62,7 @@ function AdventureDetailScreen({
     () =>
       SceneMap({
         review: AdventureReviewTab,
-        activity: () => (
-          <Activities scrollRef={scrollRef} swiperRef={swiperRef} />
-        ),
+        activity: () => ActivityTab(scrollRef, swiperRef),
         photo: AdventurePhotoTab,
       }),
     [],
