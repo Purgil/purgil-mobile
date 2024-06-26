@@ -1,7 +1,7 @@
 import React from 'react'
-import { User } from '~/core/data/user.data'
 import { Text, View } from '~/components/styled'
 import { Avatar as RNAvatar, useTheme } from 'react-native-paper'
+import { User } from '~/core/dto/user.dto'
 
 type Props = {
   user: User
@@ -26,6 +26,9 @@ function Avatar({
     <View
       flexDirection={nicknameDisplayType === 'right' ? 'row-reverse' : 'row'}
       alignItems='center'
+      justifyContent={
+        nicknameDisplayType === 'right' ? 'flex-end' : 'flex-start'
+      }
       gap={5}>
       <View gap={1} alignItems={flexEnd ? 'flex-end' : 'flex-start'}>
         {nicknameDisplayType !== 'hidden' && (

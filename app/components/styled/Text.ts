@@ -14,6 +14,8 @@ import {
   margin,
   WidthProps,
   width,
+  TypographyProps,
+  typography,
 } from 'styled-system'
 import styled from 'styled-components/native'
 import { Text as RNPText } from 'react-native-paper'
@@ -25,7 +27,8 @@ interface TextStyledProps
     MarginProps,
     FontWeightProps,
     WidthProps,
-    SpaceProps {
+    SpaceProps,
+    TypographyProps {
   children: React.ReactNode
 }
 
@@ -37,5 +40,6 @@ const Text = styled(RNPText)<TextStyledProps>`
   ${margin}
   ${fontWeight}
   ${width}
+  ${typography}
 `
 export default Text

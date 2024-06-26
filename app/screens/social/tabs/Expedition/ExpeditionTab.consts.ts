@@ -1,0 +1,236 @@
+import { ExpeditionListResDto } from '~/core/dto/expedition/expedition.res-dto'
+
+const expeditions: ExpeditionListResDto[] = [
+  {
+    id: 1,
+    title: 'Mount Everest Base Camp Trek',
+    description:
+      'An adventurous trek to the base camp of Mount Everest, offering stunning views and a thrilling experience.',
+    adventureTypeCode: 'TREK',
+    departureDatetime: '2024-09-15 08:00',
+    applyDeadlineDatetime: '2024-08-31 23:00',
+    maxMemberCount: 15,
+    currentMemberCount: 7,
+    minAge: 18,
+    maxAge: 60,
+    route: {
+      id: 1,
+      title: 'Everest Base Camp Route',
+    },
+    leader: {
+      id: 1,
+      name: 'John Doe',
+      nickname: 'John',
+    },
+    createdAt: '2024-01-01 12:00',
+  },
+  {
+    id: 2,
+    title: 'Kilimanjaro Summit Expedition',
+    description:
+      'A thrilling adventure to the highest peak in Africa, Mount Kilimanjaro.',
+    adventureTypeCode: 'TREK',
+    departureDatetime: '2024-10-05 06:00',
+    applyDeadlineDatetime: '2024-09-20 22:00',
+    maxMemberCount: 20,
+    currentMemberCount: 12,
+    minAge: 21,
+    maxAge: 65,
+    route: {
+      id: 2,
+      title: 'Kilimanjaro Marangu Route',
+    },
+    leader: {
+      id: 2,
+      name: 'Jane Smith',
+      nickname: 'Jane',
+    },
+    createdAt: '2024-02-15 09:00',
+  },
+  {
+    id: 3,
+    title: 'Amazon Rainforest Adventure',
+    description:
+      'Explore the dense jungles of the Amazon and discover its hidden secrets.',
+    adventureTypeCode: 'EXPLORE',
+    departureDatetime: '2024-11-10 07:00',
+    applyDeadlineDatetime: '2024-10-25 21:00',
+    maxMemberCount: 10,
+    currentMemberCount: 8,
+    minAge: 25,
+    maxAge: 55,
+    route: {
+      id: 3,
+      title: 'Amazon River Route',
+    },
+    leader: {
+      id: 3,
+      name: 'Carlos Mendes',
+      nickname: 'Carlos',
+    },
+    createdAt: '2024-03-10 11:00',
+  },
+  {
+    id: 4,
+    title: 'Antarctica Expedition',
+    description:
+      'An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.',
+    adventureTypeCode: 'EXPLORE',
+    departureDatetime: '2024-12-01 10:00',
+    applyDeadlineDatetime: '2024-11-15 20:00',
+    maxMemberCount: 8,
+    currentMemberCount: 5,
+    minAge: 30,
+    maxAge: 50,
+    route: {
+      id: 4,
+      title: 'Antarctica Peninsula Route',
+    },
+    leader: {
+      id: 4,
+      name: 'Emily Johnson',
+      nickname: 'Emily',
+    },
+    createdAt: '2024-04-20 13:00',
+  },
+  {
+    id: 5,
+    title: 'Sahara Desert Trek',
+    description:
+      'A challenging trek across the vast Sahara Desert, experience the extreme conditions and stunning landscapes.',
+    adventureTypeCode: 'TREK',
+    departureDatetime: '2024-10-15 09:00',
+    applyDeadlineDatetime: '2024-09-30 19:00',
+    maxMemberCount: 12,
+    currentMemberCount: 6,
+    minAge: 20,
+    maxAge: 45,
+    route: {
+      id: 5,
+      title: 'Sahara Central Route',
+    },
+    leader: {
+      id: 5,
+      name: 'Mohammed Ali',
+      nickname: 'Mohammed',
+    },
+    createdAt: '2024-05-01 14:00',
+  },
+  {
+    id: 6,
+    title: 'Grand Canyon Hiking Expedition',
+    description:
+      'A breathtaking hike through the Grand Canyon, experience its unique geological formations.',
+    adventureTypeCode: 'HIKE',
+    departureDatetime: '2024-09-20 08:00',
+    applyDeadlineDatetime: '2024-09-05 18:00',
+    maxMemberCount: 15,
+    currentMemberCount: 10,
+    minAge: 18,
+    maxAge: 50,
+    route: {
+      id: 6,
+      title: 'Grand Canyon South Rim Route',
+    },
+    leader: {
+      id: 6,
+      name: 'Robert Brown',
+      nickname: 'Robert',
+    },
+    createdAt: '2024-06-10 12:00',
+  },
+  {
+    id: 7,
+    title: 'Great Barrier Reef Diving Expedition',
+    description:
+      'Dive into the crystal clear waters of the Great Barrier Reef and explore its vibrant marine life.',
+    adventureTypeCode: 'DIVE',
+    departureDatetime: '2024-08-15 07:00',
+    applyDeadlineDatetime: '2024-08-01 17:00',
+    maxMemberCount: 10,
+    currentMemberCount: 8,
+    minAge: 18,
+    maxAge: 45,
+    route: {
+      id: 7,
+      title: 'Great Barrier Reef Route',
+    },
+    leader: {
+      id: 7,
+      name: 'Linda Green',
+      nickname: 'Linda',
+    },
+    createdAt: '2024-07-01 11:00',
+  },
+  {
+    id: 8,
+    title: 'Machu Picchu Inca Trail',
+    description:
+      'Follow the ancient Inca Trail to the legendary city of Machu Picchu.',
+    adventureTypeCode: 'TREK',
+    departureDatetime: '2024-10-25 08:00',
+    applyDeadlineDatetime: '2024-10-10 20:00',
+    maxMemberCount: 12,
+    currentMemberCount: 9,
+    minAge: 18,
+    maxAge: 50,
+    route: {
+      id: 8,
+      title: 'Inca Trail Route',
+    },
+    leader: {
+      id: 8,
+      name: 'Carlos Ruiz',
+      nickname: 'Carlos',
+    },
+    createdAt: '2024-07-15 09:00',
+  },
+  {
+    id: 9,
+    title: 'Rocky Mountains Winter Expedition',
+    description:
+      'Experience the beauty of the Rocky Mountains in winter, with snow-covered peaks and serene landscapes.',
+    adventureTypeCode: 'EXPLORE',
+    departureDatetime: '2024-12-15 07:00',
+    applyDeadlineDatetime: '2024-12-01 21:00',
+    maxMemberCount: 10,
+    currentMemberCount: 6,
+    minAge: 25,
+    maxAge: 55,
+    route: {
+      id: 9,
+      title: 'Rocky Mountains North Route',
+    },
+    leader: {
+      id: 9,
+      name: 'James White',
+      nickname: 'James',
+    },
+    createdAt: '2024-08-01 10:00',
+  },
+  {
+    id: 10,
+    title: 'Patagonia Wildlife Expedition',
+    description:
+      'Discover the diverse wildlife and stunning landscapes of Patagonia.',
+    adventureTypeCode: 'EXPLORE',
+    departureDatetime: '2024-11-20 06:00',
+    applyDeadlineDatetime: '2024-11-05 19:00',
+    maxMemberCount: 15,
+    currentMemberCount: 10,
+    minAge: 18,
+    maxAge: 60,
+    route: {
+      id: 10,
+      title: 'Patagonia Wilderness Route',
+    },
+    leader: {
+      id: 10,
+      name: 'Sofia Martinez',
+      nickname: 'Sofia',
+    },
+    createdAt: '2024-09-01 11:00',
+  },
+]
+
+export { expeditions }

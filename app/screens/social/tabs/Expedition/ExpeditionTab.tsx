@@ -1,6 +1,7 @@
 import {
   Chip,
   Pressable,
+  ScrollView,
   Text,
   TouchableRipple,
   View,
@@ -14,6 +15,8 @@ import { Icon, useTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { ScreenPropsMap } from '~/router/types.ts'
+import ExpeditionListItem from '~/components/expedition/ExpeditionListItem.tsx'
+import { expeditions } from '~/screens/social/tabs/Expedition/ExpeditionTab.consts.ts'
 
 const initialValues: ExpeditionListReqDto = {
   adventureTypeCodes: [],
@@ -32,7 +35,7 @@ export default function ExpeditionTab({ filter }: Props) {
   })
 
   return (
-    <View>
+    <ScrollView>
       <View flexDirection='row' p={2} justifyContent='space-between'>
         <View flexDirection='row' alignItems='center' gap={3}>
           <Text my={2}>최신순</Text>
@@ -62,6 +65,12 @@ export default function ExpeditionTab({ filter }: Props) {
           <Icon size={16} source='tune-variant' />
         </Pressable>
       </View>
-    </View>
+
+      <View gap={10} px={2}>
+        {expeditions.map(expedition => (
+          <ExpeditionListItem key={expedition.id} expedition={expedition} />
+        ))}
+      </View>
+    </ScrollView>
   )
 }
