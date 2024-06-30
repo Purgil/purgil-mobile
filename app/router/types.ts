@@ -10,7 +10,9 @@ export type ScreenPropsMap = {
   }
   Map: undefined
   Record: undefined
-  Social: undefined
+  Social: {
+    expeditionFilter: ExpeditionListReqDto
+  }
   Profile: undefined
   BottomNav: undefined
   Auth: undefined

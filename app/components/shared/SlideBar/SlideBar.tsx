@@ -9,31 +9,35 @@ import {
 } from 'react-native-reanimated'
 import { LayoutChangeEvent } from 'react-native'
 
-type Props = {
+export type SlideBarProps = {
   divideCount?: number
   multiply?: number
-  leftLabel?: string | ((leftTargetNumber: number) => string)
-  rightLabel?: string | ((rightTargetNumber: number) => string)
+  leftLabel?: string
+  rightLabel?: string
+  unitText?: string
   leftValue?: number
   rightValue?: number
   leftOnChange?: (value: number) => void
   rightOnChange?: (value: number) => void
   fixedRight?: boolean
   fixedLeft?: boolean
+  minValue?: number
 }
 
 function SlideBar({
   divideCount = 10,
   multiply = 1,
-  leftLabel = '',
-  rightLabel = '',
   leftValue = 0,
   rightValue = 0,
+  minValue = 0,
+  leftLabel,
+  rightLabel,
+  unitText,
   rightOnChange,
   leftOnChange,
   fixedRight,
   fixedLeft,
-}: Props) {
+}: SlideBarProps) {
   /** hook */
   const { colors } = useTheme()
 
@@ -43,10 +47,10 @@ function SlideBar({
   >('left')
   const [width, setWidth] = React.useState(0)
   const [leftTargetIndex, setLeftTargetIndex] = React.useState(
-    leftValue / multiply,
+    (leftValue - minValue) / multiply,
   )
   const [rightTargetIndex, setRightTargetIndex] = React.useState(
-    rightValue / multiply || divideCount,
+    (rightValue - minValue) / multiply || divideCount,
   )
   const [pandingStatus, setPandingStatus] = React.useState<
     undefined | 'panding' | 'padingFinished'
@@ -64,13 +68,17 @@ function SlideBar({
   }, [width])
 
   const leftLabelText = useMemo(() => {
-    if (typeof leftLabel === 'string') return leftLabel
-    if (leftLabel) return leftLabel(leftTargetIndex * multiply)
+    if (leftLabel) return leftLabel
+    if (unitText) return `${leftTargetIndex * multiply + minValue} ${unitText}`
+    return `${leftTargetIndex * multiply + minValue}`
   }, [leftTargetIndex])
 
   const rightLabelText = useMemo(() => {
-    if (typeof rightLabel === 'string') return rightLabel
-    if (rightLabel) return rightLabel(rightTargetIndex * multiply)
+    if (rightLabel) return rightLabel
+    if (rightTargetIndex === divideCount && unitText)
+      return `${rightTargetIndex * multiply + minValue}+ ${unitText}`
+    if (unitText) return `${rightTargetIndex * multiply + minValue} ${unitText}`
+    return `${rightTargetIndex * multiply + minValue}`
   }, [rightTargetIndex])
 
   /** function */
@@ -85,11 +93,25 @@ function SlideBar({
   useEffect(() => {
     if (pandingStatus === 'padingFinished') {
       if (movingIndicator === 'left' && leftOnChange)
-        leftOnChange(leftTargetIndex * multiply)
+        leftOnChange(leftTargetIndex * multiply + minValue)
       else if (movingIndicator === 'right' && rightOnChange)
-        rightOnChange(rightTargetIndex * multiply)
+        rightOnChange(rightTargetIndex * multiply + minValue)
+      setPandingStatus(undefined)
     }
   }, [pandingStatus])
+
+  useEffect(() => {
+    if (leftValue !== leftTargetIndex * multiply + minValue) {
+      setLeftTargetIndex((leftValue - minValue) / multiply)
+      pl.value = 0
+    }
+  }, [leftValue])
+  useEffect(() => {
+    if (rightValue !== rightTargetIndex * multiply + minValue) {
+      setRightTargetIndex((rightValue - minValue) / multiply)
+      pr.value = 0
+    }
+  }, [rightValue])
 
   /** animated */
   const pl = useSharedValue(0)

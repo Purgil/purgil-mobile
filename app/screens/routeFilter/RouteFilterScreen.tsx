@@ -11,8 +11,7 @@ import {
 import { RootScreenProps } from '~/router/types.ts'
 import { AdventureListReqDto } from '~/core/dto/adventure/adventure.req-dto'
 import RadioFilter from '~/components/shared/filter/RadioFilter/RadioFilter.tsx'
-import { SlideBar } from '~/components/shared'
-import ListSubheader from 'react-native-paper/src/components/List/ListSubheader.tsx'
+import { SlideBarFilter } from '~/components/shared'
 
 export default function RouteFilterScreen({
   navigation,
@@ -45,19 +44,46 @@ export default function RouteFilterScreen({
   const handleClear = useCallback(() => {
     setValues(initialValues)
   }, [])
-
-  const getDistanceSlideRightLabel = useCallback(
-    (num: number) => (num === 50 ? '50+ km' : `${num} km`),
+  const handleChangeSortBy = useCallback(
+    (value: any) => setFieldValue('sortBy', value),
     [],
   )
-
-  const getElvGainSlideRightLabel = useCallback(
-    (num: number) => (num === 1500 ? '1,500+ m' : `${num} m`),
+  const handleChangeRouteType = useCallback(
+    (value: any) => setFieldValue('routeTypeCodes', value),
     [],
   )
-
-  const getHighestPointSlideRightLabel = useCallback(
-    (num: number) => (num === 3000 ? '3,000+ m' : `${num} m`),
+  const handleChangeDifficulty = useCallback(
+    (value: any) => setFieldValue('difficultyCodes', value),
+    [],
+  )
+  const handleChangeMinRating = useCallback(
+    (value: any) => setFieldValue('minRating', value),
+    [],
+  )
+  const handleChangeMinLength = useCallback(
+    (value: any) => setFieldValue('minLength', value),
+    [],
+  )
+  const handleChangeMaxLength = useCallback(
+    (value: any) => setFieldValue('maxLength', value >= 50 ? undefined : value),
+    [],
+  )
+  const handleChangeMinElvGain = useCallback(
+    (value: any) => setFieldValue('minElvGain', value),
+    [],
+  )
+  const handleChangeMaxElvGain = useCallback(
+    (value: any) =>
+      setFieldValue('maxElvGain', value >= 1500 ? undefined : value),
+    [],
+  )
+  const handleChangeMinHighestPoint = useCallback(
+    (value: any) => setFieldValue('minHighestPoint', value),
+    [],
+  )
+  const handleChangeMaxHighestPoint = useCallback(
+    (value: any) =>
+      setFieldValue('maxHighestPoint', value >= 3000 ? undefined : value),
     [],
   )
 
@@ -71,7 +97,7 @@ export default function RouteFilterScreen({
         <RadioFilter
           title='정렬순서'
           value={values.sortBy}
-          onChange={(value: any) => setFieldValue('sortBy', value)}
+          onChange={handleChangeSortBy}
           options={sortByOptions}
         />
 
@@ -80,7 +106,7 @@ export default function RouteFilterScreen({
         <CheckboxFilter
           title='루트 유형'
           value={values.routeTypeCodes}
-          onChange={(value: any) => setFieldValue('routeTypeCodes', value)}
+          onChange={handleChangeRouteType}
           options={routeTypeOptions}
         />
 
@@ -89,86 +115,63 @@ export default function RouteFilterScreen({
         <CheckboxFilter
           title='난이도'
           value={values.difficultyCodes}
-          onChange={(value: any) => setFieldValue('difficultyCodes', value)}
+          onChange={handleChangeDifficulty}
           options={difficultyOptions}
         />
 
         <Divider my={10} />
 
         {/* 평점 */}
-        <View py={10}>
-          <ListSubheader>평점</ListSubheader>
-          <SlideBar
-            fixedRight
-            divideCount={5}
-            leftLabel={num => (num >= 5 ? '4.5 +' : `${num}`)}
-            rightLabel='4.5 +'
-            leftValue={values.minRating}
-            rightValue={5}
-            leftOnChange={value =>
-              setFieldValue('minRating', value >= 5 ? 4.5 : value)
-            }
-          />
-        </View>
+        <SlideBarFilter
+          title='평점'
+          fixedRight
+          divideCount={5}
+          rightLabel='4.5 +'
+          leftValue={values.minRating}
+          rightValue={5}
+          leftOnChange={handleChangeMinRating}
+        />
 
         <Divider my={10} />
 
         {/* 루트 거리 */}
-        <View py={10}>
-          <ListSubheader>총 길이</ListSubheader>
-          <SlideBar
-            divideCount={50}
-            leftLabel={num => `${num} km`}
-            rightLabel={getDistanceSlideRightLabel}
-            leftValue={values.minLength}
-            rightValue={values.maxLength || 50}
-            leftOnChange={value => setFieldValue('minLength', value)}
-            rightOnChange={value =>
-              setFieldValue('maxLength', value >= 50 ? undefined : value)
-            }
-          />
-        </View>
+        <SlideBarFilter
+          title='루트 길이'
+          divideCount={50}
+          unitText='km'
+          leftValue={values.minLength}
+          rightValue={values.maxLength || 50}
+          leftOnChange={handleChangeMinLength}
+          rightOnChange={handleChangeMaxLength}
+        />
 
         <Divider my={10} />
 
         {/* 누적 오르막 */}
-        <View py={10}>
-          <ListSubheader>누적 오르막</ListSubheader>
-          <SlideBar
-            divideCount={15}
-            multiply={100}
-            leftLabel={num => `${num} m`}
-            rightLabel={getElvGainSlideRightLabel}
-            leftValue={values.minElvGain}
-            rightValue={values.maxElvGain || 1500}
-            leftOnChange={value => setFieldValue('minElvGain', value)}
-            rightOnChange={value =>
-              setFieldValue('maxElvGain', value >= 1500 ? undefined : value)
-            }
-          />
-        </View>
+        <SlideBarFilter
+          title='누적 오르막'
+          divideCount={15}
+          multiply={100}
+          unitText='m'
+          leftValue={values.minElvGain}
+          rightValue={values.maxElvGain || 1500}
+          leftOnChange={handleChangeMinElvGain}
+          rightOnChange={handleChangeMaxElvGain}
+        />
 
         <Divider my={10} />
 
         {/* 정상 고도 */}
-        <View py={10}>
-          <ListSubheader>정상 고도</ListSubheader>
-          <SlideBar
-            divideCount={30}
-            multiply={100}
-            leftLabel={num => `${num} m`}
-            rightLabel={getHighestPointSlideRightLabel}
-            leftValue={values.minHighestPoint}
-            rightValue={values.maxHighestPoint || 3000}
-            leftOnChange={value => setFieldValue('minHighestPoint', value)}
-            rightOnChange={value =>
-              setFieldValue(
-                'maxHighestPoint',
-                value >= 3000 ? undefined : value,
-              )
-            }
-          />
-        </View>
+        <SlideBarFilter
+          title='정상 고도'
+          divideCount={30}
+          multiply={100}
+          unitText='m'
+          leftValue={values.minHighestPoint}
+          rightValue={values.maxHighestPoint || 3000}
+          leftOnChange={handleChangeMinHighestPoint}
+          rightOnChange={handleChangeMaxHighestPoint}
+        />
       </ScrollView>
       <View
         p={10}

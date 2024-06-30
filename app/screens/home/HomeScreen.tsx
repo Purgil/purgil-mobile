@@ -55,6 +55,7 @@ function HomeScreen({
     if (filter.minLength || filter.maxLength) count++
     if (filter.minElvGain || filter.maxElvGain) count++
     if (filter.minHighestPoint || filter.maxHighestPoint) count++
+    if (filter.minRating) count++
     return count
   }, [filter])
 

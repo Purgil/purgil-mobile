@@ -9,6 +9,7 @@ import { ScreenPropsMap } from './types.ts'
 import { ReactNode, useCallback } from 'react'
 import { View } from '~/components/styled'
 import { Dimensions } from 'react-native'
+import { initialExpeditionFilter } from '~/screens/social/tabs/Expedition/ExpeditionTab.consts.ts'
 
 const iconMap: { [screenName: string]: { icon: string; focusedIcon: string } } =
   {
@@ -76,6 +77,7 @@ function BottomNav() {
             tabBarIcon: ({ focused, color }) =>
               iconRenderer('Social', focused, color),
           }}
+          initialParams={{ expeditionFilter: initialExpeditionFilter }}
         />
         <Tab.Screen
           name='Record'

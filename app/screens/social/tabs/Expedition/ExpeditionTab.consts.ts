@@ -1,4 +1,23 @@
 import { ExpeditionListResDto } from '~/core/dto/expedition/expedition.res-dto'
+import { ExpeditionListReqDto } from '~/core/dto/expedition/expedition.req-dto'
+
+const initialExpeditionFilter: ExpeditionListReqDto = {
+  adventureTypeCodes: [],
+  sortBy: 'recently',
+  routeTypeCodes: [],
+  difficultyCodes: [],
+  minAge: 10,
+  maxAge: undefined,
+  minParticipantCount: 1,
+  maxParticipantCount: undefined,
+  minRating: 0,
+  minLength: 0,
+  maxLength: undefined,
+  minElvGain: 0,
+  maxElvGain: undefined,
+  minHighestPoint: 0,
+  maxHighestPoint: undefined,
+}
 
 const expeditions: ExpeditionListResDto[] = [
   {
@@ -233,4 +252,4 @@ const expeditions: ExpeditionListResDto[] = [
   },
 ]
 
-export { expeditions }
+export { expeditions, initialExpeditionFilter }

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Checkbox, List, TouchableRipple } from 'react-native-paper'
 import { Option, ValueLabelPair } from '~/core/dto/shared/shared.dto'
 import { Button, View } from '~/components/styled'

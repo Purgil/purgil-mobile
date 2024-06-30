@@ -56,7 +56,7 @@ function ExpeditionListItem({ expedition }: Props) {
             9월 5일
           </Text>
           <Text fontSize={13} color={colors.onSurface}>
-            14시 00분
+            14시 0분
           </Text>
         </View>
 
@@ -72,7 +72,7 @@ function ExpeditionListItem({ expedition }: Props) {
             9월 5일
           </Text>
           <Text fontSize={13} color={colors.onSurface}>
-            14시 00분
+            14시 0분
           </Text>
         </View>
 
