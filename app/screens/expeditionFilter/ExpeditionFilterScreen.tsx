@@ -13,7 +13,7 @@ import CheckboxFilter from '~/components/shared/filter/CheckboxFilter/CheckboxFi
 import { DatetimePicker, SlideBarFilter } from '~/components/shared'
 import { initialExpeditionFilter } from '~/screens/social/tabs/Expedition/ExpeditionTab.consts.ts'
 import { useColorScheme } from 'react-native'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import DatetimeFilter from '~/components/shared/filter/DatetimeFilter/DatetimeFilter.tsx'
 
 export function ExpeditionFilterScreen({
@@ -40,12 +40,14 @@ export function ExpeditionFilterScreen({
     [],
   )
 
-  const minDepartureDate = useMemo(
-    () => dayjs(values.minDepartureDate),
+  const minDepartureDate: Dayjs | undefined = useMemo(
+    () =>
+      values.minDepartureDate ? dayjs(values.minDepartureDate) : undefined,
     [values.minDepartureDate],
   )
-  const maxDepartureDate = useMemo(
-    () => dayjs(values.maxDepartureDate),
+  const maxDepartureDate: Dayjs | undefined = useMemo(
+    () =>
+      values.maxDepartureDate ? dayjs(values.maxDepartureDate) : undefined,
     [values.maxDepartureDate],
   )
 

@@ -6,15 +6,19 @@ import RNDateTimePicker, {
 import dayjs, { Dayjs } from 'dayjs'
 
 export type DatetimePickerProps = {
+  value?: Dayjs
+  onChange?: (value: Dayjs) => void
   mode?: 'date' | 'time' | 'datetime'
-  value: Dayjs
-  onChange: (value: Dayjs) => void
+  minDate?: Dayjs
+  maxDate?: Dayjs
 }
 
 function DatetimePicker({
   mode = 'date',
   value,
   onChange,
+  minDate,
+  maxDate,
 }: DatetimePickerProps) {
   /** state */
   const [showDatePicker, setShowDatePicker] = useState(false)
@@ -24,10 +28,11 @@ function DatetimePicker({
   const text = useMemo(
     () =>
       mode === 'date'
-        ? value.format('YYYY년 M월 D일')
-        : value.format('YYYY년 M월 D일 h시 m분'),
+        ? value?.format('YYYY년 M월 D일') || '날짜 선택'
+        : value?.format('YYYY년 M월 D일 h시 m분') || '시간 선택',
     [mode, value],
   )
+  const date = useMemo(() => value?.toDate() || new Date(), [value])
 
   /** function */
   const handlePress = useCallback(() => {
@@ -39,13 +44,13 @@ function DatetimePicker({
   }, [mode])
 
   const handleChangeDate = useCallback((e: DateTimePickerEvent) => {
-    onChange(dayjs(e.nativeEvent.timestamp))
     setShowDatePicker(false)
+    if (onChange) onChange(dayjs(e.nativeEvent.timestamp))
   }, [])
 
   const handleChangeTime = useCallback((e: DateTimePickerEvent) => {
-    onChange(dayjs(e.nativeEvent.timestamp))
     setShowTimePicker(false)
+    if (onChange) onChange(dayjs(e.nativeEvent.timestamp))
   }, [])
 
   return (
@@ -57,15 +62,17 @@ function DatetimePicker({
       {showDatePicker && (
         <RNDateTimePicker
           onChange={handleChangeDate}
-          value={value.toDate()}
+          value={date}
           display='default'
+          minimumDate={minDate?.toDate()}
+          maximumDate={maxDate?.toDate()}
         />
       )}
 
       {showTimePicker && (
         <RNDateTimePicker
           onChange={handleChangeTime}
-          value={value.toDate()}
+          value={date}
           mode='time'
           display='default'
         />

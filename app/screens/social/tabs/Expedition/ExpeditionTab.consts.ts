@@ -93,7 +93,7 @@ const expeditions: ExpeditionListResDto[] = [
     id: 4,
     title: 'Antarctica Expedition',
     description:
-      'An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.',
+      'An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.An expedition to the coldest place on Earth, experience the serene beauty of Antarctica.',
     adventureTypeCode: 'EXPLORE',
     departureDatetime: '2024-12-01 10:00',
     applyDeadlineDatetime: '2024-11-15 20:00',

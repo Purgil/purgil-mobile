@@ -42,9 +42,6 @@ function SlideBar({
   const { colors } = useTheme()
 
   /** state */
-  const [movingIndicator, setMovingIndicator] = React.useState<
-    'left' | 'right' | undefined
-  >('left')
   const [width, setWidth] = React.useState(0)
   const [leftTargetIndex, setLeftTargetIndex] = React.useState(
     (leftValue - minValue) / multiply,
@@ -92,9 +89,9 @@ function SlideBar({
   /** effect */
   useEffect(() => {
     if (pandingStatus === 'padingFinished') {
-      if (movingIndicator === 'left' && leftOnChange)
+      if (movingIndicator.value === 'left' && leftOnChange)
         leftOnChange(leftTargetIndex * multiply + minValue)
-      else if (movingIndicator === 'right' && rightOnChange)
+      else if (movingIndicator.value === 'right' && rightOnChange)
         rightOnChange(rightTargetIndex * multiply + minValue)
       setPandingStatus(undefined)
     }
@@ -116,6 +113,7 @@ function SlideBar({
   /** animated */
   const pl = useSharedValue(0)
   const pr = useSharedValue(0)
+  const movingIndicator = useSharedValue<'left' | 'right'>('left')
 
   const panGesture = Gesture.Pan()
     .onBegin(({ x }) => {
@@ -125,7 +123,7 @@ function SlideBar({
       if (fixedLeft) mvInd = 'right'
       else if (fixedRight) mvInd = 'left'
       else mvInd = x - pl.value < width - pr.value - x ? 'left' : 'right'
-      runOnJS(setMovingIndicator)(mvInd)
+      movingIndicator.value = mvInd
 
       const result = dividedX.reduce(
         (acc, cur, index) => {
@@ -135,7 +133,10 @@ function SlideBar({
             return acc
           }
         },
-        { value: dividedX[0], index: 0 },
+        {
+          value: mvInd === 'left' ? pl.value + 10 : width - pr.value - 10,
+          index: mvInd === 'left' ? leftTargetIndex : rightTargetIndex,
+        },
       )
 
       if (mvInd === 'left') {
@@ -157,15 +158,20 @@ function SlideBar({
         },
         { value: dividedX[0], index: 0 },
       )
-      if (movingIndicator === 'left') {
-        pl.value = Math.min(result.value - 10, width - pr.value - 20)
-        runOnJS(setLeftTargetIndex)(Math.min(result.index, rightTargetIndex))
-      } else {
-        pr.value = Math.max(
-          Math.min(width - result.value - 10, width - pl.value - 20),
-          0,
-        )
-        runOnJS(setRightTargetIndex)(Math.max(result.index, leftTargetIndex))
+      if (
+        movingIndicator.value === 'left' &&
+        result.index !== leftTargetIndex &&
+        result.index <= rightTargetIndex
+      ) {
+        pl.value = result.value - 10
+        runOnJS(setLeftTargetIndex)(result.index)
+      } else if (
+        movingIndicator.value === 'right' &&
+        result.index !== rightTargetIndex &&
+        result.index >= leftTargetIndex
+      ) {
+        pr.value = width - result.value - 10
+        runOnJS(setRightTargetIndex)(result.index)
       }
     })
     .onFinalize(() => {

@@ -6,12 +6,12 @@ import ListSubheader from 'react-native-paper/src/components/List/ListSubheader.
 import { DatetimePickerProps } from '~/components/shared/DatetimePicker/DatetimePicker.tsx'
 
 type Props = {
-  title: string
-  fromDatetime: Dayjs
-  toDatetime: Dayjs
-  onChangeFromDatetime: (value: Dayjs) => void
-  onChangeToDatetime: (value: Dayjs) => void
-} & DatetimePickerProps
+  title?: string
+  fromDatetime?: Dayjs
+  toDatetime?: Dayjs
+  onChangeFromDatetime?: (value: Dayjs) => void
+  onChangeToDatetime?: (value: Dayjs) => void
+} & Partial<DatetimePickerProps>
 
 function DatetimeFilter({
   title,
@@ -35,6 +35,7 @@ function DatetimeFilter({
             {...props}
             value={fromDatetime}
             onChange={onChangeFromDatetime}
+            maxDate={toDatetime}
           />
         </View>
         <Text>~</Text>
@@ -43,6 +44,7 @@ function DatetimeFilter({
             {...props}
             value={toDatetime}
             onChange={onChangeToDatetime}
+            minDate={fromDatetime}
           />
         </View>
       </View>
