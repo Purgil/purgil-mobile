@@ -41,6 +41,8 @@ export type ScreenPropsMap = {
   ExpeditionFilter: {
     filter: ExpeditionListReqDto
   }
+  CreateExpedition: undefined
+  SearchRoute: undefined
 }
 
 export type RootScreenProps<T extends keyof ScreenPropsMap> = StackScreenProps<

@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs'
+
 type ExpeditionListReqDto = {
   adventureTypeCodes: string[]
   minAge?: number
@@ -18,4 +20,15 @@ type ExpeditionListReqDto = {
   sortBy: string
 }
 
-export { ExpeditionListReqDto }
+type CreateExpeditionReqDto = {
+  title?: string
+  description?: string
+  departureDatetime?: Dayjs
+  minAge?: number
+  maxAge?: number
+  maxParticipantCount?: number
+  routeId?: number
+  applyDeadlineDatetime?: Dayjs
+}
+
+export { ExpeditionListReqDto, CreateExpeditionReqDto }

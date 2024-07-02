@@ -94,13 +94,13 @@ export default function ExpeditionTab({
         icon={fabOpened ? 'close' : 'plus'}
         actions={[
           {
-            icon: 'post-outline',
-            label: '원정대 생성하기',
-            onPress: () => navigation.navigate('CreatePost'),
+            icon: 'plus-box',
+            label: '새 원정대 만들기',
+            onPress: () => navigation.navigate('CreateExpedition'),
           },
           {
-            icon: 'image-outline',
-            label: '참가 신청한 원정대',
+            icon: 'clipboard-list',
+            label: '내 신청 목록',
             onPress: () =>
               navigation.navigate('ImgUpload', {
                 maxCount: 10,
