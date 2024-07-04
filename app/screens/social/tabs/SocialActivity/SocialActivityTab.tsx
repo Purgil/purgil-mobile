@@ -1,5 +1,5 @@
 import { ScrollView } from '~/components/styled'
-import Activities from '~/components/activity/Activities/Activities.tsx'
+import Activities from '~/components/activity/ActivityList.tsx'
 import React, { useRef, useState } from 'react'
 import { FAB } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'

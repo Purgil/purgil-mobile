@@ -16,7 +16,7 @@ import ActivityDetailScreen from '~/screens/activityDetail/ActivityDetailScreen.
 import ImgUploadScreen from '~/screens/imgUpload/ImgUploadScreen.tsx'
 import CreateActivityScreen from '~/screens/createActivity/CreateActivityScreen.tsx'
 import CreatePostScreen from '~/screens/createPost/CreatePostScreen.tsx'
-import AdventureDetailScreen from '~/screens/adventureDetail/AdventureDetailScreen.tsx'
+import RouteDetailScreen from '~/screens/routeDetail/RouteDetailScreen.tsx'
 import RouteFilterScreen from '~/screens/routeFilter/RouteFilterScreen.tsx'
 import FollowScreen from '~/screens/follow/FollowScreen.tsx'
 import { ExpeditionFilterScreen } from '~/screens/expeditionFilter/ExpeditionFilterScreen.tsx'
@@ -47,10 +47,7 @@ function Router() {
             component={SignUpScreen}
             options={{ headerTitle: '이메일로 시작', headerShown: true }}
           />
-          <Stack.Screen
-            name='AdventureDetail'
-            component={AdventureDetailScreen}
-          />
+          <Stack.Screen name='AdventureDetail' component={RouteDetailScreen} />
           <Stack.Screen
             name='ActivityDetail'
             component={ActivityDetailScreen}

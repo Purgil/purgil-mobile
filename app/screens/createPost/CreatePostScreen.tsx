@@ -14,7 +14,7 @@ import { RootScreenProps } from '~/router/types.ts'
 import { Swiper } from '~/components/shared'
 import { LayoutChangeEvent } from 'react-native'
 import { memo, useCallback, useState } from 'react'
-import { Image as ImageT } from '~/core/dto/shared/shared.dto'
+import { Image as ImageT } from '~/core/dto/shared/shared.data'
 
 export default function CreatePostScreen({
   navigation,
@@ -68,7 +68,7 @@ export default function CreatePostScreen({
               hideIndicator
               groupCount={3}
               data={images}
-              renderItem={item => (
+              renderItem={(item: ImageT) => (
                 <ImageItem
                   image={item}
                   onRemove={handleRemoveImage}

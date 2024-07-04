@@ -7,7 +7,7 @@ export { default as CheckboxActionSheet } from './CheckboxActionSheet/CheckboxAc
 export { default as Swiper } from './Swiper/Swiper.tsx'
 export { default as RatingStars } from './RatingStars/RatingStars.tsx'
 export { default as Avatar } from './Avatar/Avatar.tsx'
-export { default as Comment } from '~/components/comment/Comment/Comment.tsx'
+export { default as Comment } from '~/components/comment/CommentListItem.tsx'
 export { default as FilterChip } from './FilterChip/FilterChip.tsx'
 export { default as ChipFilter } from './filter/ChipFilter/ChipFilter.tsx'
 export { default as SlideBar } from './SlideBar/SlideBar.tsx'

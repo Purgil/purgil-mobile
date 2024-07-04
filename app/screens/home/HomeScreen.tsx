@@ -2,23 +2,23 @@ import { ScrollView, Text, View } from '../../components/styled'
 import { Portal, Searchbar, useTheme } from 'react-native-paper'
 import React, { useMemo, useRef } from 'react'
 import {
-  adventures,
-  adventureTypeOptions,
+  routes,
+  activityTypeOptions,
   categoryOptions,
 } from './HomeScreen.consts.ts'
 import { useFormik } from 'formik'
 import { FilterChip, MapArea } from '~/components/shared'
 import ActionSheet from '~/components/shared/ActionSheet/ActionSheet.tsx'
 import { FlatList } from 'react-native'
-import Adventure from '~/components/adventure/Adventure/Adventure.tsx'
+import Route from '~/components/route/RouteListItem.tsx'
 import { NativeViewGestureHandler } from 'react-native-gesture-handler'
 import { Icon, Pressable } from '~/components/styled'
 import { RootScreenProps } from '~/router/types.ts'
-import { AdventureListReqDto } from '~/core/dto/adventure/adventure.req-dto'
+import { RouteListQuery } from '~/core/dto/activity/route.query'
 
 const initialLocation = '경기도 파주시'
 
-const initialValues: AdventureListReqDto = {
+const initialValues: RouteListQuery = {
   searchText: initialLocation,
   sortBy: 'popularity',
   adventureTypeCodes: ['cycling'],
@@ -42,7 +42,7 @@ function HomeScreen({
   const { colors } = useTheme()
   const scrollRef = useRef<any>(null)
   const swiperRef = useRef<any>(null)
-  const { values, setFieldValue } = useFormik<AdventureListReqDto>({
+  const { values, setFieldValue } = useFormik<RouteListQuery>({
     initialValues,
     onSubmit: () => {},
   })
@@ -75,7 +75,7 @@ function HomeScreen({
                 labelType='icon'
                 value={values.adventureTypeCodes}
                 onChange={value => setFieldValue('adventureTypeCodes', value)}
-                options={adventureTypeOptions}
+                options={activityTypeOptions}
               />
               <FilterChip
                 labelType='icon'
@@ -124,11 +124,11 @@ function HomeScreen({
                   ref={scrollRef}
                   simultaneousHandlers={swiperRef}>
                   <FlatList
-                    data={adventures}
+                    data={routes}
                     keyExtractor={item => `${item.id}`}
                     renderItem={({ item }) => (
-                      <Adventure
-                        adventure={item}
+                      <Route
+                        route={item}
                         scrollRef={scrollRef}
                         swiperRef={swiperRef}
                       />

@@ -1,7 +1,7 @@
-import { Option, ValueLabelPair } from '~/core/dto/shared/shared.dto'
-import { Adventure } from '~/core/dto/adventure.dto'
+import { Option, ValueLabelPair } from '~/core/dto/shared/shared.data'
+import { RouteListData } from '~/core/dto/activity/route.data'
 
-const adventureTypeOptions: Option[] = [
+const activityTypeOptions: Option[] = [
   {
     value: 'cycling',
     label: '로드 자전거',
@@ -105,10 +105,10 @@ const categoryOptions: Option[] = [
   },
 ]
 
-const adventures: Adventure[] = [
+const routes: RouteListData[] = [
   {
     id: 1,
-    adventureType: 'HIKING',
+    activityType: '하이킹',
     name: '북한산 메인 루트',
     address: '서울시 은평구',
     imgs: [],
@@ -118,7 +118,7 @@ const adventures: Adventure[] = [
   },
   {
     id: 2,
-    adventureType: 'HIKING',
+    activityType: 'HIKING',
     name: '백악산 메인 루트',
     address: '서울시 양평구',
     imgs: [],
@@ -128,7 +128,7 @@ const adventures: Adventure[] = [
   },
   {
     id: 3,
-    adventureType: 'HIKING',
+    activityType: 'HIKING',
     name: '도봉산 메인 루트',
     address: '서울시 도봉구',
     imgs: [],
@@ -138,7 +138,7 @@ const adventures: Adventure[] = [
   },
   {
     id: 4,
-    adventureType: 'HIKING',
+    activityType: 'HIKING',
     name: '관악산 메인 루트',
     address: '서울시 관악구',
     imgs: [],
@@ -148,7 +148,7 @@ const adventures: Adventure[] = [
   },
   {
     id: 5,
-    adventureType: 'HIKING',
+    activityType: 'HIKING',
     name: '북한산 백운대',
     address: '서울시 성북구',
     imgs: [],
@@ -158,7 +158,7 @@ const adventures: Adventure[] = [
   },
   {
     id: 6,
-    adventureType: 'HIKING',
+    activityType: 'HIKING',
     name: '인왕산 루트',
     address: '서울시 종로구',
     imgs: [],
@@ -169,10 +169,10 @@ const adventures: Adventure[] = [
 ]
 
 export {
-  adventureTypeOptions,
+  activityTypeOptions,
   difficultyOptions,
   routeTypeOptions,
-  adventures,
+  routes,
   categoryOptions,
   sortByOptions,
 }

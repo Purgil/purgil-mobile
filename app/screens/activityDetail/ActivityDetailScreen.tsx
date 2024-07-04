@@ -29,9 +29,9 @@ import {
 import globalStyles from '~/utils/style.utils.ts'
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import { basicTimingConfig } from '~/utils/animation.utils.ts'
-import CommentsActionSheet from '~/components/comment/CommentsActionSheet/CommentsActionSheet.tsx'
+import CommentsActionSheet from '~/components/comment/CommentsActionSheet.tsx'
 import { MToHM } from '~/utils/datetime.utils.ts'
-import { adventureDetail } from '~/screens/adventureDetail/AdventureDetailScreen.consts.ts'
+import { routeDetail } from '~/screens/routeDetail/RouteDetailScreen.consts.ts'
 
 export default function ActivityDetailScreen({
   navigation,
@@ -148,12 +148,12 @@ export default function ActivityDetailScreen({
               alignItems='center'>
               <Pressable
                 onPress={() =>
-                  navigation.navigate('AdventureDetail', {
-                    adventure: activity.adventure,
+                  navigation.navigate('RouteDetail', {
+                    id: activity.routeId,
                   })
                 }>
                 <Text color={colors.onSurfaceDisabled}>
-                  {activity.adventure.name}
+                  {activity.routeName}
                 </Text>
               </Pressable>
               <Button
@@ -194,16 +194,16 @@ export default function ActivityDetailScreen({
                   거리
                 </Text>
                 <Text variant='titleLarge' textAlign='center'>
-                  {adventureDetail.distance}km
+                  {routeDetail.distance}km
                 </Text>
               </View>
-              {adventureDetail.avgCompleteTime && (
+              {routeDetail.avgCompleteTime && (
                 <View gap={10}>
                   <Text variant='bodySmall' textAlign='center'>
                     소요시간
                   </Text>
                   <Text variant='titleLarge' textAlign='center'>
-                    {MToHM(adventureDetail.avgCompleteTime)}
+                    {MToHM(routeDetail.avgCompleteTime)}
                   </Text>
                 </View>
               )}

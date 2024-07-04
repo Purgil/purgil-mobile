@@ -7,7 +7,7 @@ import { CommonActions } from '@react-navigation/native'
 import { RootScreenProps } from '~/router/types.ts'
 import { Appbar, Dialog, useTheme } from 'react-native-paper'
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { Image as ImageT } from '~/core/dto/shared/shared.dto'
+import { Image as ImageT } from '~/core/dto/shared/shared.data'
 import { PhotoIdentifier } from '@react-native-camera-roll/camera-roll/src/CameraRoll.ts'
 
 const windowWidth = Dimensions.get('window').width

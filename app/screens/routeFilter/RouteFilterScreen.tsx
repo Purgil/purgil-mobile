@@ -9,9 +9,9 @@ import {
   sortByOptions,
 } from '~/screens/home/HomeScreen.consts.ts'
 import { RootScreenProps } from '~/router/types.ts'
-import { AdventureListReqDto } from '~/core/dto/adventure/adventure.req-dto'
 import RadioFilter from '~/components/shared/filter/RadioFilter/RadioFilter.tsx'
 import { SlideBarFilter } from '~/components/shared'
+import { RouteListQuery } from '~/core/dto/activity/route.query'
 
 export default function RouteFilterScreen({
   navigation,
@@ -22,7 +22,7 @@ export default function RouteFilterScreen({
   /** hook */
   const { colors } = useTheme()
   const { values, setFieldValue, setValues, submitForm } =
-    useFormik<AdventureListReqDto>({
+    useFormik<RouteListQuery>({
       initialValues: filter,
       onSubmit: () => {
         navigation.navigate('Home', { filter: values })
@@ -30,7 +30,7 @@ export default function RouteFilterScreen({
     })
 
   /** memo */
-  const initialValues: AdventureListReqDto = useMemo(
+  const initialValues: RouteListQuery = useMemo(
     () => ({
       ...filter,
       sortBy: 'popularity',

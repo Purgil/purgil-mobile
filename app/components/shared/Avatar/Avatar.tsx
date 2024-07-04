@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View } from '~/components/styled'
 import { Avatar as RNAvatar, useTheme } from 'react-native-paper'
-import { User } from '~/core/dto/user.dto'
+import { User } from '~/core/dto/user/user.dto'
 
 type Props = {
   user: User

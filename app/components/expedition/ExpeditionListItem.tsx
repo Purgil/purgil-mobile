@@ -8,13 +8,13 @@ import {
   Text,
   View,
 } from '~/components/styled'
-import { ExpeditionListResDto } from '~/core/dto/expedition/expedition.res-dto'
 import { Portal, Snackbar, useTheme } from 'react-native-paper'
-import { User } from '~/core/dto/user.dto'
 import { ListActionSheet } from '~/components/shared'
+import { ExpeditionListData } from '~/core/dto/expedition/expedition.data'
+import { UserData } from '~/core/dto/user/user.data'
 
 type Props = {
-  expedition: ExpeditionListResDto
+  expedition: ExpeditionListData
 }
 
 function ExpeditionListItem({ expedition }: Props) {
@@ -65,7 +65,7 @@ function ExpeditionListItem({ expedition }: Props) {
       <Surface p={10} elevation={2} borderRadius={10}>
         <View flexDirection='row' justifyContent='space-between' mb={1}>
           <Avatar
-            user={expedition.leader as unknown as User}
+            user={expedition.leader as unknown as UserData}
             size={30}
             underNickname='3분 전'
             nicknameDisplayType='right'

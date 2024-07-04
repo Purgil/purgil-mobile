@@ -1,12 +1,13 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import { Activity, Adventure } from '~/core/dto/adventure.dto'
-import { Image } from '~/core/dto/shared/shared.dto'
-import { AdventureListReqDto } from '~/core/dto/adventure/adventure.req-dto'
+import { RouteDetailData } from '~/core/dto/activity/route.data'
+import { ActivityDetailData } from '~/core/dto/activity/activity.data'
+import { Image } from '~/core/dto/shared/shared.data'
+import { RouteListQuery } from '~/core/dto/activity/route.query'
 import { ExpeditionListReqDto } from '~/core/dto/expedition/expedition.req-dto'
 
 export type ScreenPropsMap = {
   Home?: {
-    filter: AdventureListReqDto
+    filter: RouteListQuery
   }
   Map: undefined
   Record: undefined
@@ -18,11 +19,11 @@ export type ScreenPropsMap = {
   Auth: undefined
   Login: undefined
   SignUp: undefined
-  AdventureDetail: {
-    adventure: Adventure
+  RouteDetail: {
+    id: number
   }
   ActivityDetail: {
-    activity: Activity
+    activity: ActivityDetailData
   }
   ImgUpload: {
     maxCount: number
@@ -35,7 +36,7 @@ export type ScreenPropsMap = {
     selectedImgs: Image[]
   }
   RouteFilter: {
-    filter: AdventureListReqDto
+    filter: RouteListQuery
   }
   Follow: undefined
   ExpeditionFilter: {

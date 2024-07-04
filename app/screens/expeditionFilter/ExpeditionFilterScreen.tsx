@@ -3,18 +3,17 @@ import { Appbar, useTheme } from 'react-native-paper'
 import { RootScreenProps } from '~/router/types.ts'
 import React, { useCallback, useMemo } from 'react'
 import {
-  adventureTypeOptions,
+  activityTypeOptions,
   difficultyOptions,
   routeTypeOptions,
 } from '~/screens/home/HomeScreen.consts.ts'
 import { useFormik } from 'formik'
-import { ExpeditionListReqDto } from '~/core/dto/expedition/expedition.req-dto'
 import CheckboxFilter from '~/components/shared/filter/CheckboxFilter/CheckboxFilter.tsx'
-import { DatetimePicker, SlideBarFilter } from '~/components/shared'
+import { SlideBarFilter } from '~/components/shared'
 import { initialExpeditionFilter } from '~/screens/social/tabs/Expedition/ExpeditionTab.consts.ts'
-import { useColorScheme } from 'react-native'
 import dayjs, { Dayjs } from 'dayjs'
 import DatetimeFilter from '~/components/shared/filter/DatetimeFilter/DatetimeFilter.tsx'
+import { ExpeditionListQuery } from '~/core/dto/expedition/expedition.query'
 
 export function ExpeditionFilterScreen({
   navigation,
@@ -25,7 +24,7 @@ export function ExpeditionFilterScreen({
   /** hook */
   const { colors } = useTheme()
   const { values, setFieldValue, setValues, submitForm } =
-    useFormik<ExpeditionListReqDto>({
+    useFormik<ExpeditionListQuery>({
       initialValues: filter,
       onSubmit: () => {
         navigation.navigate('Social', { expeditionFilter: values })
@@ -33,7 +32,7 @@ export function ExpeditionFilterScreen({
     })
 
   /** memo */
-  const initialValues: ExpeditionListReqDto = useMemo(
+  const initialValues: ExpeditionListQuery = useMemo(
     () => ({
       ...initialExpeditionFilter,
     }),
@@ -177,7 +176,7 @@ export function ExpeditionFilterScreen({
           title='모험 유형'
           value={values.adventureTypeCodes}
           onChange={handleChangeAdventureType}
-          options={adventureTypeOptions}
+          options={activityTypeOptions}
         />
 
         <Divider my={10} />
