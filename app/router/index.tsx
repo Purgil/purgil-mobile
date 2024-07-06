@@ -22,6 +22,7 @@ import FollowScreen from '~/screens/follow/FollowScreen.tsx'
 import { ExpeditionFilterScreen } from '~/screens/expeditionFilter/ExpeditionFilterScreen.tsx'
 import CreateExpeditionScreen from '~/screens/createExpedition/CreateExpeditionScreen.tsx'
 import SearchRouteScreen from '~/screens/searchRoute/SearchRouteScreen.tsx'
+import MyExpeditionScreen from '~/screens/myExpedition/MyExpeditionScreen.tsx'
 
 function Router() {
   const Stack = createStackNavigator<ScreenPropsMap>()
@@ -47,7 +48,7 @@ function Router() {
             component={SignUpScreen}
             options={{ headerTitle: '이메일로 시작', headerShown: true }}
           />
-          <Stack.Screen name='AdventureDetail' component={RouteDetailScreen} />
+          <Stack.Screen name='RouteDetail' component={RouteDetailScreen} />
           <Stack.Screen
             name='ActivityDetail'
             component={ActivityDetailScreen}
@@ -69,6 +70,7 @@ function Router() {
             component={CreateExpeditionScreen}
           />
           <Stack.Screen name='SearchRoute' component={SearchRouteScreen} />
+          <Stack.Screen name='MyExpedition' component={MyExpeditionScreen} />
         </Stack.Navigator>
       </Portal.Host>
     </NavigationContainer>

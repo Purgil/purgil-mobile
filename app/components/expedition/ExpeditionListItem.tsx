@@ -118,7 +118,7 @@ function ExpeditionListItem({ expedition }: Props) {
             borderRightWidth={1}
             borderColor={colors.elevation.level4}>
             <Text fontSize={13} color={colors.onSurfaceDisabled}>
-              모집마감
+              출발
             </Text>
             <Text fontSize={13} color={colors.onSurface}>
               9월 5일
@@ -134,7 +134,7 @@ function ExpeditionListItem({ expedition }: Props) {
             borderRightWidth={1}
             borderColor={colors.elevation.level4}>
             <Text fontSize={13} color={colors.onSurfaceDisabled}>
-              출발
+              모집마감
             </Text>
             <Text fontSize={13} color={colors.onSurface}>
               9월 5일

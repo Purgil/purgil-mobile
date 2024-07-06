@@ -1,9 +1,9 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import { RouteDetailData } from '~/core/dto/activity/route.data'
+import { RouteSearchResultData } from '~/core/dto/activity/route.data'
 import { ActivityDetailData } from '~/core/dto/activity/activity.data'
 import { Image } from '~/core/dto/shared/shared.data'
 import { RouteListQuery } from '~/core/dto/activity/route.query'
-import { ExpeditionListReqDto } from '~/core/dto/expedition/expedition.req-dto'
+import { ExpeditionListQuery } from '~/core/dto/expedition/expedition.query'
 
 export type ScreenPropsMap = {
   Home?: {
@@ -12,7 +12,7 @@ export type ScreenPropsMap = {
   Map: undefined
   Record: undefined
   Social: {
-    expeditionFilter: ExpeditionListReqDto
+    expeditionFilter: ExpeditionListQuery
   }
   Profile: undefined
   BottomNav: undefined
@@ -21,6 +21,7 @@ export type ScreenPropsMap = {
   SignUp: undefined
   RouteDetail: {
     id: number
+    toCreateExpedition: boolean
   }
   ActivityDetail: {
     activity: ActivityDetailData
@@ -40,10 +41,13 @@ export type ScreenPropsMap = {
   }
   Follow: undefined
   ExpeditionFilter: {
-    filter: ExpeditionListReqDto
+    filter: ExpeditionListQuery
   }
-  CreateExpedition: undefined
+  CreateExpedition: {
+    route?: RouteSearchResultData
+  }
   SearchRoute: undefined
+  MyExpedition: undefined
 }
 
 export type RootScreenProps<T extends keyof ScreenPropsMap> = StackScreenProps<

@@ -40,7 +40,7 @@ const ActivityTab = (scrollRef: any, swiperRef: any) => (
 function RouteDetailScreen({
   navigation,
   route: {
-    params: { id },
+    params: { id, toCreateExpedition = false },
   },
 }: RootScreenProps<'RouteDetail'>) {
   /** state */
@@ -70,7 +70,7 @@ function RouteDetailScreen({
     navigation.setOptions({ headerTitle: routeDetail.name })
   }, [routeDetail])
 
-  /** handle */
+  /** function */
   const handlePressBookmark = useCallback(() => {
     setMarked(state => !state)
   }, [])
@@ -87,6 +87,10 @@ function RouteDetailScreen({
     },
     [],
   )
+
+  const navToCreateExpdScreen = useCallback(() => {
+    navigation.navigate('CreateExpedition', { route: routeDetail as any })
+  }, [])
 
   /** memo */
   const bookmarkIcon = useMemo(
@@ -224,9 +228,13 @@ function RouteDetailScreen({
           </AnimatedScrollView>
         </NativeViewGestureHandler>
 
-        <View p={10} borderTopWidth={1} borderColor={colors.elevation.level3}>
-          <Button mode='contained'>이 루트로 원정대 생성하기</Button>
-        </View>
+        {toCreateExpedition && (
+          <View p={10} borderTopWidth={1} borderColor={colors.elevation.level3}>
+            <Button mode='contained-tonal' onPress={navToCreateExpdScreen}>
+              이 루트로 원정대 만들기
+            </Button>
+          </View>
+        )}
       </View>
 
       {actionSheets.etc && (

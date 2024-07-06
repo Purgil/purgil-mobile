@@ -1,8 +1,8 @@
 import { Pressable, ScrollView, Text, View } from '~/components/styled'
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useFormik } from 'formik'
-import { ExpeditionListReqDto } from '~/core/dto/expedition/expedition.req-dto'
-import { FAB, Icon, Portal, useTheme } from 'react-native-paper'
+import { ExpeditionListQuery } from '~/core/dto/expedition/expedition.query'
+import { Checkbox, FAB, Icon, Portal, useTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { ScreenPropsMap } from '~/router/types.ts'
@@ -11,10 +11,9 @@ import {
   expeditions,
   initialExpeditionFilter,
 } from '~/screens/social/tabs/Expedition/ExpeditionTab.consts.ts'
-import PortalHost from 'react-native-paper/lib/typescript/components/Portal/PortalHost'
 
 type Props = {
-  filter: ExpeditionListReqDto
+  filter: ExpeditionListQuery
 }
 
 export default function ExpeditionTab({
@@ -26,10 +25,15 @@ export default function ExpeditionTab({
   /** hook */
   const navigation = useNavigation<NativeStackNavigationProp<ScreenPropsMap>>()
   const { colors } = useTheme()
-  const { values, setFieldValue } = useFormik<ExpeditionListReqDto>({
+  const { values, setFieldValue } = useFormik<ExpeditionListQuery>({
     initialValues: filter,
     onSubmit: () => {},
   })
+
+  /** function */
+  const handlePressApplyByMe = useCallback(() => {
+    setFieldValue('appliedByMe', !values.appliedByMe)
+  }, [values.appliedByMe])
 
   /** memo */
   const filterCount = useMemo(() => {
@@ -51,14 +55,25 @@ export default function ExpeditionTab({
     return count
   }, [filter])
 
+  const appliedByMeStatus = useMemo(
+    () => (values.appliedByMe ? 'checked' : 'unchecked'),
+    [values.appliedByMe],
+  )
+
   return (
     <>
       <Portal.Host>
         <ScrollView>
-          <View flexDirection='row' p={2} justifyContent='space-between'>
-            <View flexDirection='row' alignItems='center' gap={3}>
-              <Text my={2}>최신순</Text>
-              <Icon size={18} source='sort' />
+          <View
+            flexDirection='row'
+            px={2}
+            pt={2}
+            justifyContent='space-between'>
+            <View flexDirection='row' gap={20}>
+              <View flexDirection='row' alignItems='center' gap={5}>
+                <Text my={2}>최신순</Text>
+                <Icon size={18} source='sort' />
+              </View>
             </View>
             <Pressable
               flexDirection='row'
@@ -80,6 +95,23 @@ export default function ExpeditionTab({
             </Pressable>
           </View>
 
+          <View flexDirection='row' justifyContent='flex-end' pr={1} pb={10}>
+            <Pressable
+              flexDirection='row'
+              alignItems='center'
+              onPress={handlePressApplyByMe}>
+              <Text>내 신청 목록</Text>
+              <Checkbox status={appliedByMeStatus} />
+            </Pressable>
+            <Pressable
+              flexDirection='row'
+              alignItems='center'
+              onPress={handlePressApplyByMe}>
+              <Text>내 원정대</Text>
+              <Checkbox status={appliedByMeStatus} />
+            </Pressable>
+          </View>
+
           <View gap={10} px={2} pb={10}>
             {expeditions.map(expedition => (
               <ExpeditionListItem key={expedition.id} expedition={expedition} />
@@ -96,9 +128,12 @@ export default function ExpeditionTab({
           {
             icon: 'plus-box',
             label: '새 원정대 만들기',
-            onPress: () => navigation.navigate('CreateExpedition'),
+            onPress: () =>
+              navigation.navigate('CreateExpedition', {
+                route: undefined,
+              }),
           },
-          {
+          /* {
             icon: 'clipboard-list',
             label: '내 신청 목록',
             onPress: () =>
@@ -106,6 +141,11 @@ export default function ExpeditionTab({
                 maxCount: 10,
                 targetScreen: 'CreatePost',
               }),
+          }, */
+          {
+            icon: 'flag',
+            label: '내 원정대',
+            onPress: () => navigation.navigate('MyExpedition'),
           },
         ]}
         onStateChange={() => setFabOpened(!fabOpened)}

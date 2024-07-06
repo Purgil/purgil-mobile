@@ -1,4 +1,4 @@
-import { User } from '~/core/dto/user/user.dto'
+import { UserData } from '~/core/dto/user/user.data'
 
 type RouteListData = {
   id: number
@@ -19,7 +19,7 @@ type RouteDetailData = {
 type RouteReviewListData = {
   id: number
   contentId: number
-  writer: User
+  writer: UserData
   content: string
   createdAt: string
   rating: number
@@ -29,7 +29,22 @@ type RouteCommentListData = {
   id: number
   contentType: 'ROUTE'
   contentId: number
-  writer: User
+  writer: UserData
   content: string
   createdAt: string
+}
+
+type RouteSearchResultData = {
+  id: number
+  name: string
+  address: string
+  adventureTypeCode: string
+}
+
+export {
+  RouteListData,
+  RouteDetailData,
+  RouteReviewListData,
+  RouteCommentListData,
+  RouteSearchResultData,
 }

@@ -1,7 +1,7 @@
-import { ExpeditionListResDto } from '~/core/dto/expedition/expedition.res-dto'
-import { ExpeditionListReqDto } from '~/core/dto/expedition/expedition.req-dto'
+import { ExpeditionListData } from '~/core/dto/expedition/expedition.data'
+import { ExpeditionListQuery } from '~/core/dto/expedition/expedition.query'
 
-const initialExpeditionFilter: ExpeditionListReqDto = {
+const initialExpeditionFilter: ExpeditionListQuery = {
   adventureTypeCodes: [],
   sortBy: 'recently',
   routeTypeCodes: [],
@@ -19,7 +19,7 @@ const initialExpeditionFilter: ExpeditionListReqDto = {
   maxHighestPoint: undefined,
 }
 
-const expeditions: ExpeditionListResDto[] = [
+const expeditions: ExpeditionListData[] = [
   {
     id: 1,
     title: 'Mount Everest Base Camp Trek',

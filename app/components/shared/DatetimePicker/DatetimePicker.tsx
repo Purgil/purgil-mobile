@@ -11,7 +11,7 @@ export type DatetimePickerProps = {
   mode?: 'date' | 'time' | 'datetime'
   minDate?: Dayjs
   maxDate?: Dayjs
-  label?: string
+  label?: string | React.ReactElement
 }
 
 function DatetimePicker({
@@ -50,7 +50,7 @@ function DatetimePicker({
   const handleChangeDate = useCallback((e: DateTimePickerEvent) => {
     setShowDatePicker(false)
     if (onChange) onChange(dayjs(e.nativeEvent.timestamp).startOf('day'))
-    setShowTimePicker(true)
+    if (mode === 'datetime') setShowTimePicker(true)
   }, [])
 
   const handleChangeTime = useCallback((e: DateTimePickerEvent) => {
@@ -79,7 +79,7 @@ function DatetimePicker({
           onChange={handleChangeTime}
           value={date}
           mode='time'
-          display='default'
+          display='inline'
         />
       )}
     </>
