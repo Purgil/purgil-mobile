@@ -6,12 +6,17 @@ import {
   IconButton,
   Surface,
   Text,
+  TouchableRipple,
   View,
 } from '~/components/styled'
 import { Portal, Snackbar, useTheme } from 'react-native-paper'
 import { ListActionSheet } from '~/components/shared'
 import { ExpeditionListData } from '~/core/dto/expedition/expedition.data'
 import { UserData } from '~/core/dto/user/user.data'
+import dayjs from 'dayjs'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
+import { ScreenPropsMap } from '~/router/types.ts'
 
 type Props = {
   expedition: ExpeditionListData
@@ -32,6 +37,7 @@ function ExpeditionListItem({ expedition }: Props) {
 
   /** hook */
   const { colors, animation } = useTheme()
+  const navigation = useNavigation<NativeStackNavigationProp<ScreenPropsMap>>()
 
   /** memo */
   const applyButtonColor = useMemo(
@@ -60,10 +66,24 @@ function ExpeditionListItem({ expedition }: Props) {
     })
   }, [])
 
+  const getApplyDeadlineText = useCallback(
+    (deadline: string) => dayjs(deadline).format('M월 d일 h시 m분'),
+    [],
+  )
+
+  const navigateToExpeditionDetail = useCallback(() => {
+    navigation.navigate('ExpeditionDetail', { expedition })
+  }, [])
+
   return (
     <>
-      <Surface p={10} elevation={2} borderRadius={10}>
-        <View flexDirection='row' justifyContent='space-between' mb={1}>
+      <Surface elevation={2} borderRadius={10}>
+        <View
+          p={10}
+          pb={0}
+          flexDirection='row'
+          justifyContent='space-between'
+          mb={1}>
           <Avatar
             user={expedition.leader as unknown as UserData}
             size={30}
@@ -85,95 +105,95 @@ function ExpeditionListItem({ expedition }: Props) {
           </View>
         </View>
 
-        <View flexDirection='row' gap={5}>
-          <Text mb={1} fontSize={17}>
-            {expedition.title}
-          </Text>
-        </View>
+        <TouchableRipple p={10} onPress={navigateToExpeditionDetail}>
+          <>
+            <View flexDirection='row' gap={5}>
+              <Text mb={1} fontSize={17}>
+                {expedition.title}
+              </Text>
+            </View>
 
-        <View gap={2}>
-          <Text
-            mb={1}
-            fontSize={14}
-            color={colors.onSurfaceVariant}
-            numberOfLines={descriptionFolded ? 1 : undefined}>
-            {expedition.description}
-          </Text>
-          {descriptionFolded && (
-            <Text
-              textAlign='right'
-              onPress={handleDescriptionUnfold}
-              pr={10}
-              fontWeight='bold'
-              color={colors.onSurfaceDisabled}>
-              자세히보기
-            </Text>
-          )}
-        </View>
+            <View gap={2}>
+              <Text
+                mb={1}
+                fontSize={14}
+                color={colors.onSurfaceVariant}
+                numberOfLines={descriptionFolded ? 1 : undefined}>
+                {expedition.description}
+              </Text>
+              {descriptionFolded && (
+                <Text
+                  textAlign='right'
+                  onPress={handleDescriptionUnfold}
+                  pr={10}
+                  fontWeight='bold'
+                  color={colors.onSurfaceDisabled}>
+                  자세히보기
+                </Text>
+              )}
+            </View>
 
-        <View flexDirection='row' my={3} px={10}>
-          <View
-            alignItems='center'
-            pr={10}
-            borderRightWidth={1}
-            borderColor={colors.elevation.level4}>
-            <Text fontSize={13} color={colors.onSurfaceDisabled}>
-              출발
-            </Text>
-            <Text fontSize={13} color={colors.onSurface}>
-              9월 5일
-            </Text>
-            <Text fontSize={13} color={colors.onSurface}>
-              14시 0분
-            </Text>
-          </View>
+            <View my={15} gap={15}>
+              <View flexDirection='row'>
+                <View
+                  flex={1}
+                  alignItems='center'
+                  borderRightWidth={1}
+                  borderColor={colors.elevation.level4}>
+                  <Text fontSize={13} color={colors.onSurfaceDisabled}>
+                    출발
+                  </Text>
+                  <Text fontSize={13} color={colors.onSurface}>
+                    9월 5일 14시 0분
+                  </Text>
+                </View>
 
-          <View
-            alignItems='center'
-            px={10}
-            borderRightWidth={1}
-            borderColor={colors.elevation.level4}>
-            <Text fontSize={13} color={colors.onSurfaceDisabled}>
-              모집마감
-            </Text>
-            <Text fontSize={13} color={colors.onSurface}>
-              9월 5일
-            </Text>
-            <Text fontSize={13} color={colors.onSurface}>
-              14시 0분
-            </Text>
-          </View>
+                <View flex={1} alignItems='center'>
+                  <Text fontSize={13} color={colors.onSurfaceDisabled}>
+                    모집마감
+                  </Text>
+                  <Text fontSize={13} color={colors.onSurface}>
+                    {getApplyDeadlineText(expedition.applyDeadlineDatetime)}
+                  </Text>
+                </View>
+              </View>
 
-          <View
-            alignItems='center'
-            px={10}
-            borderRightWidth={1}
-            borderColor={colors.elevation.level4}>
-            <Text fontSize={13} color={colors.onSurfaceDisabled}>
-              나이제한
-            </Text>
-            <Text fontSize={13} color={colors.onSurface}>
-              20세 ~ 60세
-            </Text>
-          </View>
+              <View flexDirection='row'>
+                <View
+                  flex={1}
+                  alignItems='center'
+                  borderRightWidth={1}
+                  borderColor={colors.elevation.level4}>
+                  <Text fontSize={13} color={colors.onSurfaceDisabled}>
+                    나이제한
+                  </Text>
+                  <Text fontSize={13} color={colors.onSurface}>
+                    20세 ~ 60세
+                  </Text>
+                </View>
 
-          <View alignItems='center' px={10}>
-            <Text fontSize={13} color={colors.onSurfaceDisabled}>
-              모집현황
-            </Text>
-            <Text fontSize={13} color={colors.onSurface}>
-              10명 / 15명
-            </Text>
-          </View>
-        </View>
+                <View flex={1} alignItems='center'>
+                  <Text fontSize={13} color={colors.onSurfaceDisabled}>
+                    모집현황
+                  </Text>
+                  <Text fontSize={13} color={colors.onSurface}>
+                    10명 / 15명
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </>
+        </TouchableRipple>
 
         <View
+          p={10}
+          pt={0}
           flexDirection='row'
           justifyContent='space-between'
           alignItems='flex-end'>
           <View flexDirection='row' mb={1} gap={5}>
             <Text color={colors.primary} fontSize={13}>
-              {expedition.route.title}
+              {expedition.route.name}
             </Text>
             <Text
               color={colors.onSurfaceDisabled}

@@ -224,7 +224,7 @@ function RouteDetailScreen({
               </View>
             </View>
             {/* 탭 */}
-            <TabView routes={routes} renderScene={renderTabs} />
+            <TabView tabs={routes} renderScene={renderTabs} />
           </AnimatedScrollView>
         </NativeViewGestureHandler>
 

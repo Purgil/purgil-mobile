@@ -29,7 +29,7 @@ export default function FollowScreen({
         <Appbar.Content title='팔로우' />
       </Appbar.Header>
 
-      <TabView routes={routes} renderScene={sceneMap} />
+      <TabView tabs={routes} renderScene={sceneMap} />
     </View>
   )
 }

@@ -8,9 +8,9 @@ import { SceneMap } from 'react-native-tab-view'
 import SocialActivityTab from '~/screens/social/tabs/SocialActivity/SocialActivityTab.tsx'
 import CrewTab from '~/screens/social/tabs/Crew/CrewTab.tsx'
 import ExpeditionTab from '~/screens/social/tabs/Expedition/ExpeditionTab.tsx'
-import { ExpeditionListReqDto } from '~/core/dto/expedition/expedition.req-dto'
+import { ExpeditionListQuery } from '~/core/dto/expedition/expedition.query'
 
-const renderExpeditionTab = (filter: ExpeditionListReqDto) => (
+const renderExpeditionTab = (filter: ExpeditionListQuery) => (
   <ExpeditionTab filter={filter} />
 )
 
@@ -41,7 +41,7 @@ export default function SocialScreen({
         />
       </Appbar.Header>
 
-      <TabView routes={routes} renderScene={renderTabs} />
+      <TabView tabs={routes} renderScene={renderTabs} />
     </View>
   )
 }

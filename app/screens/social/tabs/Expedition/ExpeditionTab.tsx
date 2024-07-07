@@ -2,7 +2,14 @@ import { Pressable, ScrollView, Text, View } from '~/components/styled'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import { ExpeditionListQuery } from '~/core/dto/expedition/expedition.query'
-import { Checkbox, FAB, Icon, Portal, useTheme } from 'react-native-paper'
+import {
+  Checkbox,
+  FAB,
+  Icon,
+  Portal,
+  RadioButton,
+  useTheme,
+} from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack'
 import { ScreenPropsMap } from '~/router/types.ts'
@@ -34,6 +41,9 @@ export default function ExpeditionTab({
   const handlePressApplyByMe = useCallback(() => {
     setFieldValue('appliedByMe', !values.appliedByMe)
   }, [values.appliedByMe])
+  const handlePressCreatedByMe = useCallback(() => {
+    setFieldValue('createdByMe', !values.createdByMe)
+  }, [values.createdByMe])
 
   /** memo */
   const filterCount = useMemo(() => {
@@ -58,6 +68,10 @@ export default function ExpeditionTab({
   const appliedByMeStatus = useMemo(
     () => (values.appliedByMe ? 'checked' : 'unchecked'),
     [values.appliedByMe],
+  )
+  const createdByMeStatus = useMemo(
+    () => (values.createdByMe ? 'checked' : 'unchecked'),
+    [values.createdByMe],
   )
 
   return (
@@ -106,9 +120,9 @@ export default function ExpeditionTab({
             <Pressable
               flexDirection='row'
               alignItems='center'
-              onPress={handlePressApplyByMe}>
+              onPress={handlePressCreatedByMe}>
               <Text>내 원정대</Text>
-              <Checkbox status={appliedByMeStatus} />
+              <Checkbox status={createdByMeStatus} />
             </Pressable>
           </View>
 
@@ -132,20 +146,6 @@ export default function ExpeditionTab({
               navigation.navigate('CreateExpedition', {
                 route: undefined,
               }),
-          },
-          /* {
-            icon: 'clipboard-list',
-            label: '내 신청 목록',
-            onPress: () =>
-              navigation.navigate('ImgUpload', {
-                maxCount: 10,
-                targetScreen: 'CreatePost',
-              }),
-          }, */
-          {
-            icon: 'flag',
-            label: '내 원정대',
-            onPress: () => navigation.navigate('MyExpedition'),
           },
         ]}
         onStateChange={() => setFabOpened(!fabOpened)}

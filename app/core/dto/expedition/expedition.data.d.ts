@@ -11,7 +11,8 @@ type ExpeditionListData = {
   maxAge: number
   route: {
     id: number
-    title: string
+    name: string
+    address: string
   }
   leader: {
     id: number
@@ -21,4 +22,33 @@ type ExpeditionListData = {
   createdAt: string
 }
 
-export { ExpeditionListData }
+type ExpeditionDetailData = {
+  id: number
+  title: string
+  description: string
+  adventureTypeCode: string
+  departureDatetime: string
+  applyDeadlineDatetime: string
+  maxMemberCount: number
+  currentMemberCount: number
+  minAge: number
+  maxAge: number
+  route: {
+    id: number
+    name: string
+    address: string
+  }
+  leader: {
+    id: number
+    name: string
+    nickname: string
+  }
+  participants: {
+    id: number
+    name: string
+    nickname: string
+  }[]
+  createdAt: string
+}
+
+export { ExpeditionListData, ExpeditionDetailData }

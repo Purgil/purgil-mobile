@@ -16,6 +16,7 @@ type ExpeditionListQuery = {
   minDepartureDate?: string
   maxDepartureDate?: string
   appliedByMe?: boolean
+  createdByMe?: boolean
   sortBy: string
 }
 

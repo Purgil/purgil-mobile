@@ -4,6 +4,7 @@ import { ActivityDetailData } from '~/core/dto/activity/activity.data'
 import { Image } from '~/core/dto/shared/shared.data'
 import { RouteListQuery } from '~/core/dto/activity/route.query'
 import { ExpeditionListQuery } from '~/core/dto/expedition/expedition.query'
+import { ExpeditionListData } from '~/core/dto/expedition/expedition.data'
 
 export type ScreenPropsMap = {
   Home?: {
@@ -21,7 +22,7 @@ export type ScreenPropsMap = {
   SignUp: undefined
   RouteDetail: {
     id: number
-    toCreateExpedition: boolean
+    toCreateExpedition?: boolean
   }
   ActivityDetail: {
     activity: ActivityDetailData
@@ -47,7 +48,9 @@ export type ScreenPropsMap = {
     route?: RouteSearchResultData
   }
   SearchRoute: undefined
-  MyExpedition: undefined
+  ExpeditionDetail: {
+    id: number
+  }
 }
 
 export type RootScreenProps<T extends keyof ScreenPropsMap> = StackScreenProps<

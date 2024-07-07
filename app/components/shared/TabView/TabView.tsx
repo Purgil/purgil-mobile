@@ -11,10 +11,10 @@ import { View } from '~/components/styled'
 import { StyleSheet } from 'react-native'
 
 type Props = {
-  routes: { key: string; title: string }[]
+  tabs: { key: string; title: string }[]
 } & Omit<TabViewProps<any>, 'onIndexChange' | 'navigationState'>
 
-function TabView({ routes, ...props }: Props) {
+function TabView({ tabs, ...props }: Props) {
   const { colors } = useTheme()
   const [tabIndex, setTabIndex] = useState(0)
 
@@ -45,7 +45,9 @@ function TabView({ routes, ...props }: Props) {
       {...props}
       collapsable
       renderTabBar={renderTabBar}
-      navigationState={{ index: tabIndex, routes } as NavigationState<any>}
+      navigationState={
+        { index: tabIndex, routes: tabs } as unknown as NavigationState<any>
+      }
       onIndexChange={setTabIndex}
     />
   )

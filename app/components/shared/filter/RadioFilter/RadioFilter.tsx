@@ -2,7 +2,7 @@ import React, { memo, useCallback, useMemo, useState } from 'react'
 import { List, RadioButton, TouchableRipple } from 'react-native-paper'
 import { Button, View } from '~/components/styled'
 import globalStyles from '~/utils/style.utils.ts'
-import { Option } from '~/core/dto/shared/shared.dto'
+import { Option } from '~/core/dto/shared/shared.data'
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils'
 
 type RadioFilterProps = {

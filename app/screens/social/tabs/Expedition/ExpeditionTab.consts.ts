@@ -26,15 +26,16 @@ const expeditions: ExpeditionListData[] = [
     description:
       'An adventurous trek to the base camp of Mount Everest, offering stunning views and a thrilling experience.',
     adventureTypeCode: 'TREK',
-    departureDatetime: '2024-09-15 08:00',
-    applyDeadlineDatetime: '2024-08-31 23:00',
+    departureDatetime: '2024-07-03 08:00',
+    applyDeadlineDatetime: '2024-07-01 23:00',
     maxMemberCount: 15,
     currentMemberCount: 7,
     minAge: 18,
     maxAge: 60,
     route: {
       id: 1,
-      title: 'Everest Base Camp Route',
+      name: 'Everest Base Camp Route',
+      address: '서울시 송파구',
     },
     leader: {
       id: 1,
@@ -57,7 +58,8 @@ const expeditions: ExpeditionListData[] = [
     maxAge: 65,
     route: {
       id: 2,
-      title: 'Kilimanjaro Marangu Route',
+      name: 'Kilimanjaro Marangu Route',
+      address: '서울시 송파구',
     },
     leader: {
       id: 2,
@@ -80,7 +82,8 @@ const expeditions: ExpeditionListData[] = [
     maxAge: 55,
     route: {
       id: 3,
-      title: 'Amazon River Route',
+      name: 'Amazon River Route',
+      address: '서울시 송파구',
     },
     leader: {
       id: 3,
@@ -103,7 +106,8 @@ const expeditions: ExpeditionListData[] = [
     maxAge: 50,
     route: {
       id: 4,
-      title: 'Antarctica Peninsula Route',
+      name: 'Antarctica Peninsula Route',
+      address: '서울시 송파구',
     },
     leader: {
       id: 4,
@@ -126,7 +130,8 @@ const expeditions: ExpeditionListData[] = [
     maxAge: 45,
     route: {
       id: 5,
-      title: 'Sahara Central Route',
+      name: 'Sahara Central Route',
+      address: '서울시 송파구',
     },
     leader: {
       id: 5,
@@ -149,7 +154,8 @@ const expeditions: ExpeditionListData[] = [
     maxAge: 50,
     route: {
       id: 6,
-      title: 'Grand Canyon South Rim Route',
+      name: 'Grand Canyon South Rim Route',
+      address: '서울시 송파구',
     },
     leader: {
       id: 6,
@@ -172,7 +178,8 @@ const expeditions: ExpeditionListData[] = [
     maxAge: 45,
     route: {
       id: 7,
-      title: 'Great Barrier Reef Route',
+      name: 'Great Barrier Reef Route',
+      address: '서울시 송파구',
     },
     leader: {
       id: 7,
@@ -195,7 +202,8 @@ const expeditions: ExpeditionListData[] = [
     maxAge: 50,
     route: {
       id: 8,
-      title: 'Inca Trail Route',
+      name: 'Inca Trail Route',
+      address: '서울시 송파구',
     },
     leader: {
       id: 8,
@@ -218,7 +226,8 @@ const expeditions: ExpeditionListData[] = [
     maxAge: 55,
     route: {
       id: 9,
-      title: 'Rocky Mountains North Route',
+      name: 'Rocky Mountains North Route',
+      address: '서울시 송파구',
     },
     leader: {
       id: 9,
@@ -241,7 +250,8 @@ const expeditions: ExpeditionListData[] = [
     maxAge: 60,
     route: {
       id: 10,
-      title: 'Patagonia Wilderness Route',
+      name: 'Patagonia Wilderness Route',
+      address: '서울시 송파구',
     },
     leader: {
       id: 10,

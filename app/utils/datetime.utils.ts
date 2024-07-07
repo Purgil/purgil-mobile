@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 const MToHM = (minutes: number) => {
   const hours = Math.floor(minutes / 60)
   const remainingMinutes = minutes % 60
@@ -7,4 +9,8 @@ const MToHM = (minutes: number) => {
   return `${remainingMinutes}분`
 }
 
-export { MToHM }
+const formatDatetime = (datetime: string) => {
+  return dayjs(datetime).format('YYYY년 M월 D일 H시 m분')
+}
+
+export { MToHM, formatDatetime }
