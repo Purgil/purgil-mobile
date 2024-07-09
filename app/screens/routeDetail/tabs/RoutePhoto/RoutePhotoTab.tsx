@@ -3,9 +3,6 @@ import { Icon } from 'react-native-paper'
 import { Dimensions, FlatList } from 'react-native'
 import { ImgArea } from '~/components/shared'
 
-const imageW = Dimensions.get('window').width / 3
-const imageH = imageW * 1.618
-
 export default function RoutePhotoTab() {
   return (
     <View>
@@ -32,3 +29,5 @@ export default function RoutePhotoTab() {
 }
 
 const gap1 = { gap: 1 }
+const imageW = Dimensions.get('window').width / 3
+const imageH = imageW * 1.618

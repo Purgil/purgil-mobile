@@ -1,4 +1,8 @@
-import { ExpeditionDetailData } from '~/core/dto/expedition/expedition.data'
+import {
+  ExpeditionDetailData,
+  ExpeditionNoticeData,
+} from '~/core/dto/expedition/expedition.data'
+import { UserData } from '~/core/dto/user/user.data'
 
 const expedition: ExpeditionDetailData = {
   id: 1,
@@ -19,27 +23,103 @@ const expedition: ExpeditionDetailData = {
   },
   leader: {
     id: 1,
-    name: 'John Doe',
+    username: 'John Doe',
     nickname: 'John',
   },
-  participants: [
+  members: [
     {
       id: 2,
-      name: 'Jane Doe',
+      username: 'Jane Doe',
       nickname: 'Jane',
     },
     {
       id: 3,
-      name: 'Alice Doe',
+      username: 'Alice Doe',
       nickname: 'Alice',
     },
     {
       id: 4,
-      name: 'Bob Doe',
+      username: 'Bob Doe',
       nickname: 'Bob',
     },
   ],
   createdAt: '2024-01-01 12:00',
 }
 
-export { expedition }
+const applies: UserData[] = [
+  {
+    id: 2,
+    username: 'Jane Doe',
+    nickname: 'Jane',
+  },
+  {
+    id: 3,
+    username: 'Alice Doe',
+    nickname: 'Alice',
+  },
+  {
+    id: 4,
+    username: 'Bob Doe',
+    nickname: 'Bob',
+  },
+]
+
+const notices: ExpeditionNoticeData[] = [
+  {
+    id: 1,
+    title: 'Important Notice',
+    content: 'Please bring your own tent and sleeping bag.',
+    writer: {
+      id: 1,
+      username: 'John Doe',
+      nickname: 'John',
+    },
+    createdAt: '2024-07-01 12:00',
+  },
+  {
+    id: 2,
+    title: 'Important Notice',
+    content: 'Please bring your own tent and sleeping bag.',
+    writer: {
+      id: 1,
+      username: 'John Doe',
+      nickname: 'John',
+    },
+    createdAt: '2024-07-01 12:00',
+  },
+  {
+    id: 3,
+    title: 'Important Notice',
+    content: 'Please bring your own tent and sleeping bag.',
+    writer: {
+      id: 1,
+      username: 'John Doe',
+      nickname: 'John',
+    },
+    createdAt: '2024-07-01 12:00',
+  },
+  {
+    id: 4,
+    title: 'Important Notice',
+    content: 'Please bring your own tent and sleeping bag.',
+    writer: {
+      id: 1,
+      username: 'John Doe',
+      nickname: 'John',
+    },
+    createdAt: '2024-07-01 12:00',
+  },
+  {
+    id: 5,
+    title: 'Important Notice',
+    content: 'Please bring your own tent and sleeping bag.',
+    writer: {
+      id: 1,
+      username: 'John Doe',
+      nickname: 'John',
+    },
+    createdAt: '2024-07-01 12:00',
+  },
+]
+
+export { expedition, applies, notices }

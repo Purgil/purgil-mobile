@@ -1,3 +1,5 @@
+import { UserData } from '~/core/dto/user/user.data'
+
 type ExpeditionListData = {
   id: number
   title: string
@@ -38,17 +40,17 @@ type ExpeditionDetailData = {
     name: string
     address: string
   }
-  leader: {
-    id: number
-    name: string
-    nickname: string
-  }
-  participants: {
-    id: number
-    name: string
-    nickname: string
-  }[]
+  leader: UserData
+  members: UserData[]
   createdAt: string
 }
 
-export { ExpeditionListData, ExpeditionDetailData }
+type ExpeditionNoticeData = {
+  id: number
+  title: string
+  content: string
+  writer: UserData
+  createdAt: string
+}
+
+export { ExpeditionListData, ExpeditionDetailData, ExpeditionNoticeData }

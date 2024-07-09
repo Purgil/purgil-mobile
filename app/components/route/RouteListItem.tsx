@@ -18,7 +18,7 @@ function RouteListItem({ route, swiperRef, scrollRef }: Props) {
   const { colors } = useTheme()
 
   const handlePress = () => {
-    navigation.navigate('AdventureDetail', { route: route })
+    navigation.navigate('RouteDetail', { id: route.id })
   }
 
   const itemRenderer = () => <ImgArea />

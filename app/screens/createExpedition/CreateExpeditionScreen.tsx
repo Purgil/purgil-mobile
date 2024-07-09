@@ -24,7 +24,7 @@ const initialValues: CreateExpeditionCommend = {
   departureDatetime: undefined,
   minAge: undefined,
   maxAge: undefined,
-  maxParticipantCount: undefined,
+  maxMemberCount: undefined,
   routeId: undefined,
   applyDeadlineDatetime: undefined,
 }

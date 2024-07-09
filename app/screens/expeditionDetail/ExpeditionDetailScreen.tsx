@@ -1,4 +1,4 @@
-import { View } from '~/components/styled'
+import { Text, View } from '~/components/styled'
 import { Appbar, useTheme } from 'react-native-paper'
 import { RootScreenProps } from '~/router/types.ts'
 import { TabView } from '~/components/shared'
@@ -8,16 +8,16 @@ import ExpeditionNoticeTab from '~/screens/expeditionDetail/tabs/ExpeditionNotic
 import ExpeditionImageTab from '~/screens/expeditionDetail/tabs/ExpeditionImageTab.tsx'
 import { useCallback, useMemo } from 'react'
 import { expedition } from '~/screens/expeditionDetail/consts.ts'
-import ExpeditionParticipantTab from '~/screens/expeditionDetail/tabs/ExpeditionParticipantTab.tsx'
+import ExpeditionApplyTab from '~/screens/expeditionDetail/tabs/ExpeditionApplyTab.tsx'
 
 const tabs = [
   {
     key: 'info',
-    title: '정보',
+    title: '기본정보',
   },
   {
-    key: 'participant',
-    title: '참가인원',
+    key: 'apply',
+    title: '참가신청',
   },
   {
     key: 'notice',
@@ -43,7 +43,7 @@ export default function ExpeditionDetailScreen({
     () =>
       SceneMap({
         info: () => renderInfoTab(),
-        participant: () => renderParticipantTab(),
+        apply: () => renderApplyTab(),
         notice: () => renderNoticeTab(),
         image: () => renderImageTab(),
       }),
@@ -55,8 +55,8 @@ export default function ExpeditionDetailScreen({
     () => <ExpeditionInfoTab id={expedition.id} />,
     [],
   )
-  const renderParticipantTab = useCallback(
-    () => <ExpeditionParticipantTab id={expedition.id} />,
+  const renderApplyTab = useCallback(
+    () => <ExpeditionApplyTab id={expedition.id} />,
     [],
   )
   const renderNoticeTab = useCallback(

@@ -6,7 +6,7 @@ type CreateExpeditionCommend = {
   departureDatetime?: Dayjs
   minAge?: number
   maxAge?: number
-  maxParticipantCount?: number
+  maxMemberCount?: number
   routeId?: number
   applyDeadlineDatetime?: Dayjs
 }
