@@ -109,20 +109,20 @@ export default function ExpeditionTab({
             </Pressable>
           </View>
 
-          <View flexDirection='row' justifyContent='flex-end' pr={1} pb={10}>
+          <View flexDirection='row' justifyContent='flex-end' pr={15} pb={10}>
             <Pressable
               flexDirection='row'
               alignItems='center'
               onPress={handlePressApplyByMe}>
-              <Text>내 신청 목록</Text>
               <Checkbox status={appliedByMeStatus} />
+              <Text>내 신청 목록</Text>
             </Pressable>
             <Pressable
               flexDirection='row'
               alignItems='center'
               onPress={handlePressCreatedByMe}>
-              <Text>내 원정대</Text>
               <Checkbox status={createdByMeStatus} />
+              <Text>내 원정대</Text>
             </Pressable>
           </View>
 
