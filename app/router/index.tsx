@@ -23,6 +23,7 @@ import { ExpeditionFilterScreen } from '~/screens/expeditionFilter/ExpeditionFil
 import CreateExpeditionScreen from '~/screens/createExpedition/CreateExpeditionScreen.tsx'
 import SearchRouteScreen from '~/screens/searchRoute/SearchRouteScreen.tsx'
 import ExpeditionDetailScreen from '~/screens/expeditionDetail/ExpeditionDetailScreen.tsx'
+import { SocialSearchScreen } from '~/screens/social/social-search/SocialSearchScreen.tsx'
 
 function Router() {
   const Stack = createStackNavigator<ScreenPropsMap>()
@@ -74,6 +75,7 @@ function Router() {
             name='ExpeditionDetail'
             component={ExpeditionDetailScreen}
           />
+          <Stack.Screen name='SocialSearch' component={SocialSearchScreen} />
         </Stack.Navigator>
       </Portal.Host>
     </NavigationContainer>

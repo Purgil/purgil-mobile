@@ -20,4 +20,8 @@ type ExpeditionListQuery = {
   sortBy: string
 }
 
-export { ExpeditionListQuery }
+type ExpeditionSearchQuery = {
+  query: string
+}
+
+export { ExpeditionListQuery, ExpeditionSearchQuery }

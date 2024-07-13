@@ -1,11 +1,15 @@
-import { Text, View } from '~/components/styled'
-import { memo } from 'react'
+import React, { memo } from 'react'
+import { users } from '~/screens/social/social-search/search-user-tab/consts.ts'
+import UserListItem from '~/components/user/UserListItem.tsx'
+import { FlatList } from 'react-native'
 
 function FollowersTab() {
   return (
-    <View>
-      <Text>Followers</Text>
-    </View>
+    <FlatList
+      data={users}
+      keyExtractor={item => `${item.id}`}
+      renderItem={({ item }) => <UserListItem user={item} />}
+    />
   )
 }
 

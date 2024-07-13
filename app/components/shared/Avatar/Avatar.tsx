@@ -1,10 +1,10 @@
 import React from 'react'
 import { Text, View } from '~/components/styled'
 import { Avatar as RNAvatar, useTheme } from 'react-native-paper'
-import { User } from '~/core/dto/user/user.dto'
+import { UserData } from '~/core/dto/user/user.data'
 
 type Props = {
-  user: User
+  user: UserData
   nicknameDisplayType?: 'left' | 'right' | 'hidden'
   flexEnd?: boolean
   underNickname?: string

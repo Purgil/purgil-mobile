@@ -35,6 +35,11 @@ export default function SocialScreen({
       <Appbar.Header>
         <Appbar.Content title='소셜' />
         <IconButton
+          icon='magnify'
+          size={20}
+          onPress={() => navigation.navigate('SocialSearch')}
+        />
+        <IconButton
           icon='account-multiple'
           size={20}
           onPress={() => navigation.navigate('Follow')}

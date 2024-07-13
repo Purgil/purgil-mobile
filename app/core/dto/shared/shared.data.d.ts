@@ -21,8 +21,8 @@ type Pageable = {
   size: number
 }
 
-export type Option = {
+type Option = {
   icon?: string
 } & ValueLabelPair
 
-export const { ValueLabelPair, Image, SimultaneousRefs, Pageable, Option }
+export { ValueLabelPair, Image, SimultaneousRefs, Pageable, Option }

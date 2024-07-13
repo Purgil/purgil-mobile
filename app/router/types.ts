@@ -51,6 +51,7 @@ export type ScreenPropsMap = {
   ExpeditionDetail: {
     id: number
   }
+  SocialSearch: undefined
 }
 
 export type RootScreenProps<T extends keyof ScreenPropsMap> = StackScreenProps<
