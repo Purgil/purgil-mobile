@@ -272,7 +272,8 @@ function ActionSheet({
   return (
     <Portal>
       {/* dim 영역 */}
-      <AnimatedView
+      <View
+        pointerEvents='box-none'
         onLayout={layoutFunction}
         height={keyboardAvoiding ? windowH : '100%'}>
         {dim && (
@@ -293,7 +294,7 @@ function ActionSheet({
           onLayout={contentLayoutFunction}>
           {renderChildren()}
         </AnimatedView>
-      </AnimatedView>
+      </View>
     </Portal>
   )
 }

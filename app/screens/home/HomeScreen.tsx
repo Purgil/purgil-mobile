@@ -115,7 +115,7 @@ function HomeScreen({
             redeemHeight={15}>
             <ActionSheet.Header>
               <Text textAlign='center' variant='titleMedium'>
-                123 결과
+                124 결과
               </Text>
             </ActionSheet.Header>
             <ActionSheet.Body>

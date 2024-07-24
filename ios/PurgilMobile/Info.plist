@@ -55,6 +55,18 @@
     <key>NSPhotoLibraryAddUsageDescription</key>
     <string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
 
+    <key>NMFClientId</key>
+    <string>7lioyqoxfp</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>{{usage description}}</string>
+    <key>NSLocationTemporaryUsageDescriptionDictionary</key>
+    <dict>
+      <key>{{your purpose key}}</key>
+      <string>{{usage description}}</string>
+    </dict>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>{{usage description}}</string>
+
 	<false/>
 </dict>
 </plist>
