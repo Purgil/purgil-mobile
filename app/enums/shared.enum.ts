@@ -6,6 +6,7 @@ enum Gender {
 enum PermissionType {
   GALLERY,
   CAMERA,
+  GEOLOCATION,
 }
 
 export { Gender, PermissionType }

@@ -18,6 +18,7 @@ export default function usePermission({
   }>({
     [PermissionType.CAMERA]: false,
     [PermissionType.GALLERY]: false,
+    [PermissionType.GEOLOCATION]: false,
   })
 
   const checkGallerayPermission = useCallback(async () => {
@@ -64,9 +65,35 @@ export default function usePermission({
         ).then(status => status === PermissionsAndroid.RESULTS.GRANTED)
       }
     }
+
     const result = await requestPermission()
     setPermissions({ ...permissions, [PermissionType.GALLERY]: result })
     return result
+  }, [permissions])
+
+  const checkGeoLocationPermission = useCallback(async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Permission',
+            message:
+              'We need access to your location to show your position on the map',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          },
+        )
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('You can use the location')
+        } else {
+          console.log('Location permission denied')
+        }
+      } catch (err) {
+        console.warn(err)
+      }
+    }
   }, [permissions])
 
   const checkPermissions = useCallback(async () => {
@@ -77,6 +104,8 @@ export default function usePermission({
             return checkGallerayPermission()
           case PermissionType.CAMERA:
             return true
+          case PermissionType.GEOLOCATION:
+            return checkGeoLocationPermission()
         }
       }),
     )

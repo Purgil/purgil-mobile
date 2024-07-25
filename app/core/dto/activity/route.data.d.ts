@@ -1,5 +1,7 @@
 import { UserData } from '~/core/dto/user/user.data'
 
+type Coordinate = { latitude: number; longitude: number }
+
 type RouteListData = {
   id: number
   activityType: string
@@ -9,6 +11,7 @@ type RouteListData = {
   difficulty: string
   distance: number
   address: string
+  coordinates: Coordinate[]
 }
 
 type RouteDetailData = {
